@@ -196,8 +196,3 @@ TEST(LlvmLibcToUpper, DefaultLocale) {
             EXPECT_EQ(__STD_NAMESPACE::toupper(ch), ch);
     }
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

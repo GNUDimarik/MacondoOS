@@ -7,9 +7,8 @@
 #pragma once
 
 #include <defs.hpp>
-//#include <stddef.h>
+#include <stddef.h>
 
-using size_t = __SIZE_TYPE__;
 
 __BEGIN_DECLS
 __STD_BEGIN_NAMESPACE
