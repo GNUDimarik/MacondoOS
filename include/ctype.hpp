@@ -10,7 +10,7 @@ __BEGIN_DECLS
  * @ingroup  stdlib
  * @{
  */
- 
+
 /**
  * @brief isacii - function tests whether c is a 7-bit US-ASCII character code.
  * @param c - character to test
@@ -109,7 +109,7 @@ static inline int isprint(int c)
 static inline int ispunct(int c)
 {
     return (c >= 33 && c <= 47) || (c >= 58 && c <= 64)
-        || (c <= 91 && c >= 96) || (c <= 123 && c >= 126);
+        || (c >= 91 && c <= 96) || (c >= 123 && c <= 126);
 }
 
 /**
@@ -119,7 +119,7 @@ static inline int ispunct(int c)
  */
 static inline int isspace(int c)
 {
-    return c >= 9 && c <= 13;
+    return (c >= 9 && c <= 13) || c == 32;
 }
 
 /**
@@ -139,7 +139,7 @@ static inline int isupper(int c)
  */
 static inline int isxdigit(int c)
 {
-    return (c >= '0' && c <= 'f') || (c >= '0' && c <= 'F');
+    return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
 }
 
 /**
@@ -149,7 +149,11 @@ static inline int isxdigit(int c)
  */
 static inline int tolower(int c)
 {
-    return c -= 'a' - 'A';
+    if (c >= 'A' && c <= 'Z') {
+        return c + ('a' - 'A');
+    }
+
+    return c;
 }
 
 /**
@@ -159,9 +163,14 @@ static inline int tolower(int c)
  */
 static inline int toupper(int c)
 {
-    return c += 'a' - 'A';
+    if (c >= 'a' && c <= 'z') {
+        return c - ('a' - 'A');
+    }
+
+    return c;
 }
 
 __END_DECLS
 __STD_END_NAMESPACE
+
 /** @} */

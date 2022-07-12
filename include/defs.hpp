@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEFS_HPP
+#define DEFS_HPP
 
 #ifndef ARRAY_SIZE
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
@@ -7,7 +8,7 @@
 #if defined (__cplusplus)
     #define __EXTERN extern "C"
 #else
-    #define __EXTERN
+    #define __EXTERN extern
 #endif
 
 #ifndef __BEGIN_DECLS
@@ -41,7 +42,7 @@
 #ifndef __STD_NAMESPACE
     #if defined(__cplusplus)
         #if defined(__TEST_DRIVEN__)
-            #define __STD_NAMESPACE __debug_std__
+            #define __STD_NAMESPACE debug_std__
         #else
             #define __STD_NAMESPACE std
         #endif
@@ -59,3 +60,5 @@
 #ifndef __STD_END_NAMESPACE
 #define __STD_END_NAMESPACE }
 #endif
+
+#endif //DEFS_HPP
