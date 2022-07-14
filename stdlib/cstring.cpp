@@ -198,13 +198,9 @@ char *strchr(const char *str, int needle)
 {
     char *s = (char *) str;
 
-    while (1) {
+    while (*s ++) {
         if (*s == (char) needle) {
-            return s;
-        }
-
-        if (*s++ == '\0') {
-            break;
+            return -- s;
         }
     }
 
