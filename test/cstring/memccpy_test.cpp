@@ -6,22 +6,22 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "src/__support/CPP/ArrayRef.h"
-#include "src/string/memccpy.h"
-#include "utils/UnitTest/Test.h"
+#include <string.hpp>
+#include <gtest/gtest.h>
 #include <stddef.h> // For size_t.
 
-class LlvmLibcMemccpyTest : public __llvm_libc::testing::Test {
+#if 0
+class LlvmLibcMemccpyTest : public __STD_NAMESPACE::testing::Test {
 public:
-  void check_memccpy(__llvm_libc::cpp::MutableArrayRef<char> dst,
-                     const __llvm_libc::cpp::ArrayRef<char> src, int end,
+  void check_memccpy(__STD_NAMESPACE::cpp::MutableArrayRef<char> dst,
+                     const __STD_NAMESPACE::cpp::ArrayRef<char> src, int end,
                      size_t count,
-                     const __llvm_libc::cpp::ArrayRef<char> expected,
+                     const __STD_NAMESPACE::cpp::ArrayRef<char> expected,
                      size_t expectedCopied, bool shouldReturnNull = false) {
     // Making sure we don't overflow buffer.
     ASSERT_GE(dst.size(), count);
     // Making sure memccpy returns dst.
-    void *result = __llvm_libc::memccpy(dst.data(), src.data(), end, count);
+    void *result = __STD_NAMESPACE::memccpy(dst.data(), src.data(), end, count);
 
     if (shouldReturnNull) {
       ASSERT_EQ(result, static_cast<void *>(nullptr));
@@ -78,3 +78,4 @@ TEST_F(LlvmLibcMemccpyTest, CopyTwoStartsWithEnd) {
   const char expected[] = {'x', 'b'};
   check_memccpy(dst, src, 'x', 2, expected, 1);
 }
+#endif

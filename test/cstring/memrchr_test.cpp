@@ -6,14 +6,15 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "src/string/memrchr.h"
-#include "utils/UnitTest/Test.h"
+#include <string.hpp>
+#include <gtest/gtest.h>
 #include <stddef.h>
 
+#if 0
 // A helper function that calls memrchr and abstracts away the explicit cast for
 // readability purposes.
 const char *call_memrchr(const void *src, int c, size_t size) {
-  return reinterpret_cast<const char *>(__llvm_libc::memrchr(src, c, size));
+  return reinterpret_cast<const char *>(__STD_NAMESPACE::memrchr(src, c, size));
 }
 
 TEST(LlvmLibcMemRChrTest, FindsCharacterAfterNullTerminator) {
@@ -112,3 +113,4 @@ TEST(LlvmLibcMemRChrTest, ZeroLengthShouldReturnNullptr) {
   // This will iterate over exactly zero characters, so should return nullptr.
   ASSERT_STREQ(call_memrchr(src, 'd', 0), nullptr);
 }
+#endif

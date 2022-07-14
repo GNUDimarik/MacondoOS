@@ -6,12 +6,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "src/__support/CPP/ArrayRef.h"
-#include "src/string/memset.h"
-#include "utils/UnitTest/Test.h"
+#include <string.hpp>
+#include <gtest/gtest.h>
 
-using __llvm_libc::cpp::Array;
-using __llvm_libc::cpp::ArrayRef;
+#if 0
+using __STD_NAMESPACE::cpp::Array;
+using __STD_NAMESPACE::cpp::ArrayRef;
 using Data = Array<char, 2048>;
 
 static const ArrayRef<char> k_deadcode("DEADC0DE", 8);
@@ -31,7 +31,7 @@ TEST(LlvmLibcMemsetTest, Thorough) {
       for (size_t align = 0; align < 64; ++align) {
         auto buffer = dirty;
         void *const dst = &buffer[align];
-        void *const ret = __llvm_libc::memset(dst, value, count);
+        void *const ret = __STD_NAMESPACE::memset(dst, value, count);
         // Return value is `dst`.
         ASSERT_EQ(ret, dst);
         // Everything before copy is untouched.
@@ -51,3 +51,4 @@ TEST(LlvmLibcMemsetTest, Thorough) {
 // FIXME: Add tests with reads and writes on the boundary of a read/write
 // protected page to check we're not reading nor writing prior/past the allowed
 // regions.
+#endif

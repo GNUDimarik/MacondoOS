@@ -6,21 +6,21 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "src/__support/CPP/ArrayRef.h"
-#include "src/string/stpncpy.h"
-#include "utils/UnitTest/Test.h"
+#include <string.hpp>
+#include <gtest/gtest.h>
 #include <stddef.h> // For size_t.
 
-class LlvmLibcStpncpyTest : public __llvm_libc::testing::Test {
+#if 0
+class LlvmLibcStpncpyTest : public __STD_NAMESPACE::testing::Test {
 public:
-  void check_stpncpy(__llvm_libc::cpp::MutableArrayRef<char> dst,
-                     const __llvm_libc::cpp::ArrayRef<char> src, size_t n,
-                     const __llvm_libc::cpp::ArrayRef<char> expected,
+  void check_stpncpy(__STD_NAMESPACE::cpp::MutableArrayRef<char> dst,
+                     const __STD_NAMESPACE::cpp::ArrayRef<char> src, size_t n,
+                     const __STD_NAMESPACE::cpp::ArrayRef<char> expected,
                      size_t expectedCopied) {
     // Making sure we don't overflow buffer.
     ASSERT_GE(dst.size(), n);
     // Making sure stpncpy returns a pointer to the end of dst.
-    ASSERT_EQ(__llvm_libc::stpncpy(dst.data(), src.data(), n),
+    ASSERT_EQ(__STD_NAMESPACE::stpncpy(dst.data(), src.data(), n),
               dst.data() + expectedCopied);
     // Expected must be of the same size as dst.
     ASSERT_EQ(dst.size(), expected.size());
@@ -71,3 +71,4 @@ TEST_F(LlvmLibcStpncpyTest, CopyTwoWithNull) {
   const char expected[] = {'x', '\0'};
   check_stpncpy(dst, src, 2, expected, 1);
 }
+#endif

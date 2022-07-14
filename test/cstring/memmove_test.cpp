@@ -6,20 +6,20 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "src/__support/CPP/ArrayRef.h"
-#include "src/string/memmove.h"
-#include "utils/UnitTest/MemoryMatcher.h"
-#include "utils/UnitTest/Test.h"
+#include <string.hpp>
+#include <gtest/gtest.h>
 
-using __llvm_libc::cpp::Array;
-using __llvm_libc::cpp::ArrayRef;
-using __llvm_libc::cpp::MutableArrayRef;
+#if 0
+
+using __STD_NAMESPACE::cpp::Array;
+using __STD_NAMESPACE::cpp::ArrayRef;
+using __STD_NAMESPACE::cpp::MutableArrayRef;
 
 TEST(LlvmLibcMemmoveTest, MoveZeroByte) {
   char Buffer[] = {'a', 'b', 'y', 'z'};
   const char Expected[] = {'a', 'b', 'y', 'z'};
   void *const Dst = Buffer;
-  void *const Ret = __llvm_libc::memmove(Dst, Buffer + 2, 0);
+  void *const Ret = __STD_NAMESPACE::memmove(Dst, Buffer + 2, 0);
   EXPECT_EQ(Ret, Dst);
   EXPECT_MEM_EQ(Buffer, Expected);
 }
@@ -28,7 +28,7 @@ TEST(LlvmLibcMemmoveTest, DstAndSrcPointToSameAddress) {
   char Buffer[] = {'a', 'b'};
   const char Expected[] = {'a', 'b'};
   void *const Dst = Buffer;
-  void *const Ret = __llvm_libc::memmove(Dst, Buffer, 1);
+  void *const Ret = __STD_NAMESPACE::memmove(Dst, Buffer, 1);
   EXPECT_EQ(Ret, Dst);
   EXPECT_MEM_EQ(Buffer, Expected);
 }
@@ -39,7 +39,7 @@ TEST(LlvmLibcMemmoveTest, DstStartsBeforeSrc) {
   char Buffer[] = {'z', 'a', 'b', 'c', 'z'};
   const char Expected[] = {'z', 'b', 'c', 'c', 'z'};
   void *const Dst = Buffer + 1;
-  void *const Ret = __llvm_libc::memmove(Dst, Buffer + 2, 2);
+  void *const Ret = __STD_NAMESPACE::memmove(Dst, Buffer + 2, 2);
   EXPECT_EQ(Ret, Dst);
   EXPECT_MEM_EQ(Buffer, Expected);
 }
@@ -48,7 +48,7 @@ TEST(LlvmLibcMemmoveTest, DstStartsAfterSrc) {
   char Buffer[] = {'z', 'a', 'b', 'c', 'z'};
   const char Expected[] = {'z', 'a', 'a', 'b', 'z'};
   void *const Dst = Buffer + 2;
-  void *const Ret = __llvm_libc::memmove(Dst, Buffer + 1, 2);
+  void *const Ret = __STD_NAMESPACE::memmove(Dst, Buffer + 1, 2);
   EXPECT_EQ(Ret, Dst);
   EXPECT_MEM_EQ(Buffer, Expected);
 }
@@ -61,7 +61,7 @@ TEST(LlvmLibcMemmoveTest, SrcFollowDst) {
   char Buffer[] = {'z', 'a', 'b', 'z'};
   const char Expected[] = {'z', 'b', 'b', 'z'};
   void *const Dst = Buffer + 1;
-  void *const Ret = __llvm_libc::memmove(Dst, Buffer + 2, 1);
+  void *const Ret = __STD_NAMESPACE::memmove(Dst, Buffer + 2, 1);
   EXPECT_EQ(Ret, Dst);
   EXPECT_MEM_EQ(Buffer, Expected);
 }
@@ -70,7 +70,7 @@ TEST(LlvmLibcMemmoveTest, DstFollowSrc) {
   char Buffer[] = {'z', 'a', 'b', 'z'};
   const char Expected[] = {'z', 'a', 'a', 'z'};
   void *const Dst = Buffer + 2;
-  void *const Ret = __llvm_libc::memmove(Dst, Buffer + 1, 1);
+  void *const Ret = __STD_NAMESPACE::memmove(Dst, Buffer + 1, 1);
   EXPECT_EQ(Ret, Dst);
   EXPECT_MEM_EQ(Buffer, Expected);
 }
@@ -105,9 +105,10 @@ TEST(LlvmLibcMemmoveTest, Thorough) {
         Expected[DstOffset + I] = GroundTruth[SrcOffset + I];
       void *const Dst = Buffer.data() + DstOffset;
       void *const Ret =
-          __llvm_libc::memmove(Dst, Buffer.data() + SrcOffset, Size);
+          __STD_NAMESPACE::memmove(Dst, Buffer.data() + SrcOffset, Size);
       EXPECT_EQ(Ret, Dst);
       EXPECT_MEM_EQ(Buffer, Expected);
     }
   }
 }
+#endif

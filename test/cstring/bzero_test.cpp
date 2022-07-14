@@ -6,12 +6,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "src/__support/CPP/ArrayRef.h"
-#include "src/string/bzero.h"
-#include "utils/UnitTest/Test.h"
+#include <string.hpp>
+#include <gtest/gtest.h>
 
-using __llvm_libc::cpp::Array;
-using __llvm_libc::cpp::ArrayRef;
+#if 0
+using __STD_NAMESPACE::cpp::Array;
+using __STD_NAMESPACE::cpp::ArrayRef;
 using Data = Array<char, 2048>;
 
 static const ArrayRef<char> k_deadcode("DEADC0DE", 8);
@@ -30,7 +30,7 @@ TEST(LlvmLibcBzeroTest, Thorough) {
     for (size_t align = 0; align < 64; ++align) {
       auto buffer = dirty;
       char *const dst = &buffer[align];
-      __llvm_libc::bzero(dst, count);
+      __STD_NAMESPACE::bzero(dst, count);
       // Everything before copy is untouched.
       for (size_t i = 0; i < align; ++i)
         ASSERT_EQ(buffer[i], dirty[i]);
@@ -47,3 +47,4 @@ TEST(LlvmLibcBzeroTest, Thorough) {
 // FIXME: Add tests with reads and writes on the boundary of a read/write
 // protected page to check we're not reading nor writing prior/past the allowed
 // regions.
+#endif

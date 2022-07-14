@@ -6,8 +6,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "src/string/strcat.h"
-#include "utils/UnitTest/Test.h"
+#include <string.hpp>
+#include <gtest/gtest.h>
 
 TEST(LlvmLibcStrCatTest, EmptyDest) {
   const char *abc = "abc";
@@ -15,7 +15,7 @@ TEST(LlvmLibcStrCatTest, EmptyDest) {
 
   dest[0] = '\0';
 
-  char *result = __llvm_libc::strcat(dest, abc);
+  char *result = __STD_NAMESPACE::strcat(dest, abc);
   ASSERT_EQ(dest, result);
   ASSERT_STREQ(dest, result);
   ASSERT_STREQ(dest, abc);
@@ -30,7 +30,7 @@ TEST(LlvmLibcStrCatTest, NonEmptyDest) {
   dest[2] = 'z';
   dest[3] = '\0';
 
-  char *result = __llvm_libc::strcat(dest, abc);
+  char *result = __STD_NAMESPACE::strcat(dest, abc);
   ASSERT_EQ(dest, result);
   ASSERT_STREQ(dest, result);
   ASSERT_STREQ(dest, "xyzabc");

@@ -6,12 +6,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "src/__support/CPP/ArrayRef.h"
-#include "src/string/memcpy.h"
-#include "utils/UnitTest/Test.h"
+#include <string.hpp>
+#include <gtest/gtest.h>
 
-using __llvm_libc::cpp::Array;
-using __llvm_libc::cpp::ArrayRef;
+#if 0
+using __STD_NAMESPACE::cpp::Array;
+using __STD_NAMESPACE::cpp::ArrayRef;
 using Data = Array<char, 2048>;
 
 static const ArrayRef<char> k_numbers("0123456789", 10);
@@ -33,7 +33,7 @@ TEST(LlvmLibcMemcpyTest, Thorough) {
       auto buffer = dirty;
       const char *const src = groundtruth.data();
       void *const dst = &buffer[align];
-      void *const ret = __llvm_libc::memcpy(dst, src, count);
+      void *const ret = __STD_NAMESPACE::memcpy(dst, src, count);
       // Return value is `dst`.
       ASSERT_EQ(ret, dst);
       // Everything before copy is untouched.
@@ -52,3 +52,4 @@ TEST(LlvmLibcMemcpyTest, Thorough) {
 // FIXME: Add tests with reads and writes on the boundary of a read/write
 // protected page to check we're not reading nor writing prior/past the allowed
 // regions.
+#endif
