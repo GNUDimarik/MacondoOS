@@ -222,19 +222,17 @@ char *strchr(const char *str, int needle)
  */
 char *strrchr(const char *str, int needle)
 {
-    int len = strlen(str);
+    const char *s = str;
+    ptrdiff_t pos = -1;
 
-    if (len < 0) {
-        return nullptr;
-    }
-
-    while (--len >= 0) {
-        if (str[len] == (char) needle) {
-            return (char *) str + len;
+    while (*s) {
+        if (*s == needle) {
+            pos = s - str;
         }
+        ++s;
     }
 
-    return nullptr;
+    return (pos == -1 ? nullptr : reinterpret_cast<char *> (str[pos]));
 }
 
 /**
