@@ -99,30 +99,11 @@ int memcmp(const void *first, const void *second, size_t length)
 {
     unsigned char *m1 = (unsigned char *) first;
     unsigned char *m2 = (unsigned char *) second;
+    size_t i = 0;
 
-    if (m1 >= m2) {
-        /* compare forward */
-        while (length-- > 0) {
-            if (*m1 != *m2) {
-                return *m1 - *m2;
-            }
-
-            m1 ++;
-            m2 ++;
-        }
-    }
-    else if (m1 <= m2) {
-        /* compare backward */
-        m1 += length - 1;
-        m2 += length - 1;
-
-        while (length-- > 0) {
-            if (*m1 != *m2) {
-                return *m1 - *m2;
-            }
-
-            m1 --;
-            m2 --;
+    for (i = 0; i < length; i++) {
+        if (m1[i] != m2[i]) {
+            return m1[i] - m2[i];
         }
     }
 
@@ -220,7 +201,8 @@ char *strchr(const char *str, int needle)
         if (*s == (char) needle) {
             return s;
         }
-    } while (*s ++);
+    }
+    while (*s++);
 
     return NULL;
 }
@@ -239,14 +221,14 @@ char *strrchr(const char *str, int needle)
     const char *s = str;
     long pos = -1;
 
-    while (*s) {
+    do {
         if (*s == needle) {
             pos = s - str;
         }
-        ++s;
     }
+    while (*s++);
 
-    return (pos == -1 ? NULL : str + pos);
+    return (pos == -1 ? NULL : (char *) str + pos);
 }
 
 /**
@@ -282,7 +264,19 @@ int strcmp(const char *first, const char *second)
  */
 int strncmp(const char *first, const char *second, size_t len)
 {
-    return memcmp(first, second, len);
+    size_t i = 0;
+
+    for (i = 0; i < len; i++) {
+        if (first[i] != second[i]) {
+            return first[i] - second[i];
+        }
+
+        if (first[i] == '\0' || second[i] == '\0') {
+            break;
+        }
+    }
+
+    return 0;
 }
 
 /**
@@ -301,7 +295,8 @@ char *strcpy(char *dest, const char *src)
 
     do {
         *d = *s;
-    } while (*s ++ && *d ++);
+    }
+    while (*s++ && *d++);
 
     return dest;
 }
@@ -431,16 +426,12 @@ char *strstr(const char *haystack, const char *needle)
     size_t haystack_len = strlen(haystack);
     size_t i = 0;
 
-    if (!haystack_len) {
-        return NULL;
-    }
-
-    if (!needle_len) {
+    if (!needle_len && !haystack_len) {
         return (char *) haystack;
     }
 
     for (i = haystack_len; i >= needle_len; i--, haystack++) {
-        if (memcmp(haystack, needle, needle_len) == 0) {
+        if (strncmp(haystack, needle, needle_len) == 0) {
             return (char *) haystack;
         }
     }
@@ -480,6 +471,14 @@ char *strstr(const char *haystack, const char *needle)
  */
 char *strtok(char *str, const char *delim)
 {
+    if (!delim || *delim == '\0') {
+        return str;
+    }
+
+    if ((!delim || *delim == '\0') && (!str || *str == '\0')) {
+        return NULL;
+    }
+
     static char *old_str = NULL;
     char *res = NULL;
 
@@ -519,7 +518,7 @@ char *strtok(char *str, const char *delim)
  * @return
  */
 char *do_strtok_r(char *str, const char *delim,
-               char **saveptr)
+                  char **saveptr)
 {
     char *res = NULL;
 
