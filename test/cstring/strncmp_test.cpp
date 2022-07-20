@@ -6,8 +6,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "../../include/string.hpp"
 #include <gtest/gtest.h>
+#include "../../include/string.h"
 
 // This group is just copies of the strcmp tests, since all the same cases still
 // need to be tested.

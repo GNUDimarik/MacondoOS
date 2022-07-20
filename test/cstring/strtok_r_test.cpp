@@ -6,8 +6,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "../../include/string.hpp"
 #include <gtest/gtest.h>
+#include "../../include/string.h"
 
 TEST(LlvmLibcStrTokReentrantTest, NoTokenFound) {
   { // Empty source and delimiter string.

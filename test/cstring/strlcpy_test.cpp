@@ -6,9 +6,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "../../include/string.hpp"
 #include <gtest/gtest.h>
 #include <stdlib.h>
+#include "../../include/string.h"
 
 #if 0
 TEST(LlvmLibcStrlcpyTest, TooBig) {

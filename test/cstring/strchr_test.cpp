@@ -6,8 +6,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "../../include/string.hpp"
 #include <gtest/gtest.h>
+#include "../../include/string.h"
 
 TEST(LlvmLibcStrChrTest, FindsFirstCharacter) {
   const char *src = "abcde";

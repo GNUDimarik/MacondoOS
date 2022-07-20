@@ -42,7 +42,6 @@
 #ifndef __STD_NAMESPACE
     #if defined(__cplusplus)
         #if defined(MACONDO_TEST)
-        #error "Dsdsdsd"
             #define __STD_NAMESPACE debug_std__
         #else
             #define __STD_NAMESPACE std

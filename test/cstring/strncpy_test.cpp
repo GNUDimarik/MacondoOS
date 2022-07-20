@@ -6,9 +6,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "../../include/string.hpp"
 #include <gtest/gtest.h>
 #include <stddef.h> // For size_t.
+#include "../../include/string.h"
 
 #if 0
 class LlvmLibcStrncpyTest : public __STD_NAMESPACE::testing::Test {

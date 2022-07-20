@@ -7,7 +7,7 @@
 //===----------------------------------------------------------------------===//
 
 #include <gtest/gtest.h>
-#include "../../include/string.hpp"
+#include "../../include/string.h"
 
 #if 0
 TEST(LlvmLibcBcmpTest, CmpZeroByte) {

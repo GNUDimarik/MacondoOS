@@ -6,8 +6,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "../../include/string.hpp"
 #include <gtest/gtest.h>
+#include "../../include/string.h"
 
 TEST(LlvmLibcStrCSpnTest, ComplementarySpanShouldNotGoPastNullTerminator) {
   const char src[5] = {'a', 'b', '\0', 'c', 'd'};

@@ -6,8 +6,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "../../include/string.hpp"
 #include <gtest/gtest.h>
+#include "../../include/string.h"
 
 TEST(LlvmLibcStrSpnTest, EmptyStringShouldReturnZeroLengthSpan) {
   // The search should not include the null terminator.

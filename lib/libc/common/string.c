@@ -217,7 +217,7 @@ char *strchr(const char *str, int needle)
 char *strrchr(const char *str, int needle)
 {
     const char *s = str;
-    ptrdiff_t pos = -1;
+    long pos = -1;
 
     while (*s) {
         if (*s == needle) {
@@ -499,8 +499,8 @@ char *strtok(char *str, const char *delim)
  * @param saveptr  - used internally in order to maintain context between successive calls
  * @return
  */
-char *do_strtok_r(char *str, const char *delim __unused,
-               char **saveptr __unused)
+char *do_strtok_r(char *str, const char *delim,
+               char **saveptr)
 {
     char *res = NULL;
 
@@ -514,7 +514,7 @@ char *do_strtok_r(char *str, const char *delim __unused,
     else if (saveptr && *saveptr) {
         str = *saveptr;
     }
-#if 0
+
     if (delim && saveptr) {
         str += strspn(str, delim);
 
@@ -534,6 +534,6 @@ char *do_strtok_r(char *str, const char *delim __unused,
 
         *saveptr = str;
     }
-#endif
+
     return str;
 }

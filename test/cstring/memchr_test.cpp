@@ -6,9 +6,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "../../include/string.hpp"
 #include <gtest/gtest.h>
 #include <stddef.h>
+#include "../../include/string.h"
 
 // A helper function that calls memchr and abstracts away the explicit cast for
 // readability purposes.

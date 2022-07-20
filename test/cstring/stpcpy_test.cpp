@@ -6,8 +6,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "../../include/string.hpp"
 #include <gtest/gtest.h>
+#include "../../include/string.h"
 #if 0
 TEST(LlvmLibcStpCpyTest, EmptySrc) {
   const char *empty = "";
