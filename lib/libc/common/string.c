@@ -113,8 +113,8 @@ int memcmp(const void *first, const void *second, size_t length)
     }
     else if (m1 <= m2) {
         /* compare backward */
-        m1 += length;
-        m2 += length;
+        m1 += length - 1;
+        m2 += length - 1;
 
         while (length-- > 0) {
             if (*m1 != *m2) {
@@ -299,11 +299,10 @@ char *strcpy(char *dest, const char *src)
     char *d = dest;
     char *s = (char *) src;
 
-    while (*s && *d) {
-        *d++ = *s++;
-    }
+    do {
+        *d = *s;
+    } while (*s ++ && *d ++);
 
-    *d = '\0';
     return dest;
 }
 
