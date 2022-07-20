@@ -6,10 +6,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include <string.hpp>
+#include "../../include/string.hpp"
 #include <gtest/gtest.h>
 
-#if 0
 TEST(LlvmLibcStrTokTest, NoTokenFound) {
   char empty[] = "";
   ASSERT_STREQ(__STD_NAMESPACE::strtok(empty, ""), nullptr);
@@ -77,4 +76,3 @@ TEST(LlvmLibcStrTokTest, DelimitersShouldNotBeIncludedInToken) {
   token = __STD_NAMESPACE::strtok(nullptr, "_:,_");
   ASSERT_STREQ(token, nullptr);
 }
-#endif

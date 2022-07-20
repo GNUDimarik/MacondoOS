@@ -3,10 +3,13 @@ project(MacondoOS)
 
 set(CMAKE_CXX_STANDARD 20)
 
-include_directories(include)
+set(TARGET_PLATFORM "ia32e")
 
-set(TARGET_PLATFORM "x86_64")
+include("cmake/common_c_cxx_flags.cmake")
 
-add_subdirectory(stdlib)
+set(CMAKE_CXX_FLAGS ${COMMON_CXX_FLAGS})
+set(CMAKE_C_FLAGS   ${COMMON_C_FLAGS})
+
+add_subdirectory(lib)
 add_subdirectory(test)
 add_subdirectory(third_party/googletest)

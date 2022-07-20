@@ -11,8 +11,7 @@
  * These tests ported from LLVM
  * */
 
-#define  __TEST_DRIVEN__
-#include <ctype.hpp>
+#include "../../include/ctype.hpp"
 
 TEST(LlvmLibcIsAlNum, DefaultLocale)
 {

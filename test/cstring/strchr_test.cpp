@@ -6,7 +6,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include <string.hpp>
+#include "../../include/string.hpp"
 #include <gtest/gtest.h>
 
 TEST(LlvmLibcStrChrTest, FindsFirstCharacter) {

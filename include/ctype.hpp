@@ -1,6 +1,6 @@
 #pragma once
 
-#include <macondo/defs.h>
+#include "macondo/defs.h"
 
 __STD_BEGIN_NAMESPACE
 __BEGIN_DECLS
