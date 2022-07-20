@@ -103,9 +103,12 @@ int memcmp(const void *first, const void *second, size_t length)
     if (m1 >= m2) {
         /* compare forward */
         while (length-- > 0) {
-            if (*m1 ++ != *m2 ++) {
-                return *-- m1 - *-- m2;
+            if (*m1 != *m2) {
+                return *m1 - *m2;
             }
+
+            m1 ++;
+            m2 ++;
         }
     }
     else if (m1 <= m2) {
@@ -114,9 +117,12 @@ int memcmp(const void *first, const void *second, size_t length)
         m2 += length;
 
         while (length-- > 0) {
-            if (*m1 -- != *m2 --) {
-                return *++ m1 - *++ m2;
+            if (*m1 != *m2) {
+                return *m1 - *m2;
             }
+
+            m1 --;
+            m2 --;
         }
     }
 
@@ -210,11 +216,11 @@ char *strchr(const char *str, int needle)
 {
     char *s = (char *) str;
 
-    while (*s++) {
+    do {
         if (*s == (char) needle) {
-            return --s;
+            return s;
         }
-    }
+    } while (*s ++);
 
     return NULL;
 }
@@ -240,7 +246,7 @@ char *strrchr(const char *str, int needle)
         ++s;
     }
 
-    return (pos == -1 ? NULL : (char *) &str[pos]);
+    return (pos == -1 ? NULL : str + pos);
 }
 
 /**
