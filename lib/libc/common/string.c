@@ -100,9 +100,23 @@ int memcmp(const void *first, const void *second, size_t length)
     unsigned char *m1 = (unsigned char *) first;
     unsigned char *m2 = (unsigned char *) second;
 
-    while (length-- > 0) {
-        if (*m1 != *m2) {
-            return *m1 < *m2 ? -1 : 1;
+    if (m1 >= m2) {
+        /* compare forward */
+        while (length-- > 0) {
+            if (*m1 ++ != *m2 ++) {
+                return *-- m1 - *-- m2;
+            }
+        }
+    }
+    else if (m1 <= m2) {
+        /* compare backward */
+        m1 += length;
+        m2 += length;
+
+        while (length-- > 0) {
+            if (*m1 -- != *m2 --) {
+                return *++ m1 - *++ m2;
+            }
         }
     }
 
