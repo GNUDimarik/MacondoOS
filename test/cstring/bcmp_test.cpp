@@ -9,7 +9,6 @@
 #include <gtest/gtest.h>
 #include "../../include/string.h"
 
-#if 0
 TEST(LlvmLibcBcmpTest, CmpZeroByte) {
   const char *lhs = "ab";
   const char *rhs = "bc";
@@ -57,4 +56,3 @@ TEST(LlvmLibcBcmpTest, Sweep) {
     rhs[i] = 'a';
   }
 }
-#endif

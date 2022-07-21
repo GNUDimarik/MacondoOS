@@ -111,6 +111,15 @@ int memcmp(const void *first, const void *second, size_t length)
 }
 
 /**
+ * @brief same as memcmp
+ * @see memcmp
+ */
+int bcmp(const void *first, const void *second, size_t length)
+{
+    return memcmp(first, second, length);
+}
+
+/**
  * @brief  memset - copies valie (converted to an unsigned char) into each
  *                  of the first length bytes of the object pointed to by dest.
  * @param  dest   - dest to set
@@ -127,6 +136,16 @@ void *memset(void *dest, int value, size_t length)
     }
 
     return dest;
+}
+
+/**
+ * @brief bzero - sets n bytes in s to zero
+ * @param s     - pointer to region zeroize to
+ * @param n     - number of bytes to zeroize
+ */
+void bzero(void *s, size_t n)
+{
+    memset(s, 0, n);
 }
 
 /**
@@ -471,42 +490,49 @@ char *strstr(const char *haystack, const char *needle)
  */
 char *strtok(char *str, const char *delim)
 {
-    if (!delim || *delim == '\0') {
-        return str;
-    }
-
-    if ((!delim || *delim == '\0') && (!str || *str == '\0')) {
-        return NULL;
-    }
-
     static char *old_str = NULL;
     char *res = NULL;
+    size_t i = 0;
 
-    if (str) {
-        old_str = str;
+    if (!str) {
+        if (!old_str) {
+            return NULL;
+        }
     }
     else {
-        str = old_str;
+        old_str = str;
     }
 
-    str += strspn(str, delim);
+    do {
+        for (i = 0; delim[i] != '\0' && *old_str != delim[i]; i++) {}
 
-    if (!*str) {
-        old_str = str;
+        if (delim[i] == '\0') {
+            break;
+        }
+    }
+    while (*old_str++ != '\0');
+
+    if (*old_str == '\0') {
         return NULL;
     }
 
-    res = str;
-    str = strpbrk(res, delim);
+    res = old_str++;
 
-    if (str) {
-        *str = '\0';
-        old_str = ++str;
-        return res;
+    do {
+        for (i = 0; delim[i] != '\0' && *old_str != delim[i]; i++) {}
+
+        if (delim[i] != '\0') {
+            break;
+        }
+    }
+    while (*old_str++ != '\0');
+
+    if (*old_str != '\0') {
+        *old_str = '\0';
+        old_str++;
     }
 
-    old_str = str;
-    return str;
+    return res;
 }
 
 /**

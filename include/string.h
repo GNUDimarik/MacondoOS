@@ -60,8 +60,13 @@ void *memchr(const void *mem, int needle, size_t count);
  * @param length - bytes number to compare
  * @return         -1 if first < second, 1 otherwise and 0 if they are equal
  */
-int memcmp(const void *first, const void *second, size_t length) ;
+int memcmp(const void *first, const void *second, size_t length);
 
+/**
+ * @brief same as memcmp
+ * @see memcmp
+ */
+int bcmp(const void *first, const void *second, size_t length);
 /**
  * @brief  memset - copies valie (converted to an unsigned char) into each
  *                  of the first length bytes of the object pointed to by dest.
@@ -71,6 +76,13 @@ int memcmp(const void *first, const void *second, size_t length) ;
  * @return          dest; no return value is reserved to indicate an error.
  */
 void *memset(void *dest, int value, size_t length);
+
+/**
+ * @brief bzero - sets n bytes in s to zero
+ * @param s     - pointer to region zeroize to
+ * @param n     - number of bytes to zeroize
+ */
+void bzero(void *s, size_t n);
 
 /**
  * @brief  strcat - append a copy of the string pointed to by src
@@ -97,7 +109,7 @@ char *strcat(char *dest, const char *src);
  * @return            dest. no return value shall be reserved to indicate an
  *                    error.
  */
-char *strncat(char *dest, const char *src, size_t length) ;
+char *strncat(char *dest, const char *src, size_t length);
 
 /**
  * @brief  strchr - locates the first occurrence of needle (converted to a char)
@@ -128,7 +140,7 @@ char *strrchr(const char *str, int needle);
  * @param  second - pointer to second string
  * @return -1 if first < second, 1 otherwise and 0 if they are equal
  */
-int strcmp(const char *first, const char *second) ;
+int strcmp(const char *first, const char *second);
 
 /**
  * @brief  strncmp - compare not more than len bytes (bytes that follow a NUL
@@ -139,8 +151,7 @@ int strcmp(const char *first, const char *second) ;
  * @param  length  - bytes number to compare
  * @return           -1 if first < second, 1 otherwise and 0 if they are equal
  */
-int strncmp(const char *first, const char *second, size_t len)
-;
+int strncmp(const char *first, const char *second, size_t len);
 
 /**
  * @brief  strcpy - copies the string pointed to by src (including the
@@ -166,7 +177,7 @@ char *strcpy(char *dest, const char *src);
  * If copying takes place between objects that overlap, the behavior is
  * undefined
  */
-char *strncpy(char *dest, const char *src, size_t n) ;
+char *strncpy(char *dest, const char *src, size_t n);
 
 /**
  * @brief  strspn - computes the length (in bytes) of the maximum initial
@@ -177,7 +188,7 @@ char *strncpy(char *dest, const char *src, size_t n) ;
  * @return          the computed length; no return value is reserved to indicate
  *                  an error
  */
-size_t strspn(const char *str, const char *accept) ;
+size_t strspn(const char *str, const char *accept);
 
 /**
  * @brief  strlen - compute the number of bytes in the string to which str
@@ -197,7 +208,7 @@ size_t strlen(const char *str);
  *                  NULL if not found no return value is reserved to indicate an
  *                  error.
  */
-size_t strcspn(const char *str, const char *reject) ;
+size_t strcspn(const char *str, const char *reject);
 
 /**
  * @brief  strpbrk - locate the first occurrence in the string pointed to by str
@@ -207,7 +218,7 @@ size_t strcspn(const char *str, const char *reject) ;
  * @return         - a pointer to the byte or a null pointer if no byte from str
  *                   occurs in accept
  */
-char *strpbrk(const char *str, const char *accept) ;
+char *strpbrk(const char *str, const char *accept);
 
 /**
  * @brief  strstr   - locate the first occurrence in the string pointed
