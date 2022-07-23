@@ -8,12 +8,7 @@
 
 #include <gtest/gtest.h>
 #include "../../include/string.h"
-
-#if 0
-
-using __STD_NAMESPACE::cpp::Array;
-using __STD_NAMESPACE::cpp::ArrayRef;
-using __STD_NAMESPACE::cpp::MutableArrayRef;
+#include <vector>
 
 TEST(LlvmLibcMemmoveTest, MoveZeroByte) {
   char Buffer[] = {'a', 'b', 'y', 'z'};
@@ -21,7 +16,7 @@ TEST(LlvmLibcMemmoveTest, MoveZeroByte) {
   void *const Dst = Buffer;
   void *const Ret = __STD_NAMESPACE::memmove(Dst, Buffer + 2, 0);
   EXPECT_EQ(Ret, Dst);
-  EXPECT_MEM_EQ(Buffer, Expected);
+  EXPECT_EQ(__STD_NAMESPACE::memcmp(Buffer, Expected, ARRAY_SIZE(Buffer)), 0);
 }
 
 TEST(LlvmLibcMemmoveTest, DstAndSrcPointToSameAddress) {
@@ -30,7 +25,7 @@ TEST(LlvmLibcMemmoveTest, DstAndSrcPointToSameAddress) {
   void *const Dst = Buffer;
   void *const Ret = __STD_NAMESPACE::memmove(Dst, Buffer, 1);
   EXPECT_EQ(Ret, Dst);
-  EXPECT_MEM_EQ(Buffer, Expected);
+    EXPECT_EQ(__STD_NAMESPACE::memcmp(Buffer, Expected, ARRAY_SIZE(Buffer)), 0);
 }
 
 TEST(LlvmLibcMemmoveTest, DstStartsBeforeSrc) {
@@ -41,7 +36,7 @@ TEST(LlvmLibcMemmoveTest, DstStartsBeforeSrc) {
   void *const Dst = Buffer + 1;
   void *const Ret = __STD_NAMESPACE::memmove(Dst, Buffer + 2, 2);
   EXPECT_EQ(Ret, Dst);
-  EXPECT_MEM_EQ(Buffer, Expected);
+  EXPECT_EQ(__STD_NAMESPACE::memcmp(Buffer, Expected, ARRAY_SIZE(Buffer)), 0);
 }
 
 TEST(LlvmLibcMemmoveTest, DstStartsAfterSrc) {
@@ -50,7 +45,7 @@ TEST(LlvmLibcMemmoveTest, DstStartsAfterSrc) {
   void *const Dst = Buffer + 2;
   void *const Ret = __STD_NAMESPACE::memmove(Dst, Buffer + 1, 2);
   EXPECT_EQ(Ret, Dst);
-  EXPECT_MEM_EQ(Buffer, Expected);
+  EXPECT_EQ(__STD_NAMESPACE::memcmp(Buffer, Expected, ARRAY_SIZE(Buffer)), 0);
 }
 
 // e.g. `Dst` follow `src`.
@@ -63,7 +58,7 @@ TEST(LlvmLibcMemmoveTest, SrcFollowDst) {
   void *const Dst = Buffer + 1;
   void *const Ret = __STD_NAMESPACE::memmove(Dst, Buffer + 2, 1);
   EXPECT_EQ(Ret, Dst);
-  EXPECT_MEM_EQ(Buffer, Expected);
+  EXPECT_EQ(__STD_NAMESPACE::memcmp(Buffer, Expected, ARRAY_SIZE(Buffer)), 0);
 }
 
 TEST(LlvmLibcMemmoveTest, DstFollowSrc) {
@@ -72,7 +67,7 @@ TEST(LlvmLibcMemmoveTest, DstFollowSrc) {
   void *const Dst = Buffer + 2;
   void *const Ret = __STD_NAMESPACE::memmove(Dst, Buffer + 1, 1);
   EXPECT_EQ(Ret, Dst);
-  EXPECT_MEM_EQ(Buffer, Expected);
+  EXPECT_EQ(__STD_NAMESPACE::memcmp(Buffer, Expected, ARRAY_SIZE(Buffer)), 0);
 }
 
 static constexpr int kMaxSize = 512;
@@ -86,14 +81,15 @@ char GetRandomChar() {
   return Seed;
 }
 
-void Randomize(MutableArrayRef<char> Buffer) {
+void Randomize(std::vector<char> Buffer) {
   for (auto &current : Buffer)
     current = GetRandomChar();
 }
 
 TEST(LlvmLibcMemmoveTest, Thorough) {
-  using LargeBuffer = Array<char, 3 * kMaxSize>;
+  using LargeBuffer = std::vector<char>;
   LargeBuffer GroundTruth;
+  GroundTruth.resize(3 * kMaxSize);
   Randomize(GroundTruth);
   for (int Size = 0; Size < kMaxSize; ++Size) {
     for (int Offset = -Size; Offset < Size; ++Offset) {
@@ -107,8 +103,7 @@ TEST(LlvmLibcMemmoveTest, Thorough) {
       void *const Ret =
           __STD_NAMESPACE::memmove(Dst, Buffer.data() + SrcOffset, Size);
       EXPECT_EQ(Ret, Dst);
-      EXPECT_MEM_EQ(Buffer, Expected);
+      EXPECT_EQ(__STD_NAMESPACE::memcmp(Buffer.data(), Expected.data(), Buffer.size()), 0);
     }
   }
 }
-#endif
