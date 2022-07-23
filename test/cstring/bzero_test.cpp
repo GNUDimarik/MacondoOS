@@ -15,7 +15,7 @@ using Data = std::vector<char>;
 static constexpr const char *k_deadcode = "DEADC0DE";
 
 // Returns a Data object filled with a repetition of `filler`.
-Data get_data(const char* filler) {
+Data bzero_get_data(const char* filler) {
   Data out;
   out.resize(2048);
 
@@ -25,7 +25,7 @@ Data get_data(const char* filler) {
 }
 
 TEST(LlvmLibcBzeroTest, Thorough) {
-  const Data dirty = get_data(k_deadcode);
+  const Data dirty = bzero_get_data(k_deadcode);
   for (size_t count = 0; count < 1024; ++count) {
     for (size_t align = 0; align < 64; ++align) {
       auto buffer = dirty;
