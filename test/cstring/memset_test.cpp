@@ -9,18 +9,17 @@
 #include <gtest/gtest.h>
 #include "../../include/string.h"
 
-#if 0
-using __STD_NAMESPACE::cpp::Array;
-using __STD_NAMESPACE::cpp::ArrayRef;
-using Data = Array<char, 2048>;
+using Data = std::vector<char>;
 
-static const ArrayRef<char> k_deadcode("DEADC0DE", 8);
+static constexpr const char *k_deadcode = "DEADC0DE";
 
 // Returns a Data object filled with a repetition of `filler`.
-Data get_data(ArrayRef<char> filler) {
+Data get_data(const char* filler) {
   Data out;
+  out.resize(2048);
+
   for (size_t i = 0; i < out.size(); ++i)
-    out[i] = filler[i % filler.size()];
+    out[i] = filler[i % ARRAY_SIZE(filler)];
   return out;
 }
 
@@ -51,4 +50,3 @@ TEST(LlvmLibcMemsetTest, Thorough) {
 // FIXME: Add tests with reads and writes on the boundary of a read/write
 // protected page to check we're not reading nor writing prior/past the allowed
 // regions.
-#endif
