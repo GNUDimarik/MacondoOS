@@ -464,30 +464,7 @@ char *strstr(const char *haystack, const char *needle) {
  */
 char *strtok(char *str, const char *delim) {
     static char *old_str = NULL;
-    char *res = NULL;
-
-    if (!str) {
-        if (!old_str) {
-            return NULL;
-        }
-    } else {
-        old_str = str;
-    }
-
-    old_str += strspn(old_str, delim);
-
-    if (*old_str == '\0') {
-        return NULL;
-    }
-
-    res = old_str++;
-    old_str += strcspn(old_str, delim);
-
-    if (*old_str != '\0') {
-        *old_str++ = '\0';
-    }
-
-    return res;
+    return strtok_r(str, delim, &old_str);
 }
 
 /**
