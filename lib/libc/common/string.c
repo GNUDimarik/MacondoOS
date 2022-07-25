@@ -82,6 +82,18 @@ void *memchr(const void *memory, int needle, size_t count) {
     return NULL;
 }
 
+void *memrchr(const void *mem, int needle, size_t count) {
+    const unsigned char *s = (unsigned char *) mem + count - 1;
+
+    while (count-- > 0) {
+        if (*s-- == (unsigned char) needle) {
+            return ++s;
+        }
+    }
+
+    return NULL;
+}
+
 /**
  * @brief memcmp - compares length bytes (each interpreted as unsigned char)
  *                 the object pointed to by first to the first n bytes of the

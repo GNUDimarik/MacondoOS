@@ -51,6 +51,7 @@ void *memmove(void *dest, const void *src, size_t length);
  */
 void *memchr(const void *mem, int needle, size_t count);
 
+void *memrchr(const void *mem, int needle, size_t count);
 /**
  * @brief memcmp - compares length bytes (each interpreted as unsigned char)
  *                 the object pointed to by first to the first n bytes of the
