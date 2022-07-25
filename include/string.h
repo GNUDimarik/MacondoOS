@@ -275,7 +275,7 @@ char *strtok(char *str, const char *delim);
  * @param saveptr  - used internally in order to maintain context between successive calls
  * @return
  */
-char *do_strtok_r(char *str, const char *delim, char **saveptr);
+char *strtok_r(char *str, const char *delim, char **saveptr);
 
 __END_DECLS
 __STD_END_NAMESPACE

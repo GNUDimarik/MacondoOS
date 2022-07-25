@@ -12,8 +12,7 @@
  * The memcpy() function does not check for the overflow of the receiving
  * memory area.
  */
-void *memcpy(void *dest, const void *src, size_t length)
-{
+void *memcpy(void *dest, const void *src, size_t length) {
     unsigned char *d = (unsigned char *) dest;
     unsigned char *s = (unsigned char *) src;
 
@@ -39,8 +38,7 @@ void *memcpy(void *dest, const void *src, size_t length)
  * Case when src less than dest handles correctly.
  * There is no temporary array inside
  */
-void *memmove(void *dest, const void *src, size_t length)
-{
+void *memmove(void *dest, const void *src, size_t length) {
     unsigned char *d = (unsigned char *) dest;
     unsigned char *s = (unsigned char *) src;
 
@@ -49,8 +47,7 @@ void *memmove(void *dest, const void *src, size_t length)
         while (length-- > 0) {
             *d++ = *s++;
         }
-    }
-    else if (s <= d) {
+    } else if (s <= d) {
         /* copy backward */
         d += length;
         s += length;
@@ -73,8 +70,7 @@ void *memmove(void *dest, const void *src, size_t length)
  * @return          pointer to the located byte, or a null pointer
  *                  if the byte is not found.
  */
-void *memchr(const void *memory, int needle, size_t count)
-{
+void *memchr(const void *memory, int needle, size_t count) {
     unsigned char *p = (unsigned char *) memory;
 
     while (count-- > 0) {
@@ -95,8 +91,7 @@ void *memchr(const void *memory, int needle, size_t count)
  * @param length - bytes number to compare
  * @return         -1 if first < second, 1 otherwise and 0 if they are equal
  */
-int memcmp(const void *first, const void *second, size_t length)
-{
+int memcmp(const void *first, const void *second, size_t length) {
     unsigned char *m1 = (unsigned char *) first;
     unsigned char *m2 = (unsigned char *) second;
     size_t i = 0;
@@ -114,8 +109,7 @@ int memcmp(const void *first, const void *second, size_t length)
  * @brief same as memcmp
  * @see memcmp
  */
-int bcmp(const void *first, const void *second, size_t length)
-{
+int bcmp(const void *first, const void *second, size_t length) {
     return memcmp(first, second, length);
 }
 
@@ -127,8 +121,7 @@ int bcmp(const void *first, const void *second, size_t length)
  * @param  length - size of bytes to fill
  * @return          dest; no return value is reserved to indicate an error.
  */
-void *memset(void *dest, int value, size_t length)
-{
+void *memset(void *dest, int value, size_t length) {
     unsigned char *p = (unsigned char *) dest;
 
     while (length-- > 0) {
@@ -143,8 +136,7 @@ void *memset(void *dest, int value, size_t length)
  * @param s     - pointer to region zeroize to
  * @param n     - number of bytes to zeroize
  */
-void bzero(void *s, size_t n)
-{
+void bzero(void *s, size_t n) {
     memset(s, 0, n);
 }
 
@@ -160,8 +152,7 @@ void bzero(void *s, size_t n)
  * If copying takes place between objects that overlap, the behavior
  * is undefined.
  */
-char *strcat(char *dest, const char *src)
-{
+char *strcat(char *dest, const char *src) {
     char *d = dest;
     const char *s = src;
 
@@ -186,8 +177,7 @@ char *strcat(char *dest, const char *src)
  * @return            dest. no return value shall be reserved to indicate an
  *                    error.
  */
-char *strncat(char *dest, const char *src, size_t length)
-{
+char *strncat(char *dest, const char *src, size_t length) {
     char *d = dest;
     const char *s = src;
 
@@ -212,16 +202,14 @@ char *strncat(char *dest, const char *src, size_t length)
  * @return          a pointer to the byte, or a null pointer if the byte was
  *                  not found
  */
-char *strchr(const char *str, int needle)
-{
+char *strchr(const char *str, int needle) {
     char *s = (char *) str;
 
     do {
         if (*s == (char) needle) {
             return s;
         }
-    }
-    while (*s++);
+    } while (*s++);
 
     return NULL;
 }
@@ -235,8 +223,7 @@ char *strchr(const char *str, int needle)
  * @return           a pointer to the byte or a null pointer if needle does not
  *                   occur in the string.
  */
-char *strrchr(const char *str, int needle)
-{
+char *strrchr(const char *str, int needle) {
     const char *s = str;
     long pos = -1;
 
@@ -244,8 +231,7 @@ char *strrchr(const char *str, int needle)
         if (*s == needle) {
             pos = s - str;
         }
-    }
-    while (*s++);
+    } while (*s++);
 
     return (pos == -1 ? NULL : (char *) str + pos);
 }
@@ -257,8 +243,7 @@ char *strrchr(const char *str, int needle)
  * @param  second - pointer to second string
  * @return          -1 if first < second, 1 otherwise and 0 if they are equal
  */
-int strcmp(const char *first, const char *second)
-{
+int strcmp(const char *first, const char *second) {
     char *f = (char *) first;
     char *s = (char *) second;
 
@@ -266,8 +251,7 @@ int strcmp(const char *first, const char *second)
         if (*f != *s) {
             return *f - *s;
         }
-    }
-    while (*f++ && *s++);
+    } while (*f++ && *s++);
 
     return 0;
 }
@@ -281,8 +265,7 @@ int strcmp(const char *first, const char *second)
  * @param  length  - bytes number to compare
  * @return           -1 if first < second, 1 otherwise and 0 if they are equal
  */
-int strncmp(const char *first, const char *second, size_t len)
-{
+int strncmp(const char *first, const char *second, size_t len) {
     size_t i = 0;
 
     for (i = 0; i < len; i++) {
@@ -307,15 +290,13 @@ int strncmp(const char *first, const char *second, size_t len)
  *
  * If copying takes place between objects that overlap, the behavior is undefined
  */
-char *strcpy(char *dest, const char *src)
-{
+char *strcpy(char *dest, const char *src) {
     char *d = dest;
     char *s = (char *) src;
 
     do {
         *d = *s;
-    }
-    while (*s++ && *d++);
+    } while (*s++ && *d++);
 
     return dest;
 }
@@ -331,8 +312,7 @@ char *strcpy(char *dest, const char *src)
  *
  * If copying takes place between objects that overlap, the behavior is undefined
  */
-char *strncpy(char *dest, const char *src, size_t n)
-{
+char *strncpy(char *dest, const char *src, size_t n) {
     return (char *) memcpy(dest, src, n);
 }
 
@@ -345,8 +325,7 @@ char *strncpy(char *dest, const char *src, size_t n)
  * @return          the computed length; no return value is reserved to indicate
  *                  an error
  */
-size_t strspn(const char *str, const char *accept)
-{
+size_t strspn(const char *str, const char *accept) {
     size_t res = 0;
 
     while (*str) {
@@ -367,8 +346,7 @@ size_t strspn(const char *str, const char *accept)
  * @param  str    - string to calculate length
  * @return          length of str
  */
-size_t strlen(const char *str)
-{
+size_t strlen(const char *str) {
     size_t res = 0;
 
     while (*str++ != '\0') {
@@ -388,16 +366,14 @@ size_t strlen(const char *str)
  *                  NULL if not found no return value is reserved to indicate an
  *                  error.
  */
-size_t strcspn(const char *str, const char *reject)
-{
+size_t strcspn(const char *str, const char *reject) {
     const char *s = str;
     size_t res = 0;
 
     while (*s) {
         if (strchr(reject, *s++) == NULL) {
             res++;
-        }
-        else {
+        } else {
             break;
         }
     }
@@ -413,8 +389,7 @@ size_t strcspn(const char *str, const char *reject)
  * @return         - a pointer to the byte or a null pointer if no byte from str
  *                   occurs in accept
  */
-char *strpbrk(const char *str, const char *accept)
-{
+char *strpbrk(const char *str, const char *accept) {
     char *s = (char *) str;
 
     while (*s) {
@@ -439,8 +414,7 @@ char *strpbrk(const char *str, const char *accept)
  * If needle points to a string with zero length, the function shall return
  * haystack.
  */
-char *strstr(const char *haystack, const char *needle)
-{
+char *strstr(const char *haystack, const char *needle) {
     size_t needle_len = strlen(needle);
     size_t haystack_len = strlen(haystack);
     size_t i = 0;
@@ -488,48 +462,29 @@ char *strstr(const char *haystack, const char *needle)
  * Each subsequent call, with a null pointer as the value of the first argument,
  * starts searching from the saved pointer and behaves as described above.
  */
-char *strtok(char *str, const char *delim)
-{
+char *strtok(char *str, const char *delim) {
     static char *old_str = NULL;
     char *res = NULL;
-    size_t i = 0;
 
     if (!str) {
         if (!old_str) {
             return NULL;
         }
-    }
-    else {
+    } else {
         old_str = str;
     }
 
-    do {
-        for (i = 0; delim[i] != '\0' && *old_str != delim[i]; i++) {}
-
-        if (delim[i] == '\0') {
-            break;
-        }
-    }
-    while (*old_str++ != '\0');
+    old_str += strspn(old_str, delim);
 
     if (*old_str == '\0') {
         return NULL;
     }
 
     res = old_str++;
-
-    do {
-        for (i = 0; delim[i] != '\0' && *old_str != delim[i]; i++) {}
-
-        if (delim[i] != '\0') {
-            break;
-        }
-    }
-    while (*old_str++ != '\0');
+    old_str += strcspn(old_str, delim);
 
     if (*old_str != '\0') {
-        *old_str = '\0';
-        old_str++;
+        *old_str++ = '\0';
     }
 
     return res;
@@ -543,41 +498,32 @@ char *strtok(char *str, const char *delim)
  * @param saveptr  - used internally in order to maintain context between successive calls
  * @return
  */
-char *do_strtok_r(char *str, const char *delim,
-                  char **saveptr)
-{
+char *strtok_r(char *str, const char *delim,
+               char **saveptr) {
+    char *old_str = saveptr ? *saveptr : NULL;
     char *res = NULL;
 
-    if (str == NULL || delim == NULL || saveptr == NULL) {
-        return res;
-    }
-
-    if (str && saveptr) {
-        *saveptr = str;
-    }
-    else if (saveptr && *saveptr) {
-        str = *saveptr;
-    }
-
-    if (delim && saveptr) {
-        str += strspn(str, delim);
-
-        if (!*str) {
-            *saveptr = str;
+    if (!str) {
+        if (!old_str) {
             return NULL;
         }
-
-        res = str;
-        str = strpbrk(res, delim);
-
-        if (str) {
-            *str = '\0';
-            *saveptr = ++str;
-            return res;
-        }
-
-        *saveptr = str;
+    } else {
+        old_str = str;
     }
 
-    return str;
+    old_str += strspn(old_str, delim);
+
+    if (*old_str == '\0') {
+        return NULL;
+    }
+
+    res = old_str++;
+    old_str += strcspn(old_str, delim);
+
+    if (*old_str != '\0') {
+        *old_str++ = '\0';
+    }
+
+    *saveptr = old_str;
+    return res;
 }
