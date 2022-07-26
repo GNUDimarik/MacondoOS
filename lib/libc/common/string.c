@@ -83,7 +83,7 @@ void *memchr(const void *memory, int needle, size_t count) {
 }
 
 void *memrchr(const void *mem, int needle, size_t count) {
-    const unsigned char *s = (unsigned char *) mem + count - 1;
+    unsigned char *s = (unsigned char *) mem + count - 1;
 
     while (count-- > 0) {
         if (*s-- == (unsigned char) needle) {
@@ -154,13 +154,13 @@ void bzero(void *s, size_t n) {
 
 /**
  * @brief  strcat - append a copy of the string pointed to by src
- *                  (including the terminating NUL character) to the end of the
+ *                  (including the terminating NULL character) to the end of the
  *                  string pointed to by dest.
  * @param  dest   - string to append to
  * @param  src    - string to append which
  * @return        - dest. no return value shall be reserved to indicate an error.
  *
- * The initial byte of src overwrites the NUL character at the end of dest.
+ * The initial byte of src overwrites the NULL character at the end of dest.
  * If copying takes place between objects that overlap, the behavior
  * is undefined.
  */
@@ -180,7 +180,7 @@ char *strcat(char *dest, const char *src) {
 }
 
 /**
- * @brief  strncat  - append not more than length bytes (a NUL character and
+ * @brief  strncat  - append not more than length bytes (a NULL character and
  *                    bytes that follow it are not appended) from the array
  *                    pointed to by src to the end of the string pointed to by
  *                    dest
@@ -207,7 +207,7 @@ char *strncat(char *dest, const char *src, size_t length) {
 
 /**
  * @brief  strchr - locates the first occurrence of needle (converted to a char)
- *                  in the string pointed to by str. The terminating NUL character
+ *                  in the string pointed to by str. The terminating NULL character
  *                  is considered to be part of the string
  * @param  str    - string to search to
  * @param  needle - character to search which
@@ -295,7 +295,7 @@ int strncmp(const char *first, const char *second, size_t len) {
 
 /**
  * @brief  strcpy - copies the string pointed to by src (including the
- *                  terminating NUL character) into the array pointed to by dest
+ *                  terminating NULL character) into the array pointed to by dest
  * @param  dest   - destination of copy
  * @param  src    - source of copy
  * @return          a pointer  to dest
@@ -314,18 +314,36 @@ char *strcpy(char *dest, const char *src) {
 }
 
 /**
- * @brief strncpy - not more than n bytes (bytes that follow a NUL character
+ * @brief strncpy - not more than n bytes (bytes that follow a NULL character
  *        are not copied) from the array pointed to by src to the array
  *        pointed to by dest
+ *
+ * @note If copying takes place between objects that overlap, the behavior is undefined.
+ *
+ * If the array pointed to by dest is a string that is shorter than n characters, null characters
+ * are appended to the copy in the array pointed to by src, until n characters in all have been
+ * written
+ *
  * @param dest    - destination of copying
  * @param src     - source of copying
  * @param n       - number bytes to copy
- * @return        - a pointer to dest
- *
- * If copying takes place between objects that overlap, the behavior is undefined
+ * @return        - a value of dest
  */
 char *strncpy(char *dest, const char *src, size_t n) {
-    return (char *) memcpy(dest, src, n);
+    char *d = dest;
+    char *s = (char *) src;
+
+    while (n > 0) {
+        if (*s != '\0') {
+            *d++ = *s++;
+        } else {
+            *d++ = '\0';
+        }
+
+        n--;
+    }
+
+    return dest;
 }
 
 /**
@@ -354,7 +372,7 @@ size_t strspn(const char *str, const char *accept) {
 
 /**
  * @brief  strlen - compute the number of bytes in the string to which str points,
- *                  not including the terminating NUL character.
+ *                  not including the terminating NULL character.
  * @param  str    - string to calculate length
  * @return          length of str
  */
@@ -467,7 +485,7 @@ char *strstr(const char *haystack, const char *needle) {
  * in the current separator string. If no such byte is found, the current token
  * extends to the end of the string pointed to by str, and subsequent searches
  * for a token shall return a null pointer. If such a byte is found, it is
- * overwritten by a NUL character, which terminates the current token.
+ * overwritten by a NULL character, which terminates the current token.
  * The strtok() function saves a pointer to the following byte, from which the
  * next search for a token shall start.
  *

@@ -167,16 +167,20 @@ int strncmp(const char *first, const char *second, size_t len);
 char *strcpy(char *dest, const char *src);
 
 /**
- * @brief strncpy - not more than n bytes (bytes that follow a NUL character
+ * @brief strncpy - not more than n bytes (bytes that follow a NULL character
  *        are not copied) from the array pointed to by src to the array
  *        pointed to by dest
+ *
+ * @note If copying takes place between objects that overlap, the behavior is undefined.
+ *
+ * If the array pointed to by dest is a string that is shorter than n characters, null characters
+ * are appended to the copy in the array pointed to by src, until n characters in all have been
+ * written
+ *
  * @param dest    - destination of copying
  * @param src     - source of copying
  * @param n       - number bytes to copy
- * @return        - a pointer to dest
- *
- * If copying takes place between objects that overlap, the behavior is
- * undefined
+ * @return        - a value of dest
  */
 char *strncpy(char *dest, const char *src, size_t n);
 
