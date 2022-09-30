@@ -28,7 +28,7 @@ void *memcpy(void *dest, const void *src, size_t length) {
 }
 
 /**
- * @brief memmove - copies from the object pointed to by src into the object
+ * @brief memmove - copies length bytes from the object pointed to by src into the object
  *                  pointed to by dest.
  * @param dest    - pointer to area to copy to
  * @param src     - pointer to area to copy from
@@ -141,15 +141,6 @@ void *memset(void *dest, int value, size_t length) {
     }
 
     return dest;
-}
-
-/**
- * @brief bzero - sets n bytes in s to zero
- * @param s     - pointer to region zeroize to
- * @param n     - number of bytes to zeroize
- */
-void bzero(void *s, size_t n) {
-    memset(s, 0, n);
 }
 
 /**

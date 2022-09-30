@@ -7,10 +7,8 @@
 //===----------------------------------------------------------------------===//
 
 #include <gtest/gtest.h>
-#include <stdlib.h>
-#include "../../include/string.h"
+#include "../../include/strings.h"
 
-#if 0
 TEST(LlvmLibcStrlcpyTest, TooBig) {
   const char *str = "abc";
   char buf[2];
@@ -20,6 +18,7 @@ TEST(LlvmLibcStrlcpyTest, TooBig) {
   EXPECT_EQ(__STD_NAMESPACE::strlcpy(nullptr, str, 0), size_t(3));
 }
 
+#if 0
 TEST(LlvmLibcStrlcpyTest, Smaller) {
   const char *str = "abc";
   char buf[7]{"111111"};

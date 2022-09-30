@@ -1,5 +1,5 @@
-#ifndef DEFS_HPP
-#define DEFS_HPP
+#ifndef DEFS_H
+#define DEFS_H
 
 #ifndef ARRAY_SIZE
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
@@ -65,4 +65,4 @@
     #endif
 #endif
 
-#endif //DEFS_HPP
+#endif //DEFS_H

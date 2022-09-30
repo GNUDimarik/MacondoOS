@@ -7,7 +7,7 @@
 //===----------------------------------------------------------------------===//
 
 #include <gtest/gtest.h>
-#include "../../include/string.h"
+#include "../../include/strings.h"
 #include <vector>
 
 using Data = std::vector<char>;
