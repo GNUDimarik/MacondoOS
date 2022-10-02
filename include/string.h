@@ -10,7 +10,6 @@
 #include <stddef.h>
 #include <strings.h>
 
-
 __BEGIN_DECLS
 __STD_BEGIN_NAMESPACE
 
@@ -283,6 +282,22 @@ char *strtok_r(char *str, const char *delim, char **saveptr);
  * @note strrev implements inplace algorithm. e.g. it modifies an input string
  */
 char *strrev(char *str);
+
+/**
+ * @brief  strupr - is used for converting of string to upper case
+ * @param str     - string to be upper cased
+ * @return upper cased version of str
+ * @note strupr implements inplace algorithm. e.g. it modifies an input string
+ */
+char *strupr(char *str);
+
+/**
+ * @brief  strlwr - is used for converting of string to lower case
+ * @param str     - string to be lower cased
+ * @return upper cased version of str
+ * @note strlwr implements inplace algorithm. e.g. it modifies an input string
+ */
+char *strlwr(char *str);
 
 __END_DECLS
 __STD_END_NAMESPACE

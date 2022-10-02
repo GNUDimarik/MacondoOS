@@ -1,4 +1,5 @@
 #include <string.h>
+#include <ctype.h>
 
 /**
  * @brief memcpy - copy length bytes from the object pointed to by src into
@@ -542,6 +543,38 @@ char *strrev(char *str) {
         str[i] = str[j];
         str[j] = c;
     }
+
+    return str;
+}
+
+/**
+ * @brief  strupr - is used for converting of string to upper case
+ * @param str     - string to be upper cased
+ * @return upper cased version of str
+ * @note strupr implements inplace algorithm. e.g. it modifies an input string
+ */
+char *strupr(char *str) {
+    char *p = str;
+
+    do {
+        *p = toupper(*p);
+    } while (*p++ != '\0');
+
+    return str;
+}
+
+/**
+ * @brief  strlwr - is used for converting of string to lower case
+ * @param str     - string to be lower cased
+ * @return upper cased version of str
+ * @note strlwr implements inplace algorithm. e.g. it modifies an input string
+ */
+char *strlwr(char *str) {
+    char *p = str;
+
+    do {
+        *p = tolower(*p);
+    } while (*p++ != '\0');
 
     return str;
 }
