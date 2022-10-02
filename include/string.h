@@ -276,6 +276,14 @@ char *strtok(char *str, const char *delim);
  */
 char *strtok_r(char *str, const char *delim, char **saveptr);
 
+/**
+ * @brief strrev - reverses input string
+ * @param str    - input string to reverse
+ * @return       - reversed version of str
+ * @note strrev implements inplace algorithm. e.g. it modifies an input string
+ */
+char *strrev(char *str);
+
 __END_DECLS
 __STD_END_NAMESPACE
 /** @} */
