@@ -281,7 +281,7 @@ char *strtok_r(char *str, const char *delim, char **saveptr);
  * @param src     - source of the copy
  * @param c       - stop character
  * @param n       - number of bytest to copy
- * @return
+ * @return        - pointer to pos after c in dest or NULL if no c occurred
  */
 void *memccpy(void *dest, const void *src, int c, size_t n);
 

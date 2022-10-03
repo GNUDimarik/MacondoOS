@@ -11,8 +11,11 @@ __BEGIN_DECLS
  * @{
  */
 
-/// TODO: write documentation
-
+/**
+ * @brief   toascii - translate an integer to a 7-bit ASCII character
+ * @param c         - integer for converting
+ * @return          - c & 0x7f
+ */
 int toascii(int c);
 
 /**
