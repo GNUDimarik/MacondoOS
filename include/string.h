@@ -276,6 +276,16 @@ char *strtok(char *str, const char *delim);
 char *strtok_r(char *str, const char *delim, char **saveptr);
 
 /**
+ * @brief memccpy - copies not more than n bytes from src to dest and stop working once coccured
+ * @param dest    - destination of the copy
+ * @param src     - source of the copy
+ * @param c       - stop character
+ * @param n       - number of bytest to copy
+ * @return
+ */
+void *memccpy(void *dest, const void *src, int c, size_t n);
+
+/**
  * @brief strrev - reverses input string
  * @param str    - input string to reverse
  * @return       - reversed version of str

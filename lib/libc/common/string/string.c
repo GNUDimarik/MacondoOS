@@ -528,6 +528,32 @@ char *strtok_r(char *str, const char *delim,
 }
 
 /**
+ * @brief memccpy - copies not more than n bytes from src to dest and stop working once coccured
+ * @param dest    - destination of the copy
+ * @param src     - source of the copy
+ * @param c       - stop character
+ * @param n       - number of bytest to copy
+ * @return
+ */
+void *memccpy(void *dest, const void *src, int c, size_t n) {
+    size_t i;
+    unsigned char *d = (unsigned char *) dest;
+    const unsigned char *s = (const unsigned char *) src;
+
+    if (n > 0) {
+        for (i = 0; i < n; i++) {
+            d[i] = s[i];
+
+            if (s[i] == c) {
+                return d + i + 1;
+            }
+        }
+    }
+
+    return NULL;
+}
+
+/**
  * @brief strrev - reverses input string
  * @param str    - input string to reverse
  * @return       - reversed version of str
