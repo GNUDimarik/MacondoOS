@@ -286,6 +286,13 @@ char *strtok_r(char *str, const char *delim, char **saveptr);
 void *memccpy(void *dest, const void *src, int c, size_t n);
 
 /**
+ * @brief strerror - returns string representation of errno value
+ * @param errnum   - errno number
+ * @return         -
+ */
+char* strerror(int errnum);
+
+/**
  * @brief strrev - reverses input string
  * @param str    - input string to reverse
  * @return       - reversed version of str
