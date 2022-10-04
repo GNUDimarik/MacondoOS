@@ -2,16 +2,6 @@
 #include <string.h>
 
 /**
- * @brief bzero - sets n bytes in s to zero
- * @param s     - pointer to region zeroize to
- * @param n     - number of bytes to zeroize
- * @see memset
- */
-void bzero(void *s, size_t n) {
-    memset(s, 0, n);
-}
-
-/**
  * @brief strlcpy - copies not more than size bytes from src to dest and guaranteed append NUL byte at end
  * @param dst     - destination copy to
  * @param src     - source of copy
@@ -32,14 +22,18 @@ size_t strlcpy(char *dst, const char *src, size_t size) {
     return len;
 }
 
-/**
- * @brief bcopy   - copies size bytes from src to dest. src and dest may intersect
- * @param src     - source of copy
- * @param dest    - destination copy to
- * @param size    - number of bytes to copy
- * @see memmove
- */
-void bcopy(const void *src, void *dest, size_t size)
-{
-    memmove(dest, src, size);
+size_t strlcat(char *dst __unused, const char *src __unused, size_t size __unused) {
+#if 0
+    size_t dst_len = strlen(dst);
+    size_t src_len = strlen(src);
+    size_t num = size - dst_len;
+    char *d = dst + dst_len;
+
+    if (dst_len > 0 && src_len > 0) {
+        d--;
+        strncat(d, src, size - dst_len - 1);
+        return src_len + dst_len - 1;
+    }
+#endif
+    return 0;
 }

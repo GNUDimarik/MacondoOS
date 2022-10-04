@@ -8,7 +8,6 @@
 
 #include "defs.h"
 #include <stddef.h>
-#include <strings.h>
 
 __BEGIN_DECLS
 __STD_BEGIN_NAMESPACE

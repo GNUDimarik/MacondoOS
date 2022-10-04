@@ -30,7 +30,7 @@ TEST(LlvmLibcBzeroTest, Thorough) {
     for (size_t align = 0; align < 64; ++align) {
       auto buffer = dirty;
       char *const dst = &buffer[align];
-      __STD_NAMESPACE::bzero(dst, count);
+      bzero(dst, count);
       // Everything before copy is untouched.
       for (size_t i = 0; i < align; ++i)
         ASSERT_EQ(buffer[i], dirty[i]);

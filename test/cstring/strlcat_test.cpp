@@ -8,9 +8,8 @@
 
 #include <gtest/gtest.h>
 #include <stdlib.h>
-#include "../../include/string.h"
+#include "../../include/strings.h"
 
-#if 0
 TEST(LlvmLibcStrlcatTest, TooBig) {
   const char *str = "cd";
   char buf[4]{"ab"};
@@ -36,4 +35,3 @@ TEST(LlvmLibcStrlcatTest, No0) {
   EXPECT_EQ(__STD_NAMESPACE::strlcat(buf, str, 2), size_t(4));
   EXPECT_STREQ(buf, "ab");
 }
-#endif
