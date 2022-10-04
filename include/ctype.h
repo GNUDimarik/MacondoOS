@@ -6,7 +6,7 @@ __STD_BEGIN_NAMESPACE
 __BEGIN_DECLS
 
 /**
- * @defgroup strings ctype routines
+ * @defgroup ctype ctype routines
  * @ingroup  stdlib
  * @{
  */

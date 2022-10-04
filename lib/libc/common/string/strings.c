@@ -1,14 +1,6 @@
 #include <strings.h>
 #include <string.h>
 
-/**
- * @brief strlcpy - copies not more than size bytes from src to dest and guaranteed append NUL byte at end
- * @param dst     - destination copy to
- * @param src     - source of copy
- * @param size    - max size of bytes to copy
- * @return        - length of source
- * @see strncpy
- */
 size_t strlcpy(char *dst, const char *src, size_t size) {
     size_t len = strlen(src);
 

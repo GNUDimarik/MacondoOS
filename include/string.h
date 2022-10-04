@@ -38,6 +38,7 @@ void *memcpy(void *dest, const void *src, size_t length);
  * There is no temporary array inside
  */
 void *memmove(void *dest, const void *src, size_t length);
+
 /**
  * @brief  memchr - locate the first occurrence of needle
  *                  (converted to an unsigned char) in the initial count bytes
@@ -48,8 +49,15 @@ void *memmove(void *dest, const void *src, size_t length);
  * @return          pointer to the located byte, or a null pointer
  *                  if the byte is not found.
  */
-void *memchr(const void *mem, int needle, size_t count);
+void *memchr(const void *memory, int needle, size_t count);
 
+/**
+ * @brief memchr -
+ * @param mem
+ * @param needle
+ * @param count
+ * @return
+ */
 void *memrchr(const void *mem, int needle, size_t count);
 /**
  * @brief memcmp - compares length bytes (each interpreted as unsigned char)
@@ -62,11 +70,6 @@ void *memrchr(const void *mem, int needle, size_t count);
  */
 int memcmp(const void *first, const void *second, size_t length);
 
-/**
- * @brief same as memcmp
- * @see memcmp
- */
-int bcmp(const void *first, const void *second, size_t length);
 /**
  * @brief  memset - copies valie (converted to an unsigned char) into each
  *                  of the first length bytes of the object pointed to by dest.
@@ -99,6 +102,7 @@ char *strcat(char *dest, const char *src);
  *                    dest
  * @param  dest     - string to append to
  * @param  src      - string to append which
+ * @param length    - number characters to concatenate
  * @return            dest. no return value shall be reserved to indicate an
  *                    error.
  */
@@ -144,7 +148,7 @@ int strcmp(const char *first, const char *second);
  * @param  length  - bytes number to compare
  * @return           -1 if first < second, 1 otherwise and 0 if they are equal
  */
-int strncmp(const char *first, const char *second, size_t len);
+int strncmp(const char *first, const char *second, size_t length);
 
 /**
  * @brief  strcpy - copies the string pointed to by src (including the
