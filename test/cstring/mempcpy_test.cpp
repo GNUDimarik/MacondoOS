@@ -9,7 +9,6 @@
 #include <gtest/gtest.h>
 #include "../../include/string.h"
 
-#if 0
 // Since this function just calls out to memcpy, and memcpy has its own unit
 // tests, it is assumed that memcpy works. These tests are just for the specific
 // mempcpy behavior (returning the end of what was copied).
@@ -27,4 +26,3 @@ TEST(LlvmLibcMempcpyTest, ZeroCount) {
   void *result = __STD_NAMESPACE::mempcpy(dest, src, 0);
   ASSERT_EQ(static_cast<char *>(result), dest);
 }
-#endif

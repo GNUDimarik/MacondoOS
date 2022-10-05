@@ -319,6 +319,21 @@ char *strupr(char *str);
  */
 char *strlwr(char *str);
 
+/**
+ * @brief The mempcpy() function is nearly identical to the memcpy(3) function.
+ * It copies n bytes from the object beginning at src into the object pointed to by dest.
+ * But instead of returning the value of dest it returns a pointer to the byte following the last written byte.
+ *
+ * @param dest   - pointer to destination
+ * @param src    - pointer to source
+ * @param n      - bytes number to copy
+ *
+ * @return dest + n position
+ *
+ * @see memcpy
+ */
+void *mempcpy(void *dest, const void *src, size_t n);
+
 __END_DECLS
 __STD_END_NAMESPACE
 /** @} */
