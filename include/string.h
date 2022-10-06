@@ -334,6 +334,34 @@ char *strlwr(char *str);
  */
 void *mempcpy(void *dest, const void *src, size_t n);
 
+/**
+ * @brief stpcpy  - function copies the string pointed to by src (including the terminating null byte ('\0'))
+ *                  to the array pointed to by dest. The strings may not overlap, and the destination string dest
+ *                  must be large enough to receive the copy
+ * @param dest    - destination string
+ * @param src     - source string
+ * @return a pointer to the end of the string dest (that is, the address of the terminating null byte)
+ * rather than the beginning
+ *
+ * @see strcpy
+ */
+char *stpcpy(char *dest, const char *src);
+
+/**
+ * @brief strpncpy - function copies at most n characters from the string pointed to by src, including the
+ *                   terminating null byte ('\0'), to the array pointed to by dest.  Exactly n characters are written
+ *                   at dest.  If the length strlen(src) is smaller than n, the remaining characters in the array
+ *                   pointed to by dest are filled with null bytes ('\0'), If the length strlen(src) is greater
+ *                   than or  equal to n, the string pointed to by dest will not be null-terminated.
+ * @param dest     - destination string
+ * @param src      - source string
+ * @param n        - number bytes to copy
+ * @return  a pointer to the terminating null byte in dest, or, if dest is not null-terminated, dest+n
+ *
+ * @see strncpy
+ */
+char *stpncpy(char *dest, const char *src, size_t n);
+
 __END_DECLS
 __STD_END_NAMESPACE
 /** @} */

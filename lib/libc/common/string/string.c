@@ -359,3 +359,9 @@ char *strlwr(char *str) {
 void *mempcpy(void *dest, const void *src, size_t n) {
     return memcpy(dest, src, n) + n;
 }
+
+char *stpcpy(char *dest, const char *src) {
+    size_t src_len = strlen(src);
+    memcpy(dest, src, src_len + 1);
+    return dest + src_len;
+}

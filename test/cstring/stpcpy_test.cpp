@@ -8,10 +8,10 @@
 
 #include <gtest/gtest.h>
 #include "../../include/string.h"
-#if 0
+
 TEST(LlvmLibcStpCpyTest, EmptySrc) {
   const char *empty = "";
-  size_t src_size = __STD_NAMESPACE::internal::string_length(empty);
+  size_t src_size = __STD_NAMESPACE::strlen(empty);
   char dest[4] = {'a', 'b', 'c', '\0'};
 
   char *result = __STD_NAMESPACE::stpcpy(dest, empty);
@@ -22,7 +22,7 @@ TEST(LlvmLibcStpCpyTest, EmptySrc) {
 
 TEST(LlvmLibcStpCpyTest, EmptyDest) {
   const char *abc = "abc";
-  size_t src_size = __STD_NAMESPACE::internal::string_length(abc);
+  size_t src_size = __STD_NAMESPACE::strlen(abc);
   char dest[4];
 
   char *result = __STD_NAMESPACE::stpcpy(dest, abc);
@@ -33,7 +33,7 @@ TEST(LlvmLibcStpCpyTest, EmptyDest) {
 
 TEST(LlvmLibcStpCpyTest, OffsetDest) {
   const char *abc = "abc";
-  size_t src_size = __STD_NAMESPACE::internal::string_length(abc);
+  size_t src_size = __STD_NAMESPACE::strlen(abc);
   char dest[7] = {'x', 'y', 'z'};
 
   char *result = __STD_NAMESPACE::stpcpy(dest + 3, abc);
@@ -41,4 +41,3 @@ TEST(LlvmLibcStpCpyTest, OffsetDest) {
   ASSERT_EQ(result[0], '\0');
   ASSERT_STREQ(dest, "xyzabc");
 }
-#endif
