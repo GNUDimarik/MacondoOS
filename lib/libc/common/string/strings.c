@@ -1,7 +1,7 @@
 #include <strings.h>
 #include <string.h>
 
-size_t strlcpy(char *dst, const char *src, size_t size) {
+size_t strlcpy(char *__restrict__ dst, const char *__restrict__ src, size_t size) {
     size_t len = strlen(src);
 
     if (len + 1 < size) {
@@ -14,18 +14,28 @@ size_t strlcpy(char *dst, const char *src, size_t size) {
     return len;
 }
 
-size_t strlcat(char *dst __unused, const char *src __unused, size_t size __unused) {
-#if 0
-    size_t dst_len = strlen(dst);
-    size_t src_len = strlen(src);
-    size_t num = size - dst_len;
-    char *d = dst + dst_len;
+size_t strlcat(char *__restrict__ dst, const char *__restrict__ src, size_t dstsize) {
+    char *d = dst;
+    const char *s = src;
+    size_t n = dstsize;
+    size_t dst_len = 0;
 
-    if (dst_len > 0 && src_len > 0) {
-        d--;
-        strncat(d, src, size - dst_len - 1);
-        return src_len + dst_len - 1;
+    for (; n > 0 && *d; n--, d++) {}
+    dst_len = d - dst;
+    n = dstsize - dst_len;
+
+    if (n == 0) {
+        return strlen(src) + dst_len;
     }
-#endif
-    return 0;
+
+    while (*s) {
+        if (n > 1) {
+            *d++ = *s;
+            n--;
+        }
+        s++;
+    }
+
+    *d = '\0';
+    return dst_len + (s - src);
 }

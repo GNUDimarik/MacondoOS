@@ -1,2 +1,2 @@
-set(COMMON_CXX_FLAGS "-I${PROJECT_SOURCE_DIR}/include -std=gnu++2a -O0 -g3 -Wall -Wextra -Werror -nostdinc -nostdlib -ffreestanding -fno-exceptions -fno-rtti")
-set(COMMON_C_FLAGS   "-I${PROJECT_SOURCE_DIR}/include -std=gnu18 -O0 -g3 -Wall -Wextra -Werror -nostdlib -ffreestanding")
+set(COMMON_CXX_FLAGS "-I${PROJECT_SOURCE_DIR}/include -std=gnu++2a -O3 -Wall -Wextra -Werror -nostdinc -nostdlib -ffreestanding -fno-exceptions -fno-rtti")
+set(COMMON_C_FLAGS   "-I${PROJECT_SOURCE_DIR}/include -std=gnu18 -O3 -Wall -Wextra -Werror -nostdlib -ffreestanding")

@@ -24,7 +24,7 @@ __STD_BEGIN_NAMESPACE
  * The memcpy() function does not check for the overflow of the receiving
  * memory area.
  */
-void *memcpy(void *dest, const void *src, size_t length);
+void *memcpy(void *__restrict__ dest, const void *__restrict__ src, size_t length);
 
 /**
  * @brief memmove - copies length bytes from the object pointed to by src into the object
@@ -93,7 +93,7 @@ void *memset(void *dest, int value, size_t length);
  * If copying takes place between objects that overlap, the behavior
  * is undefined.
  */
-char *strcat(char *dest, const char *src);
+char *strcat(char *__restrict__ dest, const char *__restrict__ src);
 
 /**
  * @brief  strncat  - append not more than length bytes (a NUL character and
@@ -293,7 +293,7 @@ void *memccpy(void *dest, const void *src, int c, size_t n);
  * @param errnum   - errno number
  * @return         -
  */
-char* strerror(int errnum);
+char *strerror(int errnum);
 
 /**
  * @brief strrev - reverses input string

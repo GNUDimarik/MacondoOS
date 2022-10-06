@@ -1,7 +1,7 @@
 #include <string.h>
 #include <ctype.h>
 
-void *memcpy(void *dest, const void *src, size_t length) {
+void *memcpy(void *__restrict__ dest, const void *__restrict__ src, size_t length) {
     unsigned char *d = (unsigned char *) dest;
     unsigned char *s = (unsigned char *) src;
 
@@ -86,7 +86,7 @@ void *memset(void *dest, int value, size_t length) {
     return dest;
 }
 
-char *strcat(char *dest, const char *src) {
+char *strcat(char *__restrict__ dest, const char *__restrict__ src) {
     char *d = dest;
     const char *s = src;
 

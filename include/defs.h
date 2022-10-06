@@ -65,4 +65,8 @@
     #endif
 #endif
 
+#if !defined(__GNUC__) && !defined(__clang__)
+    #define  __restrict__
+#endif
+
 #endif //DEFS_H
