@@ -349,8 +349,8 @@ char *stpcpy(char *dest, const char *src);
 
 /**
  * @brief strpncpy - function copies at most n characters from the string pointed to by src, including the
- *                   terminating null byte ('\0'), to the array pointed to by dest.  Exactly n characters are written
- *                   at dest.  If the length strlen(src) is smaller than n, the remaining characters in the array
+ *                   terminating null byte ('\0'), to the array pointed to by dest. Exactly n characters are written
+ *                   at dest. If the length strlen(src) is smaller than n, the remaining characters in the array
  *                   pointed to by dest are filled with null bytes ('\0'), If the length strlen(src) is greater
  *                   than or  equal to n, the string pointed to by dest will not be null-terminated.
  * @param dest     - destination string

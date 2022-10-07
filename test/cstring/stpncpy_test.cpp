@@ -10,13 +10,10 @@
 #include <stddef.h> // For size_t.
 #include "../../include/string.h"
 
-#if 0
-class LlvmLibcStpncpyTest : public __STD_NAMESPACE::testing::Test {
-public:
-  void check_stpncpy(__STD_NAMESPACE::cpp::MutableArrayRef<char> dst,
-                     const __STD_NAMESPACE::cpp::ArrayRef<char> src, size_t n,
-                     const __STD_NAMESPACE::cpp::ArrayRef<char> expected,
-                     size_t expectedCopied) {
+static void check_stpncpy(std::vector<char> &dst,
+                          const std::vector<char> &src, size_t n,
+                          const std::vector<char> &expected,
+                          size_t expectedCopied) {
     // Making sure we don't overflow buffer.
     ASSERT_GE(dst.size(), n);
     // Making sure stpncpy returns a pointer to the end of dst.
@@ -26,49 +23,47 @@ public:
     ASSERT_EQ(dst.size(), expected.size());
     // Expected and dst are the same.
     for (size_t i = 0; i < expected.size(); ++i)
-      ASSERT_EQ(expected[i], dst[i]);
-  }
-};
-
-TEST_F(LlvmLibcStpncpyTest, Untouched) {
-  char dst[] = {'a', 'b'};
-  const char src[] = {'x', '\0'};
-  const char expected[] = {'a', 'b'};
-  check_stpncpy(dst, src, 0, expected, 0);
+        ASSERT_EQ(expected[i], dst[i]);
 }
 
-TEST_F(LlvmLibcStpncpyTest, CopyOne) {
-  char dst[] = {'a', 'b'};
-  const char src[] = {'x', 'y'};
-  const char expected[] = {'x', 'b'}; // no \0 is appended
-  check_stpncpy(dst, src, 1, expected, 1);
+TEST(LlvmLibcStpncpyTest, Untouched) {
+    std::vector<char> dst = {'a', 'b'};
+    const std::vector src = {'x', '\0'};
+    const std::vector expected = {'a', 'b'};
+    check_stpncpy(dst, src, 0, expected, 0);
 }
 
-TEST_F(LlvmLibcStpncpyTest, CopyNull) {
-  char dst[] = {'a', 'b'};
-  const char src[] = {'\0', 'y'};
-  const char expected[] = {'\0', 'b'};
-  check_stpncpy(dst, src, 1, expected, 0);
+TEST(LlvmLibcStpncpyTest, CopyOne) {
+    std::vector<char> dst = {'a', 'b'};
+    const std::vector src = {'x', 'y'};
+    const std::vector expected = {'x', 'b'}; // no \0 is appended
+    check_stpncpy(dst, src, 1, expected, 1);
 }
 
-TEST_F(LlvmLibcStpncpyTest, CopyPastSrc) {
-  char dst[] = {'a', 'b'};
-  const char src[] = {'\0', 'y'};
-  const char expected[] = {'\0', '\0'};
-  check_stpncpy(dst, src, 2, expected, 0);
+TEST(LlvmLibcStpncpyTest, CopyNull) {
+    std::vector<char> dst = {'a', 'b'};
+    const std::vector src = {'\0', 'y'};
+    const std::vector expected = {'\0', 'b'};
+    check_stpncpy(dst, src, 1, expected, 0);
 }
 
-TEST_F(LlvmLibcStpncpyTest, CopyTwoNoNull) {
-  char dst[] = {'a', 'b'};
-  const char src[] = {'x', 'y'};
-  const char expected[] = {'x', 'y'};
-  check_stpncpy(dst, src, 2, expected, 2);
+TEST(LlvmLibcStpncpyTest, CopyPastSrc) {
+    std::vector<char> dst = {'a', 'b'};
+    const std::vector src = {'\0', 'y'};
+    const std::vector expected = {'\0', '\0'};
+    check_stpncpy(dst, src, 2, expected, 0);
 }
 
-TEST_F(LlvmLibcStpncpyTest, CopyTwoWithNull) {
-  char dst[] = {'a', 'b'};
-  const char src[] = {'x', '\0'};
-  const char expected[] = {'x', '\0'};
-  check_stpncpy(dst, src, 2, expected, 1);
+TEST(LlvmLibcStpncpyTest, CopyTwoNoNull) {
+    std::vector<char> dst = {'a', 'b'};
+    const std::vector src = {'x', 'y'};
+    const std::vector expected = {'x', 'y'};
+    check_stpncpy(dst, src, 2, expected, 2);
 }
-#endif
+
+TEST(LlvmLibcStpncpyTest, CopyTwoWithNull) {
+    std::vector<char> dst = {'a', 'b'};
+    const std::vector src = {'x', '\0'};
+    const std::vector expected = {'x', '\0'};
+    check_stpncpy(dst, src, 2, expected, 1);
+}

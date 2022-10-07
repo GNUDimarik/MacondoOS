@@ -365,3 +365,20 @@ char *stpcpy(char *dest, const char *src) {
     memcpy(dest, src, src_len + 1);
     return dest + src_len;
 }
+
+char *stpncpy(char *dest, const char *src, size_t n) {
+    if (n > 0) {
+        size_t len = strlen(src);
+
+        if (len < n) {
+            memcpy(dest, src, len);
+            memset(dest + len, '\0', n - len);
+            return dest + len;
+        } else if (n < len) {
+            memcpy(dest, src, n);
+            return dest + n;
+        }
+    }
+
+    return dest;
+}
