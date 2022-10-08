@@ -8,7 +8,7 @@
 // This group is just copies of the strcmp tests, since all the same cases still
 // need to be tested.
 
-TEST(LlvmLibcstrncasecmpTest, EmptyStringsShouldReturnZeroWithSufficientLength) {
+TEST(LlvmLibcStrnCaseCmpTest, EmptyStringsShouldReturnZeroWithSufficientLength) {
     const char *s1 = "";
     const char *s2 = "";
     int result = __STD_NAMESPACE::strncasecmp(s1, s2, 1);
@@ -19,7 +19,7 @@ TEST(LlvmLibcstrncasecmpTest, EmptyStringsShouldReturnZeroWithSufficientLength) 
     ASSERT_EQ(result, 0);
 }
 
-TEST(LlvmLibcstrncasecmpTest,
+TEST(LlvmLibcStrnCaseCmpTest,
      EmptyStringShouldNotEqualNonEmptyStringWithSufficientLength) {
     const char *empty = "";
     const char *s2 = "abc";
@@ -34,7 +34,7 @@ TEST(LlvmLibcstrncasecmpTest,
     ASSERT_EQ(result, 49);
 }
 
-TEST(LlvmLibcstrncasecmpTest, EqualStringsShouldReturnZeroWithSufficientLength) {
+TEST(LlvmLibcStrnCaseCmpTest, EqualStringsShouldReturnZeroWithSufficientLength) {
     const char *s1 = "aBc";
     const char *s2 = "AbC";
     int result = __STD_NAMESPACE::strncasecmp(s1, s2, 3);
@@ -45,7 +45,7 @@ TEST(LlvmLibcstrncasecmpTest, EqualStringsShouldReturnZeroWithSufficientLength) 
     ASSERT_EQ(result, 0);
 }
 
-TEST(LlvmLibcstrncasecmpTest,
+TEST(LlvmLibcStrnCaseCmpTest,
      ShouldReturnResultOfFirstDifferenceWithSufficientLength) {
     const char *s1 = "___B42__";
     const char *s2 = "___C55__";
@@ -59,7 +59,7 @@ TEST(LlvmLibcstrncasecmpTest,
     ASSERT_EQ(result, 1);
 }
 
-TEST(LlvmLibcstrncasecmpTest,
+TEST(LlvmLibcStrnCaseCmpTest,
      CapitalizedLetterShouldNotBeEqualWithSufficientLength) {
     const char *s1 = "AbCd";
     const char *s2 = "aBcD";
@@ -71,7 +71,7 @@ TEST(LlvmLibcstrncasecmpTest,
     ASSERT_EQ(result, 0);
 }
 
-TEST(LlvmLibcstrncasecmpTest,
+TEST(LlvmLibcStrnCaseCmpTest,
      UnequalLengthStringsShouldNotReturnZeroWithSufficientLength) {
     const char *s1 = "aBc";
     const char *s2 = "AbcD";
