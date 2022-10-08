@@ -78,7 +78,18 @@ size_t strlcat(char *__restrict__ dst, const char *__restrict__ src, size_t dsts
  */
 int strcasecmp(const char *first, const char *second);
 
+/**
+ * @brief strncasecmp - function performs a byte-by-byte comparison of the strings first and second, ignoring the case
+ *                      of the characters.  It returns an integer less than, equal to, or greater than zero if first is
+ *                      found, respectively, to be less than, to match, or be greater than second
+ * @param first       - first string to compare
+ * @param second      - second string to compare
+ * @param n           - number of characters to compare
+ * @return  an integer less than, equal to, or greater than zero if first is, after ignoring case, found to be less than,
+ *          to match, or be greater  than  second,  respectively.
+ */
 int strncasecmp(const char *first, const char *second, size_t n);
+
 __END_DECLS
 __STD_END_NAMESPACE
 /** @} */
