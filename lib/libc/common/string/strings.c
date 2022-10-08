@@ -1,5 +1,7 @@
 #include <strings.h>
 #include <string.h>
+#include <ctype.h>
+#include <sys/types.h>
 
 size_t strlcpy(char *__restrict__ dst, const char *__restrict__ src, size_t size) {
     size_t len = strlen(src);
@@ -38,4 +40,33 @@ size_t strlcat(char *__restrict__ dst, const char *__restrict__ src, size_t dsts
 
     *d = '\0';
     return dst_len + (s - src);
+}
+
+int strcasecmp(const char *first, const char *second) {
+    char *f = (char *) first;
+    char *s = (char *) second;
+
+    do {
+        if (tolower(*f) != tolower(*s)) {
+            return tolower(*f) - tolower(*s);
+        }
+    } while (*f++ && *s++);
+
+    return 0;
+}
+
+int strncasecmp(const char *first, const char *second, size_t n) {
+    size_t i = 0;
+
+    for (i = 0; i < n; i++) {
+        if (tolower(first[i]) != tolower(second[i])) {
+            return tolower(first[i]) - tolower(second[i]);
+        }
+
+        if (first[i] == '\0' || second[i] == '\0') {
+            break;
+        }
+    }
+
+    return 0;
 }

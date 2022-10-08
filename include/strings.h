@@ -60,12 +60,25 @@ strlcpy(char *__restrict__ dst, const char *__restrict__ src, size_t size);
  * @param dst      - destination buffer
  * @param src      - string to be appended to dst
  * @param dstsize  -  destination buffer size
- * @return
+ * @return the total length of the string it tried to create
  *
  * @see strcat, strncat
  */
 size_t strlcat(char *__restrict__ dst, const char *__restrict__ src, size_t dstsize);
 
+/**
+ * @brief strcasecmp - function performs a byte-by-byte comparison of the strings first and second, ignoring the case
+ *                     of the characters.  It returns an integer less than, equal to, or greater than zero if first is
+ *                     found, respectively, to be less than, to match, or be greater than s2.
+ * @param first       - first string to compare
+ * @param second      - second string to compare
+ * @return  an integer less than, equal to, or greater than zero if first is, after ignoring case, found to be less than,
+ *          to match, or be greater  than  second,  respectively.
+ * @see strcmp
+ */
+int strcasecmp(const char *first, const char *second);
+
+int strncasecmp(const char *first, const char *second, size_t n);
 __END_DECLS
 __STD_END_NAMESPACE
 /** @} */
