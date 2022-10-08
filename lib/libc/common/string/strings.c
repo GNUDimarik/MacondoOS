@@ -70,3 +70,26 @@ int strncasecmp(const char *first, const char *second, size_t n) {
 
     return 0;
 }
+
+int ffs(int val) {
+    return ffsll(val);
+}
+
+int ffsl(long int val) {
+    return ffsll(val);
+}
+
+int ffsll(long long int val) {
+    if (val != 0) {
+        unsigned long long int i = 0;
+        unsigned long long int shift = 1;
+
+        for (i = 1; shift > 0; i++, shift <<= 1) {
+            if (val & shift) {
+                return i;
+            }
+        }
+    }
+
+    return 0;
+}

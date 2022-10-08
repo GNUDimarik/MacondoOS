@@ -90,6 +90,27 @@ int strcasecmp(const char *first, const char *second);
  */
 int strncasecmp(const char *first, const char *second, size_t n);
 
+/**
+ * @brief  ffs - find first set bit
+ * @param val  - integer number
+ * @return the position of the first (least significant) bit set in the number i
+ */
+int ffs(int val);
+
+/**
+ * @brief ffsl - find first set bit
+ * @param val  - long number
+ * @return the position of the first (least significant) bit set in the number i
+ */
+int ffsl(long int val);
+
+/**
+ * @brief ffsll - find first set bit
+ * @param val   - long long number
+ * @return the position of the first (least significant) bit set in the number i
+ */
+int ffsll(long long int val);
+
 __END_DECLS
 __STD_END_NAMESPACE
 /** @} */
