@@ -30,10 +30,10 @@ enum {
 };
 
 struct format_context_t {
-    int precision;
-    int field_width;
-    int size_specifier;
-    int flags;
+    size_t precision;
+    size_t field_width;
+    size_t size_specifier;
+    size_t flags;
     int sign;
     int radix;
 };
@@ -50,13 +50,12 @@ static int parse_number(const char **str) {
 }
 
 static char *do_ulltoa(unsigned long long number, int base,
-                       char *buf, size_t buf_size, const char *characters, int *size) {
-    int i = 0;
-    int buffer_size = (int) buf_size;
+                       char *buf, size_t buffer_size, const char *characters, size_t *size) {
+    size_t i = 0;
 
     if (number != 0) {
         while (number != 0 && buffer_size-- > i) {
-            int n = number % base;
+            long long n = number % base;
             number /= base;
             buf[i++] = characters[n];
         }
@@ -66,18 +65,14 @@ static char *do_ulltoa(unsigned long long number, int base,
     }
 
     buf[i] = '\0';
-
-    if (size != NULL) {
-        *size = i;
-    }
+    *size = i;
 
     return strrev(buf);
 }
 
 static char *format_unsigned(char *buffer, unsigned long long number, struct format_context_t *ctx,
                              size_t max_size, size_t *out_len) {
-    if (((ctx->precision > 0) && ((size_t) ctx->precision > max_size))
-        || ((ctx->field_width > 0) && ((size_t) ctx->field_width > max_size))) {
+    if (ctx->precision > max_size || ctx->field_width > max_size) {
         return NULL;
     }
 
@@ -87,8 +82,9 @@ static char *format_unsigned(char *buffer, unsigned long long number, struct for
     char digits[MAX_NUMBER_LEN];
     char *numbers = digits;
     char pad = ctx->flags & kFormatFlagZeroPad ? '0' : ' ';
-    int number_len = 0;
+    size_t number_len = 0;
     size_t size = 0;
+    size_t i = 0;
 
     bzero(numbers, MAX_NUMBER_LEN);
 
@@ -100,28 +96,28 @@ static char *format_unsigned(char *buffer, unsigned long long number, struct for
         ctx->sign = ' ';
     }
 
-    if (ctx->sign && !(ctx->flags & kFormatFlagAlternateForm)) {
+    if (ctx->sign && !(ctx->flags & kFormatFlagAlternateForm) && ctx->field_width > 0) {
         --ctx->field_width;
     }
 
     numbers = do_ulltoa(number, ctx->radix, numbers, MAX_NUMBER_LEN, characters, &number_len);
 
-    if (ctx->precision > 0) {
+    if (ctx->precision > 0 && ctx->field_width >= ctx->precision) {
         ctx->field_width -= ctx->precision;
-    } else {
+    } else if (ctx->field_width >= number_len) {
         ctx->field_width -= number_len;
     }
 
     if ((ctx->flags & kFormatFlagAlternateForm)) {
-        if (ctx->radix == 8) {
+        if (ctx->radix == 8 && ctx->field_width > 0) {
             ctx->field_width -= 1;
-        } else {
+        } else if (ctx->field_width > 1) {
             ctx->field_width -= 2;
         }
     }
 
     if (!(ctx->flags & kFormatFlagAlignLeft)) {
-        while (ctx->field_width-- > 0 && size++ < max_size) {
+        for (; ctx->field_width > 0 && size < max_size; ctx->field_width--, size++) {
             *buffer++ = pad;
         }
     }
@@ -145,21 +141,19 @@ static char *format_unsigned(char *buffer, unsigned long long number, struct for
         ctx->precision = 0;
     }
 
-    while (ctx->precision-- > 0 && size++ < max_size) {
+    for (; ctx->precision > 0 && size < max_size; ctx->precision--, size++) {
         *buffer++ = '0';
     }
 
-    while (*numbers != '\0' && size++ < max_size) {
-        *buffer++ = *numbers++;
+    for (i = 0; i < number_len && size < max_size; i++, size++) {
+        *buffer++ = numbers[i];
     }
 
-    while (ctx->field_width-- > 0 && size++ < max_size) {
+    for (; ctx->field_width > 0 && size < max_size; ctx->field_width--, size++) {
         *buffer++ = ' ';
     }
 
-    if (out_len != NULL) {
-        *out_len = size;
-    }
+    *out_len = size;
     *buffer = '\0';
     return buffer;
 }
@@ -182,9 +176,9 @@ static char *process_number(char *buffer, struct format_context_t *ctx, va_list 
     switch (ctx->size_specifier) {
         case kSizeSpecifier_l:
             if (ctx->flags & kFormatSignedValue) {
-                ll_val = va_arg(ap, long);
+                ll_val = va_arg(ap, int);
             } else {
-                ull_val = va_arg(ap, unsigned long);
+                ull_val = va_arg(ap, unsigned int);
             }
             break;
 
@@ -296,7 +290,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 continue;
             }
 
-            bzero(&fmt_ctx, sizeof(struct format_context_t));
+            fmt_ctx.flags = 0;
             /* handle format flags */
             while (*fmt++ != '\0') {
                 switch (*fmt) {
@@ -323,12 +317,18 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 break;
             }
 
+            fmt_ctx.field_width = 0;
             /* handle field width */
             if (isdigit(*fmt)) {
                 fmt_ctx.field_width = parse_number(&fmt);
             } else if (*fmt == '*') {
                 ++fmt;
-                fmt_ctx.field_width = va_arg(ap, int);
+
+                int val = va_arg(ap, int);
+
+                if (val > 0) {
+                    fmt_ctx.field_width = val;
+                }
             } else if (*fmt == '-') {
                 ++fmt;
                 fmt_ctx.flags |= kFormatFlagAlignLeft;
@@ -338,6 +338,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 }
             }
 
+            fmt_ctx.precision = 0;
             /* handle precision */
             if (*fmt == '.') {
                 ++fmt;
@@ -347,20 +348,26 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                     fmt_ctx.precision = parse_number(&fmt);
                 } else if (*fmt == '*') {
                     ++fmt;
-                    fmt_ctx.precision = va_arg(ap, int);
+                    int val = va_arg(ap, int);
+
+                    if (val > 0) {
+                        fmt_ctx.precision = val;
+                    }
                 }
             }
 
             /* handle size specifier */
             switch (*fmt) {
                 case 'l': {
+                    fmt_ctx.size_specifier = kSizeSpecifier_l;
                     char c = *fmt++;
 
                     if (*fmt != c) {
                         --fmt;
+                    } else {
+                        fmt_ctx.size_specifier = kSizeSpecifier_ll;
                     }
 
-                    fmt_ctx.size_specifier = kSizeSpecifier_ll;
                     ++fmt;
                     break;
                 }
@@ -470,7 +477,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 case 's': {
                     const char *str = va_arg(ap, const char*);
                     str = str == NULL ? "(null)" : str;
-                    int len = strlen(str);
+                    size_t len = strlen(str);
 
                     if (!fmt_ctx.precision) {
                         fmt_ctx.precision = len;
@@ -547,7 +554,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
         return p_buf - buf;
     }
 
-    return -1;
+    return 0;
 }
 
 int snprintf(char *buffer, size_t size, const char *fmt, ...) {
