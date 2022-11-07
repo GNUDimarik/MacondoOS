@@ -373,12 +373,14 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 }
                 case 'h': {
                     char c = *fmt++;
+                    fmt_ctx.size_specifier = kSizeSpecifier_h;
 
                     if (*fmt != c) {
                         --fmt;
+                    } else {
+                        fmt_ctx.size_specifier = kSizeSpecifier_hh;
                     }
 
-                    fmt_ctx.size_specifier = kSizeSpecifier_hh;
                     ++fmt;
                     break;
                 }
