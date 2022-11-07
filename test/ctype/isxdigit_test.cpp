@@ -13,8 +13,8 @@ TEST(LlvmLibcIsXDigit, DefaultLocale) {
   for (int ch = 0; ch < 255; ++ch) {
     if (('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'f') ||
         ('A' <= ch && ch <= 'F'))
-      EXPECT_NE(__STD_NAMESPACE::isxdigit(ch), 0);
+      EXPECT_NE(__MACONDO_TEST_NAMESPACE::isxdigit(ch), 0);
     else
-      EXPECT_EQ(__STD_NAMESPACE::isxdigit(ch), 0);
+      EXPECT_EQ(__MACONDO_TEST_NAMESPACE::isxdigit(ch), 0);
   }
 }

@@ -12,8 +12,8 @@
 TEST(LlvmLibcIsPrint, DefaultLocale) {
   for (int ch = 0; ch < 255; ++ch) {
     if (' ' <= ch && ch <= '~') // A-Z, a-z, 0-9, punctuation, space.
-      EXPECT_NE(__STD_NAMESPACE::isprint(ch), 0);
+      EXPECT_NE(__MACONDO_TEST_NAMESPACE::isprint(ch), 0);
     else
-      EXPECT_EQ(__STD_NAMESPACE::isprint(ch), 0);
+      EXPECT_EQ(__MACONDO_TEST_NAMESPACE::isprint(ch), 0);
   }
 }

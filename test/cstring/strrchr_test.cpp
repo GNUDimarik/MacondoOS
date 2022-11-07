@@ -13,7 +13,7 @@ TEST(LlvmLibcStrRChrTest, FindsFirstCharacter) {
   const char *src = "abcde";
 
   // Should return original string since 'a' is the first character.
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr(src, 'a'), "abcde");
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr(src, 'a'), "abcde");
   // Source string should not change.
   ASSERT_STREQ(src, "abcde");
 }
@@ -22,7 +22,7 @@ TEST(LlvmLibcStrRChrTest, FindsMiddleCharacter) {
   const char *src = "abcde";
 
   // Should return characters after (and including) 'c'.
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr(src, 'c'), "cde");
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr(src, 'c'), "cde");
   // Source string should not change.
   ASSERT_STREQ(src, "abcde");
 }
@@ -31,7 +31,7 @@ TEST(LlvmLibcStrRChrTest, FindsLastCharacterThatIsNotNullTerminator) {
   const char *src = "abcde";
 
   // Should return 'e' and null-terminator.
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr(src, 'e'), "e");
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr(src, 'e'), "e");
   // Source string should not change.
   ASSERT_STREQ(src, "abcde");
 }
@@ -40,7 +40,7 @@ TEST(LlvmLibcStrRChrTest, FindsNullTerminator) {
   const char *src = "abcde";
 
   // Should return null terminator.
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr(src, '\0'), "");
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr(src, '\0'), "");
   // Source string should not change.
   ASSERT_STREQ(src, "abcde");
 }
@@ -48,33 +48,33 @@ TEST(LlvmLibcStrRChrTest, FindsNullTerminator) {
 TEST(LlvmLibcStrRChrTest, FindsLastBehindFirstNullTerminator) {
   const char src[6] = {'a', 'a', '\0', 'b', '\0', 'c'};
   // 'b' is behind a null terminator, so should not be found.
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr(src, 'b'), nullptr);
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr(src, 'b'), nullptr);
   // Same goes for 'c'.
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr(src, 'c'), nullptr);
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr(src, 'c'), nullptr);
 
   // Should find the second of the two a's.
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr(src, 'a'), "a");
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr(src, 'a'), "a");
 }
 
 TEST(LlvmLibcStrRChrTest, CharacterNotWithinStringShouldReturnNullptr) {
   // Since 'z' is not within the string, should return nullptr.
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr("123?", 'z'), nullptr);
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr("123?", 'z'), nullptr);
 }
 
 TEST(LlvmLibcStrRChrTest, ShouldFindLastOfDuplicates) {
   // '1' is duplicated in the string, but it should find the last copy.
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr("abc1def1ghi", '1'), "1ghi");
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr("abc1def1ghi", '1'), "1ghi");
 
   const char *dups = "XXXXX";
   // Should return the last occurrence of 'X'.
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr(dups, 'X'), "X");
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr(dups, 'X'), "X");
 }
 
 TEST(LlvmLibcStrRChrTest, EmptyStringShouldOnlyMatchNullTerminator) {
   // Null terminator should match.
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr("", '\0'), "");
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr("", '\0'), "");
   // All other characters should not match.
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr("", 'A'), nullptr);
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr("", '2'), nullptr);
-  ASSERT_STREQ(__STD_NAMESPACE::strrchr("", '*'), nullptr);
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr("", 'A'), nullptr);
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr("", '2'), nullptr);
+  ASSERT_STREQ(__MACONDO_TEST_NAMESPACE::strrchr("", '*'), nullptr);
 }

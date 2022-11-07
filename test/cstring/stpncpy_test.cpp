@@ -17,7 +17,7 @@ static void check_stpncpy(std::vector<char> &dst,
     // Making sure we don't overflow buffer.
     ASSERT_GE(dst.size(), n);
     // Making sure stpncpy returns a pointer to the end of dst.
-    ASSERT_EQ(__STD_NAMESPACE::stpncpy(dst.data(), src.data(), n),
+    ASSERT_EQ(__MACONDO_TEST_NAMESPACE::stpncpy(dst.data(), src.data(), n),
               dst.data() + expectedCopied);
     // Expected must be of the same size as dst.
     ASSERT_EQ(dst.size(), expected.size());

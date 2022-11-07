@@ -14,8 +14,8 @@ TEST(LlvmLibcIsUpper, DefaultLocale) {
   // return a non-zero integer and everything else returns zero.
   for (int ch = 0; ch < 255; ++ch) {
     if ('A' <= ch && ch <= 'Z')
-      EXPECT_NE(__STD_NAMESPACE::isupper(ch), 0);
+      EXPECT_NE(__MACONDO_TEST_NAMESPACE::isupper(ch), 0);
     else
-      EXPECT_EQ(__STD_NAMESPACE::isupper(ch), 0);
+      EXPECT_EQ(__MACONDO_TEST_NAMESPACE::isupper(ch), 0);
   }
 }

@@ -12,25 +12,25 @@
 TEST(LlvmLibcMemcmpTest, CmpZeroByte) {
   const char *lhs = "ab";
   const char *rhs = "yz";
-  EXPECT_EQ(__STD_NAMESPACE::memcmp(lhs, rhs, 0), 0);
+  EXPECT_EQ(__MACONDO_TEST_NAMESPACE::memcmp(lhs, rhs, 0), 0);
 }
 
 TEST(LlvmLibcMemcmpTest, LhsRhsAreTheSame) {
   const char *lhs = "ab";
   const char *rhs = "ab";
-  EXPECT_EQ(__STD_NAMESPACE::memcmp(lhs, rhs, 2), 0);
+  EXPECT_EQ(__MACONDO_TEST_NAMESPACE::memcmp(lhs, rhs, 2), 0);
 }
 
 TEST(LlvmLibcMemcmpTest, LhsBeforeRhsLexically) {
   const char *lhs = "ab";
   const char *rhs = "az";
-  EXPECT_LT(__STD_NAMESPACE::memcmp(lhs, rhs, 2), 0);
+  EXPECT_LT(__MACONDO_TEST_NAMESPACE::memcmp(lhs, rhs, 2), 0);
 }
 
 TEST(LlvmLibcMemcmpTest, LhsAfterRhsLexically) {
   const char *lhs = "az";
   const char *rhs = "ab";
-  EXPECT_GT(__STD_NAMESPACE::memcmp(lhs, rhs, 2), 0);
+  EXPECT_GT(__MACONDO_TEST_NAMESPACE::memcmp(lhs, rhs, 2), 0);
 }
 
 TEST(LlvmLibcMemcmpTest, Sweep) {
@@ -46,13 +46,13 @@ TEST(LlvmLibcMemcmpTest, Sweep) {
   reset(lhs);
   reset(rhs);
   for (size_t i = 0; i < K_MAX_SIZE; ++i)
-    ASSERT_EQ(__STD_NAMESPACE::memcmp(lhs, rhs, i), 0);
+    ASSERT_EQ(__MACONDO_TEST_NAMESPACE::memcmp(lhs, rhs, i), 0);
 
   reset(lhs);
   reset(rhs);
   for (size_t i = 0; i < K_MAX_SIZE; ++i) {
     rhs[i] = 'z';
-    ASSERT_LT(__STD_NAMESPACE::memcmp(lhs, rhs, K_MAX_SIZE), 0);
+    ASSERT_LT(__MACONDO_TEST_NAMESPACE::memcmp(lhs, rhs, K_MAX_SIZE), 0);
     rhs[i] = 'a';
   }
 }

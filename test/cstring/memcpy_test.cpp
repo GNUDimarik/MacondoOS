@@ -32,7 +32,7 @@ TEST(LlvmLibcMemcpyTest, Thorough) {
             auto buffer = dirty;
             const char *const src = groundtruth.data();
             void *const dst = &buffer[align];
-            void *const ret = __STD_NAMESPACE::memcpy(dst, src, count);
+            void *const ret = __MACONDO_TEST_NAMESPACE::memcpy(dst, src, count);
             // Return value is `dst`.
             ASSERT_EQ(ret, dst);
             // Everything before copy is untouched.

@@ -14,7 +14,7 @@
 TEST(LlvmLibcStrDupTest, EmptyString) {
   const char *empty = "";
 
-  char *result = __STD_NAMESPACE::strdup(empty);
+  char *result = __MACONDO_TEST_NAMESPACE::strdup(empty);
   ASSERT_NE(result, static_cast<char *>(nullptr));
   ASSERT_NE(empty, const_cast<const char *>(result));
   ASSERT_STREQ(empty, result);
@@ -24,7 +24,7 @@ TEST(LlvmLibcStrDupTest, EmptyString) {
 TEST(LlvmLibcStrDupTest, AnyString) {
   const char *abc = "abc";
 
-  char *result = __STD_NAMESPACE::strdup(abc);
+  char *result = __MACONDO_TEST_NAMESPACE::strdup(abc);
 
   ASSERT_NE(result, static_cast<char *>(nullptr));
   ASSERT_NE(abc, const_cast<const char *>(result));
@@ -34,7 +34,7 @@ TEST(LlvmLibcStrDupTest, AnyString) {
 
 TEST(LlvmLibcStrDupTest, NullPtr) {
 
-  char *result = __STD_NAMESPACE::strdup(nullptr);
+  char *result = __MACONDO_TEST_NAMESPACE::strdup(nullptr);
 
   ASSERT_EQ(result, static_cast<char *>(nullptr));
 }

@@ -9,8 +9,8 @@
 #include <stddef.h>
 #include <string.h>
 
+__MACONDO_TEST_NAMESPACE_BEGIN
 __BEGIN_DECLS
-__STD_BEGIN_NAMESPACE
 
 /**
  * @brief bcmp  - just macro for calling memcmp
@@ -112,5 +112,5 @@ int ffsl(long int val);
 int ffsll(long long int val);
 
 __END_DECLS
-__STD_END_NAMESPACE
+__MACONDO_TEST_NAMESPACE_END
 /** @} */

@@ -21,8 +21,8 @@ TEST(LlvmLibcIsSpace, DefaultLocale) {
   //    0x20     |   space
   for (int ch = 0; ch < 255; ++ch) {
     if (ch == 0x20 || (0x09 <= ch && ch <= 0x0d))
-      EXPECT_NE(__STD_NAMESPACE::isspace(ch), 0);
+      EXPECT_NE(__MACONDO_TEST_NAMESPACE::isspace(ch), 0);
     else
-      EXPECT_EQ(__STD_NAMESPACE::isspace(ch), 0);
+      EXPECT_EQ(__MACONDO_TEST_NAMESPACE::isspace(ch), 0);
   }
 }

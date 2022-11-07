@@ -12,13 +12,13 @@
 TEST(LlvmLibcStrLenTest, EmptyString) {
   const char *empty = "";
 
-  size_t result = __STD_NAMESPACE::strlen(empty);
+  size_t result = __MACONDO_TEST_NAMESPACE::strlen(empty);
   ASSERT_EQ((size_t)0, result);
 }
 
 TEST(LlvmLibcStrLenTest, AnyString) {
   const char *any = "Hello World!";
 
-  size_t result = __STD_NAMESPACE::strlen(any);
+  size_t result = __MACONDO_TEST_NAMESPACE::strlen(any);
   ASSERT_EQ((size_t)12, result);
 }

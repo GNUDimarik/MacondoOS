@@ -17,7 +17,7 @@ void check_strncpy(std::vector<char> &dst,
     // Making sure we don't overflow buffer.
     ASSERT_GE(dst.size(), n);
     // Making sure strncpy returns dst.
-    ASSERT_EQ(__STD_NAMESPACE::strncpy(dst.data(), src.data(), n), dst.data());
+    ASSERT_EQ(__MACONDO_TEST_NAMESPACE::strncpy(dst.data(), src.data(), n), dst.data());
     // Expected must be of the same size as dst.
     ASSERT_EQ(dst.size(), expected.size());
     // Expected and dst are the same.

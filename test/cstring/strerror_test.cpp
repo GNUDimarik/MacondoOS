@@ -144,6 +144,6 @@ const char *kErrorStrings[] = {
 TEST(LlvmLibcStrerrorTest, CompareMessages) {
 
     for (int i = 0; i <= ENOTSUP; i++) {
-        EXPECT_STREQ(strerrorTest::kErrorStrings[i], __STD_NAMESPACE::strerror(i));
+        EXPECT_STREQ(strerrorTest::kErrorStrings[i], __MACONDO_TEST_NAMESPACE::strerror(i));
     }
 }

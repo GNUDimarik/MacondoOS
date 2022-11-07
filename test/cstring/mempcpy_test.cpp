@@ -15,7 +15,7 @@
 TEST(LlvmLibcMempcpyTest, Simple) {
   const char *src = "12345";
   char dest[10];
-  void *result = __STD_NAMESPACE::mempcpy(dest, src, 6);
+  void *result = __MACONDO_TEST_NAMESPACE::mempcpy(dest, src, 6);
   ASSERT_EQ(static_cast<char *>(result), dest + 6);
   ASSERT_STREQ(src, dest);
 }
@@ -23,6 +23,6 @@ TEST(LlvmLibcMempcpyTest, Simple) {
 TEST(LlvmLibcMempcpyTest, ZeroCount) {
   const char *src = "12345";
   char dest[10];
-  void *result = __STD_NAMESPACE::mempcpy(dest, src, 0);
+  void *result = __MACONDO_TEST_NAMESPACE::mempcpy(dest, src, 0);
   ASSERT_EQ(static_cast<char *>(result), dest);
 }

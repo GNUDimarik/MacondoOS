@@ -30,7 +30,7 @@ TEST(LlvmLibcMemsetTest, Thorough) {
       for (size_t align = 0; align < 64; ++align) {
         auto buffer = dirty;
         void *const dst = &buffer[align];
-        void *const ret = __STD_NAMESPACE::memset(dst, value, count);
+        void *const ret = __MACONDO_TEST_NAMESPACE::memset(dst, value, count);
         // Return value is `dst`.
         ASSERT_EQ(ret, dst);
         // Everything before copy is untouched.

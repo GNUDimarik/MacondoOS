@@ -340,7 +340,7 @@ char *strupr(char *str) {
     char *p = str;
 
     do {
-        *p = toupper(*p);
+        *p = islower(*p) ? toupper(*p) : *p;
     } while (*p++ != '\0');
 
     return str;
@@ -350,7 +350,7 @@ char *strlwr(char *str) {
     char *p = str;
 
     do {
-        *p = tolower(*p);
+        *p = isupper(*p) ? tolower(*p) : *p;
     } while (*p++ != '\0');
 
     return str;

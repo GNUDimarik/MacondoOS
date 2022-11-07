@@ -2,7 +2,7 @@
 
 #include "defs.h"
 
-__STD_BEGIN_NAMESPACE
+__MACONDO_TEST_NAMESPACE_BEGIN
 __BEGIN_DECLS
 
 /**
@@ -122,6 +122,6 @@ int tolower(int c);
 int toupper(int c);
 
 __END_DECLS
-__STD_END_NAMESPACE
+__MACONDO_TEST_NAMESPACE_END
 
 /** @} */

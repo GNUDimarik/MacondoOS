@@ -1,9 +1,25 @@
 #ifndef DEFS_H
 #define DEFS_H
 
+#define __macondo__
+
 #ifndef ARRAY_SIZE
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
 #endif
+
+#define max(a, b)             \
+({                           \
+    __typeof__ (a) _a = (a); \
+    __typeof__ (b) _b = (b); \
+    _a > _b ? _a : _b;       \
+})
+
+#define min(a, b)             \
+({                           \
+    __typeof__ (a) _a = (a); \
+    __typeof__ (b) _b = (b); \
+    _a < _b ? _a : _b;       \
+})
 
 #if defined (__cplusplus)
     #define __EXTERN extern "C"
@@ -35,6 +51,33 @@
 #ifndef __unused
 #define __unused __attribute__ ((unused))
 #endif
+
+#ifndef __MACONDO_TEST_NAMESPACE
+    #if defined(__cplusplus)
+        #if defined(MACONDO_TEST)
+            #define __MACONDO_TEST_NAMESPACE macondo_test_ns__
+    #else
+            #define __MACONDO_TEST_NAMESPACE macondo_test_ns__
+        #endif
+    #endif
+#endif
+
+#ifndef __MACONDO_TEST_NAMESPACE_BEGIN
+    #if defined (__cplusplus)
+        #define __MACONDO_TEST_NAMESPACE_BEGIN namespace __MACONDO_TEST_NAMESPACE {
+    #else
+        #define __MACONDO_TEST_NAMESPACE_BEGIN
+    #endif
+#endif
+
+#ifndef __MACONDO_TEST_NAMESPACE_END
+    #if defined (__cplusplus)
+        #define __MACONDO_TEST_NAMESPACE_END }
+    #else
+        #define __MACONDO_TEST_NAMESPACE_END
+    #endif
+#endif
+
 /**
  * @brief __STD_NAMESPACE macro defined for testing stdlib under linux environment and if __TEST_DRIVEN__ macro is
  * defined it replaces "std" to "debug_std__" (without quotes)

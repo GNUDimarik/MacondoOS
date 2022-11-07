@@ -1,7 +1,6 @@
 #include <strings.h>
 #include <string.h>
 #include <ctype.h>
-#include <sys/types.h>
 
 size_t strlcpy(char *__restrict__ dst, const char *__restrict__ src, size_t size) {
     size_t len = strlen(src);
@@ -72,11 +71,33 @@ int strncasecmp(const char *first, const char *second, size_t n) {
 }
 
 int ffs(int val) {
-    return ffsll(val);
+    if (val != 0) {
+        int i = 0;
+        int shift = 1;
+
+        for (i = 1; shift > 0; i++, shift <<= 1) {
+            if (val & shift) {
+                return i;
+            }
+        }
+    }
+
+    return 0;
 }
 
 int ffsl(long int val) {
-    return ffsll(val);
+    if (val != 0) {
+        long int i = 0;
+        long int shift = 1;
+
+        for (i = 1; shift > 0; i++, shift <<= 1) {
+            if (val & shift) {
+                return i;
+            }
+        }
+    }
+
+    return 0;
 }
 
 int ffsll(long long int val) {

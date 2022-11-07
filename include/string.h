@@ -10,7 +10,7 @@
 #include <stddef.h>
 
 __BEGIN_DECLS
-__STD_BEGIN_NAMESPACE
+__MACONDO_TEST_NAMESPACE_BEGIN
 
 /**
  * @brief memcpy - copy length bytes from the object pointed to by src into
@@ -279,7 +279,7 @@ char *strtok(char *str, const char *delim);
 char *strtok_r(char *str, const char *delim, char **saveptr);
 
 /**
- * @brief memccpy - copies not more than n bytes from src to dest and stop working once coccured
+ * @brief memccpy - copies not more than n bytes from src to dest and stop working once value of c occurred
  * @param dest    - destination of the copy
  * @param src     - source of the copy
  * @param c       - stop character
@@ -363,5 +363,5 @@ char *stpcpy(char *dest, const char *src);
 char *stpncpy(char *dest, const char *src, size_t n);
 
 __END_DECLS
-__STD_END_NAMESPACE
+__MACONDO_TEST_NAMESPACE_END
 /** @} */
