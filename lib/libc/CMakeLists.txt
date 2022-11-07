@@ -7,6 +7,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${COMMON_C_FLAGS} ${PLATFORM_C_FLAGS}")
 function(BUILD_LIBC)
     file(GLOB LIBC_SRCS "common/string/*.c" "common/*.c" "common/stdio/*.c")
     add_library(${PROJECT_NAME} ${LIBC_SRCS})
+    include_directories(${PROJECT_NAME} PUBLIC "../../include")
     set(CMAKE_VERBOSE_MAKEFILE on)
 endfunction()
 

@@ -549,3 +549,12 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
 
     return -1;
 }
+
+int snprintf(char *buffer, size_t size, const char *fmt, ...) {
+    int res = -1;
+    va_list ap;
+    va_start(ap, fmt);
+    res = vsnprintf(buffer, size, fmt, ap);
+    va_end(ap);
+    return res;
+}
