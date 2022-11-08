@@ -585,6 +585,90 @@ long long llint_nums[] =
         LONG_LONG_MAX, LONG_LONG_MIN, 0xffffffff, 134, 91340, 341, 0203, 0, 0xffff3333
     };
 
+const char *zuint_fmt[] =
+    {
+        "%zo", "%-zo", "%+zo", "% zo", "%#zo", "%0zo", "%-+ #0zo",
+        "%9zo", "%-9zo", "%+9zo", "% 9zo", "%#9zo", "%09zo", "%-+ #09zo",
+        "%.9zo", "%-.9zo", "%+.9zo", "% .9zo", "%#.9zo", "%0.9zo", "%-+ #0.9zo",
+        "%9.zo", "%-9.zo", "%+9.zo", "% 9.zo", "%#9.zo", "%09.zo", "%-+ #09.zo",
+        "%9.9zo", "%-9.9zo", "%+9.9zo", "% 9.9zo", "%#9.9zo", "%09.9zo", "%-+ #09.9zo",
+        "%.0zo", "%-.0zo", "%+.0zo", "% .0zo", "%#.0zo", "%0.0zo", "%-+ #0.0zo",
+        "%.1zo", "%-.1zo", "%+.1zo", "% .1zo", "%#.1zo", "%0.1zo", "%-+ #0.1zo",
+        "%.10000zo", "%-.10000zo", "%+.10000zo", "% .10000zo", "%#.10000zo", "%0.10000zo", "%-+ #0.10000zo",
+        "%10000zo", "%-10000zo", "%+10000zo", "% 10000zo", "%#10000zo", "%010000zo", "%-+ #010000zo",
+        "%10000.10000zo", "%-10000.10000zo", "%+10000.10000zo", "% 10000.10000zo", "%#10000.10000zo", "%010000.10000zo",
+        "%-+ #010000.10000zo",
+
+        "%zu", "%-zu", "%+zu", "% zu", "%#zu", "%0zu", "%-+ #0zu",
+        "%9zu", "%-9zu", "%+9zu", "% 9zu", "%#9zu", "%09zu", "%-+ #09zu",
+        "%.9zu", "%-.9zu", "%+.9zu", "% .9zu", "%#.9zu", "%0.9zu", "%-+ #0.9zu",
+        "%9.zu", "%-9.zu", "%+9.zu", "% 9.zu", "%#9.zu", "%09.zu", "%-+ #09.zu",
+        "%9.9zu", "%-9.9zu", "%+9.9zu", "% 9.9zu", "%#9.9zu", "%09.9zu", "%-+ #09.9zu",
+        "%.0zu", "%-.0zu", "%+.0zu", "% .0zu", "%#.0zu", "%0.0zu", "%-+ #0.0zu",
+        "%.1zu", "%-.1zu", "%+.1zu", "% .1zu", "%#.1zu", "%0.1zu", "%-+ #0.1zu",
+        "%.10000zu", "%-.10000zu", "%+.10000zu", "% .10000zu", "%#.10000zu", "%0.10000zu", "%-+ #0.10000zu",
+        "%10000zu", "%-10000zu", "%+10000zu", "% 10000zu", "%#10000zu", "%010000zu", "%-+ #010000zu",
+        "%10000.10000zu", "%-10000.10000zu", "%+10000.10000zu", "% 10000.10000zu", "%#10000.10000zu", "%010000.10000zu",
+        "%-+ #010000.10000zu",
+
+        "%zx", "%-zx", "%+zx", "% zx", "%#zx", "%0zx", "%-+ #0zx",
+        "%9zx", "%-9zx", "%+9zx", "% 9zx", "%#9zx", "%09zx", "%-+ #09zx",
+        "%.9zx", "%-.9zx", "%+.9zx", "% .9zx", "%#.9zx", "%0.9zx", "%-+ #0.9zx",
+        "%9.zx", "%-9.zx", "%+9.zx", "% 9.zx", "%#9.zx", "%09.zx", "%-+ #09.zx",
+        "%9.9zx", "%-9.9zx", "%+9.9zx", "% 9.9zx", "%#9.9zx", "%09.9zx", "%-+ #09.9zx",
+        "%.0zx", "%-.0zx", "%+.0zx", "% .0zx", "%#.0zx", "%0.0zx", "%-+ #0.0zx",
+        "%.1zx", "%-.1zx", "%+.1zx", "% .1zx", "%#.1zx", "%0.1zx", "%-+ #0.1zx",
+        "%.10000zx", "%-.10000zx", "%+.10000zx", "% .10000zx", "%#.10000zx", "%0.10000zx", "%-+ #0.10000zx",
+        "%10000zx", "%-10000zx", "%+10000zx", "% 10000zx", "%#10000zx", "%010000zx", "%-+ #010000zx",
+        "%10000.10000zx", "%-10000.10000zx", "%+10000.10000zx", "% 10000.10000zx", "%#10000.10000zx", "%010000.10000zx",
+        "%-+ #010000.10000zx",
+
+        "%zX", "%-zX", "%+zX", "% zX", "%#zX", "%0zX", "%-+ #0zX",
+        "%9zX", "%-9zX", "%+9zX", "% 9zX", "%#9zX", "%09zX", "%-+ #09zX",
+        "%.9zX", "%-.9zX", "%+.9zX", "% .9zX", "%#.9zX", "%0.9zX", "%-+ #0.9zX",
+        "%9.zX", "%-9.zX", "%+9.zX", "% 9.zX", "%#9.zX", "%09.zX", "%-+ #09.zX",
+        "%9.9zX", "%-9.9zX", "%+9.9zX", "% 9.9zX", "%#9.9zX", "%09.9zX", "%-+ #09.9zX",
+        "%.0zX", "%-.0zX", "%+.0zX", "% .0zX", "%#.0zX", "%0.0zX", "%-+ #0.0zX",
+        "%.1zX", "%-.1zX", "%+.1zX", "% .1zX", "%#.1zX", "%0.1zX", "%-+ #0.1zX",
+        "%.10000zX", "%-.10000zX", "%+.10000zX", "% .10000zX", "%#.10000zX", "%0.10000zX", "%-+ #0.10000zX",
+        "%10000zX", "%-10000zX", "%+10000zX", "% 10000zX", "%#10000zX", "%010000zX", "%-+ #010000zX",
+        "%10000.10000zX", "%-10000.10000zX", "%+10000.10000zX", "% 10000.10000zX", "%#10000.10000zX", "%010000.10000zX",
+        "%-+ #010000.10000zX",
+
+        "%-1.5zo", "%1.5zo", "%123.9zo", "%5.5zo", "%10.5zo", "% 10.5zo", "%+22.33zo", "%01.3zo", "%4zo",
+        "%-1.5zu", "%1.5zu", "%123.9zu", "%5.5zu", "%10.5zu", "% 10.5zu", "%+22.33zu", "%01.3zu", "%4zu",
+        "%-1.5zx", "%1.5zx", "%123.9zx", "%5.5zx", "%10.5zx", "% 10.5zx", "%+22.33zx", "%01.3zx", "%4zx",
+        "%-1.5zX", "%1.5zX", "%123.9zX", "%5.5zX", "%10.5zX", "% 10.5zX", "%+22.33zX", "%01.3zX", "%4zX",
+        NULL
+    };
+
+const char *zuint_fmt2[] =
+    {
+        "%*zo", "%-*zo", "%+*zo", "% *zo", "%#*zo", "%0*zo", "%-+ #0*zo",
+        "%*zu", "%-*zu", "%+*zu", "% *zu", "%#*zu", "%0*zu", "%-+ #0*zu",
+        "%*zx", "%-*zx", "%+*zx", "% *zx", "%#*zx", "%0*zx", "%-+ #0*zx",
+        "%*zX", "%-*zX", "%+*zX", "% *zX", "%#*zX", "%0*zX", "%-+ #0*zX",
+        NULL
+    };
+
+const char *zuint_fmt3[] =
+    {
+        "%.*zo", "%-.*zo", "%+.*zo", "% .*zo", "%#.*zo", "%0.*zo", "%-+ #0.*zo",
+        "%.*zu", "%-.*zu", "%+.*zu", "% .*zu", "%#.*zu", "%0.*zu", "%-+ #0.*zu",
+        "%.*zx", "%-.*zx", "%+.*zx", "% .*zx", "%#.*zx", "%0.*zx", "%-+ #0.*zx",
+        "%.*zX", "%-.*zX", "%+.*zX", "% .*zX", "%#.*zX", "%0.*zX", "%-+ #0.*zX",
+        NULL
+    };
+
+const char *zuint_fmt4[] =
+    {
+        "%*.*zo", "%-*.*zo", "%+*.*zo", "% *.*zo", "%#*.*zo", "%0*.*zo", "%-+ #0*.*zo",
+        "%*.*zu", "%-*.*zu", "%+*.*zu", "% *.*zu", "%#*.*zu", "%0*.*zu", "%-+ #0*.*zu",
+        "%*.*zx", "%-*.*zx", "%+*.*zx", "% *.*zx", "%#*.*zx", "%0*.*zx", "%-+ #0*.*zx",
+        "%*.*zx", "%-*.*zx", "%+*.*zx", "% *.*zx", "%#*.*zx", "%0*.*zx", "%-+ #0*.*zx",
+        NULL
+    };
+
 const char *str_fmt[] =
     {
         "%s", "%-s",
@@ -1229,7 +1313,88 @@ TEST(MacondoLibcSnprintfTest, UnsignedLongLongNumbers) {
         }
     }
 }
+// I don't know why but standard snprintf function is broken.
+// it handles %zo as decimal not octal number
+#if 0
+TEST(MacondoLibcSnprintfTest, z_Size_t_Numbers) {
+    char buffer[BUFFER_SIZE];
+    char std_buffer[BUFFER_SIZE];
+    int std_res = 0;
+    int res = 0;
 
+    for (int x = 0; zuint_fmt[x]; ++x) {
+        for (int y = 0; y < sizeof(lluint_nums) / sizeof(*lluint_nums); ++y) {
+            std_res = ::snprintf(std_buffer, BUFFER_SIZE, uint_fmt[x], (size_t) lluint_nums[y]);
+            res = __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                     BUFFER_SIZE,
+                                                     zuint_fmt[x],
+                                                     (size_t) lluint_nums[y]);
+            printf("format '%s' arg '%lu'\n", zuint_fmt[x], (size_t) lluint_nums[y]);
+            ASSERT_EQ(std_res, res);
+            ASSERT_STREQ(std_buffer, buffer);
+        }
+    }
+    for (int x = 0; zuint_fmt2[x]; ++x) {
+        for (int y = 0; y < sizeof(lluint_nums) / sizeof(*lluint_nums); ++y) {
+            for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
+                std_res =
+                    ::snprintf(std_buffer, BUFFER_SIZE, zuint_fmt2[x], widths[z], (size_t) lluint_nums[y]);
+                res =
+                    __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                       BUFFER_SIZE,
+                                                       zuint_fmt2[x],
+                                                       widths[z],
+                                                       (size_t) lluint_nums[y]);
+                ASSERT_EQ(std_res, res);
+                ASSERT_STREQ(std_buffer, buffer);
+            }
+        }
+    }
+
+    for (int x = 0; zuint_fmt3[x]; ++x) {
+        for (int y = 0; y < sizeof(lluint_nums) / sizeof(*lluint_nums); ++y) {
+            for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
+                std_res =
+                    ::snprintf(std_buffer,
+                               BUFFER_SIZE,
+                               uint_fmt3[x],
+                               precisions[z],
+                               (size_t) lluint_nums[y]);
+                res =
+                    __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                       BUFFER_SIZE,
+                                                       zuint_fmt3[x],
+                                                       precisions[z],
+                                                       (size_t) lluint_nums[y]);
+                ASSERT_EQ(std_res, res);
+                ASSERT_STREQ(std_buffer, buffer);
+            }
+        }
+    }
+
+    for (int x = 0; zuint_fmt4[x]; ++x) {
+        for (int y = 0; y < sizeof(lluint_nums) / sizeof(*lluint_nums); ++y) {
+            for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
+                std_res = ::snprintf(std_buffer,
+                                     BUFFER_SIZE,
+                                     zuint_fmt4[x],
+                                     widths[z],
+                                     precisions[z],
+                                     (size_t) lluint_nums[y]);
+                res =
+                    __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                       BUFFER_SIZE,
+                                                       zuint_fmt4[x],
+                                                       widths[z],
+                                                       precisions[z],
+                                                       (size_t) lluint_nums[y]);
+                ASSERT_EQ(std_res, res);
+                ASSERT_STREQ(std_buffer, buffer);
+            }
+        }
+    }
+}
+#endif
 TEST(MacondoLibcSnprintfTest, Strings) {
     char buffer[BUFFER_SIZE];
     char std_buffer[BUFFER_SIZE];
