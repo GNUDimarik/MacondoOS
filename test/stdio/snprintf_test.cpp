@@ -5,6 +5,9 @@
 #include "../../include/macondo/stdio.h"
 #include <cstdio>
 
+static constexpr const char *kNull = "(null)";
+static constexpr const char *kNil = "(nil)";
+
 const char *int_fmt[] =
     {
         "%d", "%-d", "%+d", "% d", "%#d", "%0d", "%-+ #0d",
@@ -1372,10 +1375,27 @@ TEST(MacondoLibcSnprintfTest, Characters) {
 TEST(MacondoLibcSnprintfTest, NullParameters) {
     char buffer[BUFFER_SIZE];
     int res = __MACONDO_TEST_NAMESPACE::snprintf(buffer, BUFFER_SIZE, "%s", NULL);
-    ASSERT_EQ(res, strlen("(null)"));
+    ASSERT_EQ(res, strlen(kNull));
     ASSERT_STREQ("(null)", buffer);
 
     res = __MACONDO_TEST_NAMESPACE::snprintf(buffer, BUFFER_SIZE, "%p", NULL);
-    ASSERT_EQ(res, strlen("(nil)"));
+    ASSERT_EQ(res, strlen(kNil));
     ASSERT_STREQ("(nil)", buffer);
+}
+
+TEST(MacondoLibcSnprintfTest, Range) {
+    char buffer[BUFFER_SIZE];
+    size_t null_len = strlen(kNull);
+    int res = -1;
+
+    for (size_t i = 0; i < null_len; i++) {
+        res = __MACONDO_TEST_NAMESPACE::snprintf(buffer, i, "%s", NULL);
+
+        if (i > 1) {
+            ASSERT_EQ(res, i);
+            ASSERT_EQ(0, memcmp(buffer, kNull, i));
+        } else {
+            ASSERT_EQ(res, 0);
+        }
+    }
 }
