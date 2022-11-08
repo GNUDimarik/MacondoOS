@@ -1368,3 +1368,14 @@ TEST(MacondoLibcSnprintfTest, Characters) {
         }
     }
 }
+
+TEST(MacondoLibcSnprintfTest, NullParameters) {
+    char buffer[BUFFER_SIZE];
+    int res = __MACONDO_TEST_NAMESPACE::snprintf(buffer, BUFFER_SIZE, "%s", NULL);
+    ASSERT_EQ(res, strlen("(null)"));
+    ASSERT_STREQ("(null)", buffer);
+
+    res = __MACONDO_TEST_NAMESPACE::snprintf(buffer, BUFFER_SIZE, "%p", NULL);
+    ASSERT_EQ(res, strlen("(nil)"));
+    ASSERT_STREQ("(nil)", buffer);
+}
