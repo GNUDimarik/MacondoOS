@@ -434,6 +434,96 @@ unsigned long uint_nums[] =
         ULONG_MAX, 0xffffffff, 134, 91340, 341, 0203, 0, 0xffff3333
     };
 
+const char *lluint_fmt[] =
+    {
+        "%Lo", "%-Lo", "%+Lo", "% Lo", "%#Lo", "%0Lo", "%-+ #0Lo",
+        "%9Lo", "%-9Lo", "%+9Lo", "% 9Lo", "%#9Lo", "%09Lo", "%-+ #09Lo",
+        "%.9Lo", "%-.9Lo", "%+.9Lo", "% .9Lo", "%#.9Lo", "%0.9Lo", "%-+ #0.9Lo",
+        "%9.Lo", "%-9.Lo", "%+9.Lo", "% 9.Lo", "%#9.Lo", "%09.Lo", "%-+ #09.Lo",
+        "%9.9Lo", "%-9.9Lo", "%+9.9Lo", "% 9.9Lo", "%#9.9Lo", "%09.9Lo", "%-+ #09.9Lo",
+        "%.0Lo", "%-.0Lo", "%+.0Lo", "% .0Lo", "%#.0Lo", "%0.0Lo", "%-+ #0.0Lo",
+        "%.1Lo", "%-.1Lo", "%+.1Lo", "% .1Lo", "%#.1Lo", "%0.1Lo", "%-+ #0.1Lo",
+        "%.10000Lo", "%-.10000Lo", "%+.10000Lo", "% .10000Lo", "%#.10000Lo", "%0.10000Lo", "%-+ #0.10000Lo",
+        "%10000Lo", "%-10000Lo", "%+10000Lo", "% 10000Lo", "%#10000Lo", "%010000Lo", "%-+ #010000Lo",
+        "%10000.10000Lo", "%-10000.10000Lo", "%+10000.10000Lo", "% 10000.10000Lo", "%#10000.10000Lo", "%010000.10000Lo",
+        "%-+ #010000.10000Lo",
+
+        "%llu", "%-llu", "%+llu", "% llu", "%#llu", "%0llu", "%-+ #0llu",
+        "%9llu", "%-9llu", "%+9llu", "% 9llu", "%#9llu", "%09llu", "%-+ #09llu",
+        "%.9llu", "%-.9llu", "%+.9llu", "% .9llu", "%#.9llu", "%0.9llu", "%-+ #0.9llu",
+        "%9.llu", "%-9.llu", "%+9.llu", "% 9.llu", "%#9.llu", "%09.llu", "%-+ #09.llu",
+        "%9.9llu", "%-9.9llu", "%+9.9llu", "% 9.9llu", "%#9.9llu", "%09.9llu", "%-+ #09.9llu",
+        "%.0llu", "%-.0llu", "%+.0llu", "% .0llu", "%#.0llu", "%0.0llu", "%-+ #0.0llu",
+        "%.1llu", "%-.1llu", "%+.1llu", "% .1llu", "%#.1llu", "%0.1llu", "%-+ #0.1llu",
+        "%.10000llu", "%-.10000llu", "%+.10000llu", "% .10000llu", "%#.10000llu", "%0.10000llu", "%-+ #0.10000llu",
+        "%10000llu", "%-10000llu", "%+10000llu", "% 10000llu", "%#10000llu", "%010000llu", "%-+ #010000llu",
+        "%10000.10000llu", "%-10000.10000llu", "%+10000.10000llu", "% 10000.10000llu", "%#10000.10000llu",
+        "%010000.10000llu",
+        "%-+ #010000.10000llu",
+
+        "%Lx", "%-Lx", "%+Lx", "% Lx", "%#Lx", "%0Lx", "%-+ #0Lx",
+        "%9Lx", "%-9Lx", "%+9Lx", "% 9Lx", "%#9Lx", "%09Lx", "%-+ #09Lx",
+        "%.9Lx", "%-.9Lx", "%+.9Lx", "% .9Lx", "%#.9Lx", "%0.9Lx", "%-+ #0.9Lx",
+        "%9.Lx", "%-9.Lx", "%+9.Lx", "% 9.Lx", "%#9.Lx", "%09.Lx", "%-+ #09.Lx",
+        "%9.9Lx", "%-9.9Lx", "%+9.9Lx", "% 9.9Lx", "%#9.9Lx", "%09.9Lx", "%-+ #09.9Lx",
+        "%.0Lx", "%-.0Lx", "%+.0Lx", "% .0Lx", "%#.0Lx", "%0.0Lx", "%-+ #0.0Lx",
+        "%.1Lx", "%-.1Lx", "%+.1Lx", "% .1Lx", "%#.1Lx", "%0.1Lx", "%-+ #0.1Lx",
+        "%.10000Lx", "%-.10000Lx", "%+.10000Lx", "% .10000Lx", "%#.10000Lx", "%0.10000Lx", "%-+ #0.10000Lx",
+        "%10000Lx", "%-10000Lx", "%+10000Lx", "% 10000Lx", "%#10000Lx", "%010000Lx", "%-+ #010000Lx",
+        "%10000.10000Lx", "%-10000.10000Lx", "%+10000.10000Lx", "% 10000.10000Lx", "%#10000.10000Lx", "%010000.10000Lx",
+        "%-+ #010000.10000Lx",
+
+        "%Lx", "%-Lx", "%+Lx", "% Lx", "%#Lx", "%0Lx", "%-+ #0Lx",
+        "%9Lx", "%-9Lx", "%+9Lx", "% 9Lx", "%#9Lx", "%09Lx", "%-+ #09Lx",
+        "%.9Lx", "%-.9Lx", "%+.9Lx", "% .9Lx", "%#.9Lx", "%0.9Lx", "%-+ #0.9Lx",
+        "%9.Lx", "%-9.Lx", "%+9.Lx", "% 9.Lx", "%#9.Lx", "%09.Lx", "%-+ #09.Lx",
+        "%9.9Lx", "%-9.9Lx", "%+9.9Lx", "% 9.9Lx", "%#9.9Lx", "%09.9Lx", "%-+ #09.9Lx",
+        "%.0Lx", "%-.0Lx", "%+.0Lx", "% .0Lx", "%#.0Lx", "%0.0Lx", "%-+ #0.0Lx",
+        "%.1Lx", "%-.1Lx", "%+.1Lx", "% .1Lx", "%#.1Lx", "%0.1Lx", "%-+ #0.1Lx",
+        "%.10000Lx", "%-.10000Lx", "%+.10000Lx", "% .10000Lx", "%#.10000Lx", "%0.10000Lx", "%-+ #0.10000Lx",
+        "%10000Lx", "%-10000Lx", "%+10000Lx", "% 10000Lx", "%#10000Lx", "%010000Lx", "%-+ #010000Lx",
+        "%10000.10000Lx", "%-10000.10000Lx", "%+10000.10000Lx", "% 10000.10000Lx", "%#10000.10000Lx", "%010000.10000Lx",
+        "%-+ #010000.10000Lx",
+
+        "%-1.5Lo", "%1.5Lo", "%123.9Lo", "%5.5Lo", "%10.5Lo", "% 10.5Lo", "%+22.33Lo", "%01.3Lo", "%4Lo",
+        "%-1.5llu", "%1.5llu", "%123.9llu", "%5.5llu", "%10.5llu", "% 10.5llu", "%+22.33llu", "%01.3llu", "%4llu",
+        "%-1.5Lx", "%1.5Lx", "%123.9Lx", "%5.5Lx", "%10.5Lx", "% 10.5Lx", "%+22.33Lx", "%01.3Lx", "%4Lx",
+        "%-1.5Lx", "%1.5Lx", "%123.9Lx", "%5.5Lx", "%10.5Lx", "% 10.5Lx", "%+22.33Lx", "%01.3Lx", "%4Lx",
+        NULL
+    };
+
+unsigned long long lluint_nums[] =
+    {
+        ULONG_LONG_MAX, 0xffffffff, 134, 91340, 341, 0203, 0, 0xffff3333
+    };
+
+const char *lluint_fmt2[] =
+    {
+        "%*Lo", "%-*Lo", "%+*Lo", "% *Lo", "%#*Lo", "%0*Lo", "%-+ #0*Lo",
+        "%*llu", "%-*llu", "%+*llu", "% *llu", "%#*llu", "%0*llu", "%-+ #0*llu",
+        "%*Lx", "%-*Lx", "%+*Lx", "% *Lx", "%#*Lx", "%0*Lx", "%-+ #0*Lx",
+        "%*Lx", "%-*Lx", "%+*Lx", "% *Lx", "%#*Lx", "%0*Lx", "%-+ #0*Lx",
+        NULL
+    };
+
+const char *lluint_fmt3[] =
+    {
+        "%.*llo", "%-.*llo", "%+.*llo", "% .*llo", "%#.*llo", "%0.*llo", "%-+ #0.*llo",
+        "%.*llu", "%-.*llu", "%+.*llu", "% .*llu", "%#.*llu", "%0.*llu", "%-+ #0.*llu",
+        "%.*llx", "%-.*llx", "%+.*llx", "% .*llx", "%#.*llx", "%0.*llx", "%-+ #0.*llx",
+        "%.*llx", "%-.*llx", "%+.*llx", "% .*llx", "%#.*llx", "%0.*llx", "%-+ #0.*llx",
+        NULL
+    };
+
+const char *lluint_fmt4[] =
+    {
+        "%*.*Lo", "%-*.*Lo", "%+*.*Lo", "% *.*Lo", "%#*.*Lo", "%0*.*Lo", "%-+ #0*.*Lo",
+        "%*.*llu", "%-*.*llu", "%+*.*llu", "% *.*llu", "%#*.*llu", "%0*.*llu", "%-+ #0*.*llu",
+        "%*.*Lx", "%-*.*Lx", "%+*.*Lx", "% *.*Lx", "%#*.*Lx", "%0*.*Lx", "%-+ #0*.*Lx",
+        "%*.*Lx", "%-*.*Lx", "%+*.*Lx", "% *.*Lx", "%#*.*Lx", "%0*.*Lx", "%-+ #0*.*Lx",
+        NULL
+    };
+
 const char *str_fmt[] =
     {
         "%s", "%-s",
@@ -914,6 +1004,85 @@ TEST(MacondoLibcSnprintfTest, UnsignedLongNumbers) {
                                                        widths[z],
                                                        precisions[z],
                                                        (unsigned int) uint_nums[y]);
+                ASSERT_EQ(std_res, res);
+                ASSERT_STREQ(std_buffer, buffer);
+            }
+        }
+    }
+}
+
+TEST(MacondoLibcSnprintfTest, UnsignedLongLongNumbers) {
+    char buffer[BUFFER_SIZE];
+    char std_buffer[BUFFER_SIZE];
+    int std_res = 0;
+    int res = 0;
+
+    for (int x = 0; lluint_fmt[x]; ++x) {
+        for (int y = 0; y < sizeof(lluint_nums) / sizeof(*lluint_nums); ++y) {
+            std_res = ::snprintf(std_buffer, BUFFER_SIZE, lluint_fmt[x], (unsigned long long) lluint_nums[y]);
+            res = __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                     BUFFER_SIZE,
+                                                     lluint_fmt[x],
+                                                     (unsigned long long) lluint_nums[y]);
+            ASSERT_EQ(std_res, res);
+            ASSERT_STREQ(std_buffer, buffer);
+        }
+    }
+
+    for (int x = 0; int_fmt2[x]; ++x) {
+        for (int y = 0; y < sizeof(lluint_nums) / sizeof(*lluint_nums); ++y) {
+            for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
+                std_res =
+                    ::snprintf(std_buffer, BUFFER_SIZE, lluint_fmt2[x], widths[z], (unsigned long long) lluint_nums[y]);
+                res =
+                    __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                       BUFFER_SIZE,
+                                                       lluint_fmt2[x],
+                                                       widths[z],
+                                                       (unsigned long long) lluint_nums[y]);
+                ASSERT_EQ(std_res, res);
+                ASSERT_STREQ(std_buffer, buffer);
+            }
+        }
+    }
+
+    for (int x = 0; int_fmt3[x]; ++x) {
+        for (int y = 0; y < sizeof(lluint_nums) / sizeof(*lluint_nums); ++y) {
+            for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
+                std_res =
+                    ::snprintf(std_buffer,
+                               BUFFER_SIZE,
+                               lluint_fmt3[x],
+                               precisions[z],
+                               (unsigned long long) lluint_nums[y]);
+                res =
+                    __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                       BUFFER_SIZE,
+                                                       lluint_fmt3[x],
+                                                       precisions[z],
+                                                       (unsigned long long) lluint_nums[y]);
+                ASSERT_EQ(std_res, res);
+                ASSERT_STREQ(std_buffer, buffer);
+            }
+        }
+    }
+
+    for (int x = 0; lluint_fmt4[x]; ++x) {
+        for (int y = 0; y < sizeof(lluint_nums) / sizeof(*lluint_nums); ++y) {
+            for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
+                std_res = ::snprintf(std_buffer,
+                                     BUFFER_SIZE,
+                                     lluint_fmt4[x],
+                                     widths[z],
+                                     precisions[z],
+                                     (unsigned long long) lluint_nums[y]);
+                res =
+                    __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                       BUFFER_SIZE,
+                                                       lluint_fmt4[x],
+                                                       widths[z],
+                                                       precisions[z],
+                                                       (unsigned long long) lluint_nums[y]);
                 ASSERT_EQ(std_res, res);
                 ASSERT_STREQ(std_buffer, buffer);
             }
