@@ -80,7 +80,7 @@ static char *do_ulltoa(unsigned long long number, int base,
 
     if (number != 0) {
         while (number != 0 && buffer_size-- > i) {
-            long long n = number % base;
+            unsigned long long n = number % base;
             number /= base;
             buf[i++] = characters[n];
         }
@@ -131,6 +131,8 @@ static char *format_unsigned(char *buffer, unsigned long long number, struct for
         ctx->field_width -= ctx->precision;
     } else if (ctx->field_width >= number_len) {
         ctx->field_width -= number_len;
+    } else {
+        ctx->field_width = 0;
     }
 
     if ((ctx->flags & kFormatFlagAlternateForm)) {
@@ -152,11 +154,13 @@ static char *format_unsigned(char *buffer, unsigned long long number, struct for
     }
 
     if ((ctx->flags & kFormatFlagAlternateForm) && size++ < max_size) {
-        if (ctx->radix == 8) {
-            *buffer++ = 'o';
-        } else if (ctx->radix == 16) {
-            *buffer++ = '0';
-            *buffer++ = characters[HEX_BASE_SPECIFIER_INDEX];
+        if (number_len > 1 && numbers[0] != 0) {
+            if (ctx->radix == 8) {
+                *buffer++ = '0';
+            } else if (ctx->radix == 16) {
+                *buffer++ = '0';
+                *buffer++ = characters[HEX_BASE_SPECIFIER_INDEX];
+            }
         }
     }
 
@@ -296,8 +300,16 @@ static char *process_number(char *buffer, struct format_context_t *ctx, va_list 
             }
             break;
 
-        case kSizeSpecifier_z:ull_val = va_arg(ap, size_t);
-            ctx->flags &= ~kFormatSignedValue;
+        case kSizeSpecifier_z:ctx->flags &= ~kFormatSignedValue;
+            if (ctx->flags & kFormatConversionPointer) {
+                size_t *p = (size_t *) va_arg(ap, size_t*);
+
+                if (p != NULL) {
+                    ull_val = *p;
+                }
+            } else {
+                ull_val = (size_t) va_arg(ap, size_t);
+            }
             break;
 
         case kSizeSpecifier_t:ull_val = va_arg(ap, ptrdiff_t);
@@ -515,8 +527,10 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
             switch (*fmt) {
                 case 'X':fmt_ctx.radix = 16;
                     {
+                        fmt_ctx.flags &= ~kFormatFlagSign;
                         fmt_ctx.flags |= kFormatFlagHugeNumbers;
                         fmt_ctx.flags &= ~kFormatSignedValue;
+                        fmt_ctx.flags &= ~kFormatFlagSpace;
                         char *ptr = process_number(p_buf, &fmt_ctx, ap, size, &sz);
 
                         if (ptr != NULL) {
@@ -526,7 +540,9 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                     break;
                 case 'x':fmt_ctx.radix = 16;
                     {
+                        fmt_ctx.flags &= ~kFormatFlagSign;
                         fmt_ctx.flags &= ~kFormatSignedValue;
+                        fmt_ctx.flags &= ~kFormatFlagSpace;
                         char *ptr = process_number(p_buf, &fmt_ctx, ap, size, &sz);
 
                         if (ptr != NULL) {
@@ -563,6 +579,8 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 case 'o':fmt_ctx.radix = 8;
                     {
                         fmt_ctx.flags &= ~kFormatSignedValue;
+                        fmt_ctx.flags &= ~kFormatFlagSign;
+                        fmt_ctx.flags &= ~kFormatFlagSpace;
                         char *ptr = process_number(p_buf, &fmt_ctx, ap, size, &sz);
 
                         if (ptr != NULL) {
