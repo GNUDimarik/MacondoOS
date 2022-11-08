@@ -487,14 +487,14 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                     int c = va_arg(ap, int);
 
                     if (!(fmt_ctx.flags & kFormatFlagAlignLeft)) {
-                        while (fmt_ctx.field_width-- > 1 && sz++ < size) {
+                        for (; fmt_ctx.field_width > 0 && sz < size; fmt_ctx.field_width--, sz++) {
                             *p_buf++ = ' ';
                         }
                     }
 
                     *p_buf++ = c;
 
-                    while (fmt_ctx.field_width-- > 1 && sz++ < size) {
+                    for (; fmt_ctx.field_width > 0 && sz < size; fmt_ctx.field_width--, sz++) {
                         *p_buf++ = ' ';
                     }
                 }
