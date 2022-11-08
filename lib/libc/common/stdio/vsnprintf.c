@@ -511,10 +511,12 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                         len = fmt_ctx.precision;
                     }
 
-                    fmt_ctx.field_width -= len;
+                    if (fmt_ctx.field_width > len) {
+                        fmt_ctx.field_width -= len;
+                    }
 
                     if (!(fmt_ctx.flags & kFormatFlagAlignLeft)) {
-                        while (fmt_ctx.field_width-- > 0 && sz++ < size) {
+                        for (; fmt_ctx.field_width > 0 && sz < size; fmt_ctx.field_width--, sz++) {
                             *p_buf++ = ' ';
                         }
                     }
@@ -523,7 +525,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                         *p_buf++ = *str++;
                     }
 
-                    while (fmt_ctx.field_width-- > 0 && sz++ < size) {
+                    for (; fmt_ctx.field_width > 0 && sz < size; fmt_ctx.field_width--, sz++) {
                         *p_buf++ = ' ';
                     }
                 }

@@ -742,7 +742,8 @@ TEST(MacondoLibcSnprintfTest, UnsignedShortNumbers) {
     for (int x = 0; hint_fmt3[x]; ++x) {
         for (int y = 0; y < sizeof(uint_nums) / sizeof(*uint_nums); ++y) {
             for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
-                std_res = ::snprintf(std_buffer, BUFFER_SIZE, huint_fmt3[x], precisions[z], (unsigned short) uint_nums[y]);
+                std_res =
+                    ::snprintf(std_buffer, BUFFER_SIZE, huint_fmt3[x], precisions[z], (unsigned short) uint_nums[y]);
                 res =
                     __MACONDO_TEST_NAMESPACE::snprintf(buffer,
                                                        BUFFER_SIZE,
@@ -759,7 +760,12 @@ TEST(MacondoLibcSnprintfTest, UnsignedShortNumbers) {
         for (int y = 0; y < sizeof(uint_nums) / sizeof(*uint_nums); ++y) {
             for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
                 std_res =
-                    ::snprintf(std_buffer, BUFFER_SIZE, huint_fmt4[x], widths[z], precisions[z], (unsigned short) uint_nums[y]);
+                    ::snprintf(std_buffer,
+                               BUFFER_SIZE,
+                               huint_fmt4[x],
+                               widths[z],
+                               precisions[z],
+                               (unsigned short) uint_nums[y]);
                 res =
                     __MACONDO_TEST_NAMESPACE::snprintf(buffer,
                                                        BUFFER_SIZE,
@@ -908,6 +914,77 @@ TEST(MacondoLibcSnprintfTest, UnsignedLongNumbers) {
                                                        widths[z],
                                                        precisions[z],
                                                        (unsigned int) uint_nums[y]);
+                ASSERT_EQ(std_res, res);
+                ASSERT_STREQ(std_buffer, buffer);
+            }
+        }
+    }
+}
+
+TEST(MacondoLibcSnprintfTest, Strings) {
+    char buffer[BUFFER_SIZE];
+    char std_buffer[BUFFER_SIZE];
+    int std_res = 0;
+    int res = 0;
+
+    for (int x = 0; str_fmt[x]; ++x) {
+        for (int y = 0; y < sizeof(str_vals) / sizeof(*str_vals); ++y) {
+            std_res = ::snprintf(std_buffer, BUFFER_SIZE, str_fmt[x], str_vals[y]);
+            res = __MACONDO_TEST_NAMESPACE::snprintf(buffer, BUFFER_SIZE, str_fmt[x], str_vals[y]);
+            ASSERT_EQ(std_res, res);
+            ASSERT_STREQ(std_buffer, buffer);
+        }
+    }
+
+    for (int x = 0; str_fmt2[x]; ++x) {
+        for (int y = 0; y < sizeof(str_vals) / sizeof(*str_vals); ++y) {
+            for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
+                std_res = ::snprintf(std_buffer, BUFFER_SIZE, str_fmt2[x], widths[z], str_vals[y]);
+                res =
+                    __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                       BUFFER_SIZE,
+                                                       str_fmt2[x],
+                                                       widths[z],
+                                                       str_vals[y]);
+                ASSERT_EQ(std_res, res);
+                ASSERT_STREQ(std_buffer, buffer);
+            }
+        }
+    }
+
+    for (int x = 0; str_fmt3[x]; ++x) {
+        for (int y = 0; y < sizeof(str_vals) / sizeof(*str_vals); ++y) {
+            for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
+                std_res =
+                    ::snprintf(std_buffer, BUFFER_SIZE, str_fmt3[x], precisions[z], str_vals[y]);
+                res =
+                    __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                       BUFFER_SIZE,
+                                                       str_fmt3[x],
+                                                       precisions[z],
+                                                       str_vals[y]);
+                ASSERT_EQ(std_res, res);
+                ASSERT_STREQ(std_buffer, buffer);
+            }
+        }
+    }
+
+    for (int x = 0; str_fmt4[x]; ++x) {
+        for (int y = 0; y < sizeof(str_vals) / sizeof(*str_vals); ++y) {
+            for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
+                std_res = ::snprintf(std_buffer,
+                                     BUFFER_SIZE,
+                                     str_fmt4[x],
+                                     widths[z],
+                                     precisions[z],
+                                     str_vals[y]);
+                res =
+                    __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                       BUFFER_SIZE,
+                                                       str_fmt4[x],
+                                                       widths[z],
+                                                       precisions[z],
+                                                       str_vals[y]);
                 ASSERT_EQ(std_res, res);
                 ASSERT_STREQ(std_buffer, buffer);
             }
