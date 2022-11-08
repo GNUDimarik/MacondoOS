@@ -40,6 +40,7 @@ enum {
     kFormatFlagSpace = 1 << 4,
     kFormatFlagHugeNumbers = 1 << 5,
     kFormatSignedValue = 1 << 8,
+    kFormatConversionPointer = 1 << 9
 };
 
 enum {
@@ -200,41 +201,98 @@ static char *process_number(char *buffer, struct format_context_t *ctx, va_list 
     switch (ctx->size_specifier) {
         case kSizeSpecifier_l:
             if (ctx->flags & kFormatSignedValue) {
-                ll_val = va_arg(ap, int);
-            } else {
-                ull_val = va_arg(ap, unsigned int);
-            }
-            break;
+                if (ctx->flags & kFormatConversionPointer) {
+                    int *p = va_arg(ap, int*);
 
-        case kSizeSpecifier_ll:
-            if (ctx->flags & kFormatSignedValue) {
-                ll_val = va_arg(ap, long long);
+                    if (p != NULL) {
+                        ll_val = *p;
+                    }
+                } else {
+                    ll_val = va_arg(ap, int);
+                }
             } else {
-                ull_val = va_arg(ap, unsigned long long);
+                if (ctx->flags & kFormatConversionPointer) {
+                    unsigned int *p = va_arg(ap, unsigned int*);
+
+                    if (p != NULL) {
+                        ull_val = *p;
+                    }
+                } else {
+                    ull_val = va_arg(ap, unsigned int);
+                }
             }
             break;
 
         case kSizeSpecifier_L:
+        case kSizeSpecifier_ll:
             if (ctx->flags & kFormatSignedValue) {
-                ll_val = va_arg(ap, long long);
+                if (ctx->flags & kFormatConversionPointer) {
+                    long long *p = va_arg(ap, long long*);
+
+                    if (p != NULL) {
+                        ll_val = *p;
+                    }
+                } else {
+                    ll_val = va_arg(ap, long long);
+                }
             } else {
-                ull_val = va_arg(ap, unsigned long long);
+                if (ctx->flags & kFormatConversionPointer) {
+                    unsigned long long *p = va_arg(ap, unsigned long long*);
+
+                    if (p != NULL) {
+                        ull_val = *p;
+                    }
+                } else {
+                    ull_val = va_arg(ap, unsigned long long);
+                }
             }
             break;
 
         case kSizeSpecifier_hh:
             if (ctx->flags & kFormatSignedValue) {
-                ll_val = (char) va_arg(ap, int);
+                if (ctx->flags & kFormatConversionPointer) {
+                    char *p = (char *) va_arg(ap, int*);
+
+                    if (p != NULL) {
+                        ll_val = *p;
+                    }
+                } else {
+                    ll_val = (char) va_arg(ap, int);
+                }
             } else {
-                ull_val = (unsigned char) va_arg(ap, unsigned int);
+                if (ctx->flags & kFormatConversionPointer) {
+                    unsigned char *p = (unsigned char *) va_arg(ap, unsigned int*);
+
+                    if (p != NULL) {
+                        ull_val = *p;
+                    }
+                } else {
+                    ull_val = (unsigned char) va_arg(ap, unsigned int);
+                }
             }
             break;
 
         case kSizeSpecifier_h:
             if (ctx->flags & kFormatSignedValue) {
-                ll_val = (short) va_arg(ap, int);
+                if (ctx->flags & kFormatConversionPointer) {
+                    short *p = (short *) va_arg(ap, int*);
+
+                    if (p != NULL) {
+                        ll_val = *p;
+                    }
+                } else {
+                    ll_val = (short) va_arg(ap, int);
+                }
             } else {
-                ull_val = (unsigned short) va_arg(ap, unsigned int);
+                if (ctx->flags & kFormatConversionPointer) {
+                    unsigned short *p = (unsigned short *) va_arg(ap, unsigned int*);
+
+                    if (p != NULL) {
+                        ull_val = *p;
+                    }
+                } else {
+                    ull_val = (unsigned short) va_arg(ap, unsigned int);
+                }
             }
             break;
 
@@ -248,17 +306,49 @@ static char *process_number(char *buffer, struct format_context_t *ctx, va_list 
 
         case kSizeSpecifier_j:
             if (ctx->flags & kFormatSignedValue) {
-                ll_val = va_arg(ap, intmax_t);
+                if (ctx->flags & kFormatConversionPointer) {
+                    intmax_t *p = va_arg(ap, intmax_t*);
+
+                    if (p != NULL) {
+                        ll_val = *p;
+                    }
+                } else {
+                    ll_val = (intmax_t) va_arg(ap, intmax_t);
+                }
             } else {
-                ull_val = va_arg(ap, uintmax_t);
+                if (ctx->flags & kFormatConversionPointer) {
+                    uintmax_t *p = va_arg(ap, uintmax_t*);
+
+                    if (p != NULL) {
+                        ull_val = *p;
+                    }
+                } else {
+                    ull_val = va_arg(ap, uintmax_t);
+                }
             }
             break;
 
         default:
             if (ctx->flags & kFormatSignedValue) {
-                ll_val = va_arg(ap, int);
+                if (ctx->flags & kFormatConversionPointer) {
+                    int *p = va_arg(ap, int*);
+
+                    if (p != NULL) {
+                        ll_val = *p;
+                    }
+                } else {
+                    ll_val = va_arg(ap, int);
+                }
             } else {
-                ull_val = va_arg(ap, unsigned int);
+                if (ctx->flags & kFormatConversionPointer) {
+                    unsigned int *p = va_arg(ap, unsigned int*);
+
+                    if (p != NULL) {
+                        ull_val = *p;
+                    }
+                } else {
+                    ull_val = va_arg(ap, unsigned int);
+                }
             }
             break;
 
@@ -314,7 +404,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 continue;
             }
 
-            fmt_ctx.flags = 0;
+            bzero(&fmt_ctx, sizeof(struct format_context_t));
             /* handle format flags */
             while (*fmt++ != '\0') {
                 switch (*fmt) {
@@ -341,7 +431,6 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 break;
             }
 
-            fmt_ctx.field_width = 0;
             /* handle field width */
             if (isdigit(*fmt)) {
                 fmt_ctx.field_width = parse_number(&fmt);
@@ -362,7 +451,6 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 }
             }
 
-            fmt_ctx.precision = 0;
             /* handle precision */
             if (*fmt == '.') {
                 ++fmt;
@@ -559,10 +647,20 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                     break;
 
                 case 'n': {
-                    int *p = va_arg(ap, int*);
+                    fmt_ctx.flags |= kFormatConversionPointer;
 
-                    if (p != NULL) {
-                        *p = p_buf - buf;
+                    if (fmt_ctx.size_specifier == 0) {
+                        int *p = va_arg(ap, int*);
+
+                        if (p != NULL) {
+                            *p = p_buf - buf;
+                        }
+                    } else {
+                        char *ptr = process_number(p_buf, &fmt_ctx, ap, size, &sz);
+
+                        if (ptr != NULL) {
+                            p_buf = ptr;
+                        }
                     }
                 }
                     break;

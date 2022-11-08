@@ -674,7 +674,7 @@ TEST(MacondoLibcSnprintfTest, ShortNumbers) {
 
     for (int x = 0; hint_fmt[x]; ++x) {
         for (int y = 0; y < sizeof(int_nums) / sizeof(*int_nums); ++y) {
-            std_res = ::snprintf(std_buffer, BUFFER_SIZE, hint_fmt[x], (int) int_nums[y]);
+            std_res = ::snprintf(std_buffer, BUFFER_SIZE, hint_fmt[x], (short) int_nums[y]);
             res = __MACONDO_TEST_NAMESPACE::snprintf(buffer, BUFFER_SIZE, hint_fmt[x], (short) int_nums[y]);
             ASSERT_EQ(std_res, res);
             ASSERT_STREQ(std_buffer, buffer);
@@ -801,7 +801,7 @@ TEST(MacondoLibcSnprintfTest, LongNumbers) {
 
     for (int x = 0; lint_fmt[x]; ++x) {
         for (int y = 0; y < sizeof(int_nums) / sizeof(*int_nums); ++y) {
-            std_res = ::snprintf(std_buffer, BUFFER_SIZE, lint_fmt[x], (int) int_nums[y]);
+            std_res = ::snprintf(std_buffer, BUFFER_SIZE, lint_fmt[x], int_nums[y]);
             res = __MACONDO_TEST_NAMESPACE::snprintf(buffer, BUFFER_SIZE, lint_fmt[x], int_nums[y]);
             ASSERT_EQ(std_res, res);
             ASSERT_STREQ(std_buffer, buffer);
@@ -844,7 +844,7 @@ TEST(MacondoLibcSnprintfTest, LongNumbers) {
         for (int y = 0; y < sizeof(int_nums) / sizeof(*int_nums); ++y) {
             for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
                 std_res =
-                    ::snprintf(std_buffer, BUFFER_SIZE, lint_fmt4[x], widths[z], precisions[z], (int) int_nums[y]);
+                    ::snprintf(std_buffer, BUFFER_SIZE, lint_fmt4[x], widths[z], precisions[z], int_nums[y]);
                 res =
                     __MACONDO_TEST_NAMESPACE::snprintf(buffer,
                                                        BUFFER_SIZE,
