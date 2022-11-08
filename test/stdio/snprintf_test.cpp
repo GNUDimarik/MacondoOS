@@ -524,6 +524,64 @@ const char *lluint_fmt4[] =
         NULL
     };
 
+const char *llint_fmt[] =
+    {
+        "%lld", "%-Ld", "%+Ld", "% lld", "%#lld", "%0lld", "%-+ #0lld",
+        "%9lld", "%-9lld", "%+9lld", "% 9lld", "%#9lld", "%09lld", "%-+ #09Ld",
+        "%.9lld", "%-.9lld", "%+.9lld", "% .9lld", "%#.9lld", "%0.9lld", "%-+ #0.9Ld",
+        "%9.lld", "%-9.lld", "%+9.lld", "% 9.lld", "%#9.lld", "% 9.lld", "%-+ #09.Ld",
+        "%9.9lld", "%-9.9lld", "%+9.9lld", "% 9.9Ld", "%#9.9Ld", "%09.9lld", "%-+ #09.9lld",
+        "%.0lld", "%-.0lld", "%+.0lld", "% .0lld", "%#.0lld", "%0.0lld", "%-+ #0.0lld",
+        "%.1lld", "%-.1lld", "%+.1lld", "% .1lld", "%#.1lld", "%0.1lld", "%-+ #0.1Ld",
+        "%.10000lld", "%-.10000lld", "%+.10000lld", "% .10000lld", "%#.10000lld", "%0.10000Ld", "%-+ #0.10000lld",
+        "%10000lld", "%-10000lld", "%+10000lld", "% 10000lld", "%#10000Ld", "%010000Ld", "%-+ #010000Ld",
+        "%10000.10000lld", "%-10000.10000Ld", "%+10000.10000Ld", "% 10000.10000Ld", "%#10000.10000Ld",
+        "%010000.10000Ld",
+        "%-+ #010000.10000Ld",
+
+        "%Li", "%-Li", "%+Li", "% Li", "%#Li", "%0Li", "%-+ #0Li",
+        "%9Li", "%-9Li", "%+9Li", "% 9Li", "%#9Li", "%09Li", "%-+ #09Li",
+        "%.9Li", "%-.9Li", "%+.9Li", "% .9Li", "%#.9Li", "%0.9Li", "%-+ #0.9Li",
+        "%9.Li", "%-9.Li", "%+9.Li", "% 9.Li", "%#9.Li", "%09.Li", "%-+ #09.Li",
+        "%9.9Li", "%-9.9Li", "%+9.9Li", "% 9.9Li", "%#9.9Li", "%09.9Li", "%-+ #09.9Li",
+        "%.0Li", "%-.0Li", "%+.0Li", "% .0Li", "%#.0Li", "%0.0Li", "%-+ #0.0Li",
+        "%.1Li", "%-.1Li", "%+.1Li", "% .1Li", "%#.1Li", "%0.1Li", "%-+ #0.1Li",
+        "%.10000Li", "%-.10000Li", "%+.10000Li", "% .10000Li", "%#.10000Li", "%0.10000Li", "%-+ #0.10000Li",
+        "%10000Li", "%-10000Li", "%+10000Li", "% 10000Li", "%#10000Li", "%010000Li", "%-+ #010000Li",
+        "%10000.10000Li", "%-10000.10000Li", "%+10000.10000Li", "% 10000.10000Li", "%#10000.10000Li", "%010000.10000Li",
+        "%-+ #010000.10000Li",
+
+        "%-1.5lld", "%1.5lld", "%123.9ld", "%5.5lld", "%10.5lld", "% 10.5lld", "%+22.33lld", "%01.3lld", "%4lld",
+        "%-1.5lli", "%1.5lli", "%123.9lli", "%5.5lli", "%10.5lli", "% 10.5Li", "%+22.33lli", "%01.3lli", "%4lli",
+        NULL
+    };
+
+const char *llint_fmt2[] =
+    {
+        "%*lld", "%-*lld", "%+*lld", "% *lld", "%#*lld", "%0*lld", "%-+ #0*lld",
+        "%*lli", "%-*lli", "%+*lli", "% *lli", "%#*lli", "%0*lli", "%-+ #0*lli",
+        NULL
+    };
+
+const char *llint_fmt3[] =
+    {
+        "%.*Ld", "%-.*Ld", "%+.*Ld", "% .*Ld", "%#.*Ld", "%0.*Ld", "%-+ #0.*Ld",
+        "%.*Li", "%-.*Li", "%+.*Li", "% .*Li", "%#.*Li", "%0.*Li", "%-+ #0.*Li",
+        NULL
+    };
+
+const char *llint_fmt4[] =
+    {
+        "%*.*lld", "%-*.*lld", "%+*.*lld", "% *.*lld", "%#*.*Ld", "%0*.*lld", "%-+ #0*.*Ld",
+        "%*.*Li", "%-*.*Li", "%+*.*Li", "% *.*Li", "%#*.*Li", "%0*.*Li", "%-+ #0*.*Li",
+        NULL
+    };
+
+long long llint_nums[] =
+    {
+        LONG_LONG_MAX, LONG_LONG_MIN, 0xffffffff, 134, 91340, 341, 0203, 0, 0xffff3333
+    };
+
 const char *str_fmt[] =
     {
         "%s", "%-s",
@@ -798,6 +856,85 @@ TEST(MacondoLibcSnprintfTest, LongNumbers) {
     }
 }
 
+TEST(MacondoLibcSnprintfTest, LongLongNumbers) {
+    char buffer[BUFFER_SIZE];
+    char std_buffer[BUFFER_SIZE];
+    int std_res = 0;
+    int res = 0;
+
+    for (int x = 0; llint_fmt[x]; ++x) {
+        for (int y = 0; y < sizeof(llint_nums) / sizeof(*llint_nums); ++y) {
+            std_res = ::snprintf(std_buffer, BUFFER_SIZE, llint_fmt[x], (long long) llint_nums[y]);
+            res = __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                     BUFFER_SIZE,
+                                                     llint_fmt[x],
+                                                     (long long) llint_nums[y]);
+            ASSERT_EQ(std_res, res);
+            ASSERT_STREQ(std_buffer, buffer);
+        }
+    }
+
+    for (int x = 0; llint_fmt2[x]; ++x) {
+        for (int y = 0; y < sizeof(llint_nums) / sizeof(*llint_nums); ++y) {
+            for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
+                std_res =
+                    ::snprintf(std_buffer, BUFFER_SIZE, llint_fmt2[x], widths[z], (long long) llint_nums[y]);
+                res =
+                    __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                       BUFFER_SIZE,
+                                                       llint_fmt2[x],
+                                                       widths[z],
+                                                       (long long) llint_nums[y]);
+                ASSERT_EQ(std_res, res);
+                ASSERT_STREQ(std_buffer, buffer);
+            }
+        }
+    }
+
+    for (int x = 0; llint_fmt3[x]; ++x) {
+        for (int y = 0; y < sizeof(llint_nums) / sizeof(*llint_nums); ++y) {
+            for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
+                std_res =
+                    ::snprintf(std_buffer,
+                               BUFFER_SIZE,
+                               llint_fmt3[x],
+                               precisions[z],
+                               (long long) llint_nums[y]);
+                res =
+                    __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                       BUFFER_SIZE,
+                                                       llint_fmt3[x],
+                                                       precisions[z],
+                                                       (long long) llint_nums[y]);
+                ASSERT_EQ(std_res, res);
+                ASSERT_STREQ(std_buffer, buffer);
+            }
+        }
+    }
+
+    for (int x = 0; llint_fmt4[x]; ++x) {
+        for (int y = 0; y < sizeof(llint_nums) / sizeof(*llint_nums); ++y) {
+            for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
+                std_res = ::snprintf(std_buffer,
+                                     BUFFER_SIZE,
+                                     llint_fmt4[x],
+                                     widths[z],
+                                     precisions[z],
+                                     (long long) llint_nums[y]);
+                res =
+                    __MACONDO_TEST_NAMESPACE::snprintf(buffer,
+                                                       BUFFER_SIZE,
+                                                       llint_fmt4[x],
+                                                       widths[z],
+                                                       precisions[z],
+                                                       (long long) llint_nums[y]);
+                ASSERT_EQ(std_res, res);
+                ASSERT_STREQ(std_buffer, buffer);
+            }
+        }
+    }
+}
+
 TEST(MacondoLibcSnprintfTest, UnsignedShortNumbers) {
     char buffer[BUFFER_SIZE];
     char std_buffer[BUFFER_SIZE];
@@ -1029,7 +1166,7 @@ TEST(MacondoLibcSnprintfTest, UnsignedLongLongNumbers) {
         }
     }
 
-    for (int x = 0; int_fmt2[x]; ++x) {
+    for (int x = 0; lluint_fmt2[x]; ++x) {
         for (int y = 0; y < sizeof(lluint_nums) / sizeof(*lluint_nums); ++y) {
             for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
                 std_res =
@@ -1046,7 +1183,7 @@ TEST(MacondoLibcSnprintfTest, UnsignedLongLongNumbers) {
         }
     }
 
-    for (int x = 0; int_fmt3[x]; ++x) {
+    for (int x = 0; lluint_fmt3[x]; ++x) {
         for (int y = 0; y < sizeof(lluint_nums) / sizeof(*lluint_nums); ++y) {
             for (int z = 0; z < sizeof(widths) / sizeof(*widths); ++z) {
                 std_res =
