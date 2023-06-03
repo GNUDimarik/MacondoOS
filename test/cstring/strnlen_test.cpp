@@ -10,7 +10,6 @@
 #include <stddef.h>
 #include "../../include/string.h"
 
-#if 0
 TEST(LlvmLibcStrNLenTest, EmptyString) {
   const char *empty = "";
   ASSERT_EQ(static_cast<size_t>(0), __MACONDO_TEST_NAMESPACE::strnlen(empty, 0));
@@ -45,4 +44,3 @@ TEST(LlvmLibcStrNLenTest, CharactersAfterNullTerminatorShouldNotBeIncluded) {
   ASSERT_EQ(static_cast<size_t>(3), __MACONDO_TEST_NAMESPACE::strnlen(str, 4));
   ASSERT_EQ(static_cast<size_t>(3), __MACONDO_TEST_NAMESPACE::strnlen(str, 5));
 }
-#endif

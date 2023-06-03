@@ -223,6 +223,21 @@ size_t strlen(const char *str) {
     return res;
 }
 
+size_t strnlen(const char *str, size_t max_len)
+{
+    size_t res = 0;
+
+    if (!max_len) {
+        return 0;
+    }
+
+    while (*str++ != '\0' && max_len -- > 0) {
+        res++;
+    }
+
+    return res;
+}
+
 size_t strcspn(const char *str, const char *reject) {
     const char *s = str;
     size_t res = 0;

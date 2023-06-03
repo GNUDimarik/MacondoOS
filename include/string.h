@@ -216,12 +216,28 @@ char *strncpy(char *dest, const char *src, size_t n);
 size_t strspn(const char *str, const char *accept);
 
 /**
+ * @see str strnlen
  * @brief  strlen - compute the number of bytes in the string to which str
  * points, not including the terminating NUL character.
  * @param  str    - string to calculate length
  * @return          length of str
  */
 size_t strlen(const char *str);
+
+/**
+ * @see strlen
+ * @brief strnlen - returns the number of bytes in the string
+       pointed to by s, excluding the terminating null byte ('\0'), but
+       at most maxlen.  In doing this, strnlen() looks only at the first
+       maxlen characters in the string pointed to by s and never beyond
+       s[maxlen-1].
+ * @param str      - string to calculate length
+ * @param max_len  - value to return if strlen(str) above than it
+ * @return strlen(s), if that is less than
+           maxlen, or maxlen if there is no null terminating ('\0') among
+           the first maxlen characters pointed
+ */
+size_t strnlen(const char *str, size_t max_len);
 
 /**
  * @brief strcspn - compute the length (in bytes) of the maximum initial segment
