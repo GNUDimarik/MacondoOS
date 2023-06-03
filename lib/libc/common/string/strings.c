@@ -71,46 +71,37 @@ int strncasecmp(const char *first, const char *second, size_t n) {
 }
 
 int ffs(int val) {
-    if (val != 0) {
-        int i = 0;
-        int shift = 1;
+    int i = 0;
 
-        for (i = 1; shift > 0; i++, shift <<= 1) {
-            if (val & shift) {
-                return i;
-            }
+    if (val != 0) {
+        for (i = 1; !(val & 1); i++){
+            val = (unsigned int) val >> 1;
         }
     }
 
-    return 0;
+    return i;
 }
 
 int ffsl(long int val) {
-    if (val != 0) {
-        long int i = 0;
-        long int shift = 1;
+    int i = 0;
 
-        for (i = 1; shift > 0; i++, shift <<= 1) {
-            if (val & shift) {
-                return i;
-            }
+    if (val != 0) {
+        for (i = 1; !(val & 1); i++){
+            val = (unsigned long int) val >> 1;
         }
     }
 
-    return 0;
+    return i;
 }
 
 int ffsll(long long int val) {
-    if (val != 0) {
-        unsigned long long int i = 0;
-        unsigned long long int shift = 1;
+    int i =0;
 
-        for (i = 1; shift > 0; i++, shift <<= 1) {
-            if (val & shift) {
-                return i;
-            }
+    if (val != 0) {
+        for (i = 1; !(val & 1); i++){
+            val = (unsigned long long int) val >> 1;
         }
     }
 
-    return 0;
+    return i;
 }
