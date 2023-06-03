@@ -203,12 +203,11 @@ size_t strspn(const char *str, const char *accept) {
     size_t res = 0;
 
     while (*str) {
-
-        if (strchr(accept, *str++) == NULL) {
+        if (strchr(accept, *str++) != NULL) {
+            res++;
+        } else {
             break;
         }
-
-        res++;
     }
 
     return res;
