@@ -81,7 +81,7 @@
         #if defined(MACONDO_TEST)
             #define __MACONDO_TEST_NAMESPACE macondo_test_ns__
     #else
-            #define __MACONDO_TEST_NAMESPACE macondo_test_ns__
+            #define __MACONDO_TEST_NAMESPACE
         #endif
     #endif
 #endif
@@ -100,6 +100,12 @@
     #else
         #define __MACONDO_TEST_NAMESPACE_END
     #endif
+#endif
+
+#if defined(MACONDO_TEST)
+#define __USING_MACONDO_TEST_NAMESPACE using namespace __MACONDO_TEST_NAMESPACE;
+#else
+#define __USING_MACONDO_TEST_NAMESPACE
 #endif
 
 /**
@@ -133,7 +139,7 @@
 #endif
 
 #if !defined(__GNUC__) && !defined(__clang__)
-    #define  __restrict__
+    #error "I really need Itanium compiler"
 #endif
 
 #endif //DEFS_H

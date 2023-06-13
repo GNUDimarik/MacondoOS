@@ -34,6 +34,7 @@ __MACONDO_TEST_NAMESPACE_BEGIN
 
 int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap);
 int snprintf(char *buffer, size_t size, const char *fmt, ...);
+int sprintf(char *buffer, const char *fmt, ...);
 
 __MACONDO_TEST_NAMESPACE_END
 __END_DECLS
