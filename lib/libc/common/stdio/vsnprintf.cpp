@@ -73,6 +73,7 @@ struct Flags {
     }
 };
 
+
 struct FormatSpec {
     Flags printfSizeSpecifier;
     Flags printfConversionSpecifier;
@@ -104,6 +105,14 @@ static int parse_number(const char **str) {
     return result;
 }
 
+/**
+ * @brief format_number - implementing format number and output string has length not more than max_size
+ * @param buffer        - destination buffer
+ * @param arg           - the number to format
+ * @param formatSpec    - format spec with printf flags etc
+ * @param max_size      - maximum allowed length
+ * @return length of formatted number
+ */
 static size_t format_number(char *buffer, unsigned long long arg, FormatSpec& formatSpec, size_t max_size)
 {
     size_t len = 0;
@@ -115,7 +124,7 @@ static size_t format_number(char *buffer, unsigned long long arg, FormatSpec& fo
                          ? "0123456789ABCDEF"
                          : "0123456789abcdef";
 
-    // Catch sign for signed numbers
+    /* Catch sign for signed numbers */
     if (formatSpec.flags.checkFlag(PrintfFormatArg::kSignedValue)) {
         if (formatSpec.flags.checkFlag(PrintfFormatArg::kNegativeValue)) {
             sign = '-';
@@ -130,7 +139,7 @@ static size_t format_number(char *buffer, unsigned long long arg, FormatSpec& fo
         }
     }
 
-    // Generate number array in reverse order
+    /* Generate number array in reverse order */
     if (number != 0) {
         while (number != 0) {
             unsigned long long n = number % formatSpec.radix;
@@ -139,38 +148,75 @@ static size_t format_number(char *buffer, unsigned long long arg, FormatSpec& fo
         }
     } else {
         num_str[number_len++] = formatSpec.flags.checkFlag(PrintfFormatArg::kPrecisionOmitted) ? ' ' : '0';
+
+        /* do not paint 0x0 or 00 ??? */
+        if (formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kSpecial)) {
+            if (len < max_size) {
+                *buffer ++ = '0';
+                ++ len;
+            }
+
+            return len;
+        }
     }
 
     if (formatSpec.precision < number_len) {
         formatSpec.precision = number_len;
     }
 
-    // precision has priority over field width
+    /* precision has priority over field width */
     formatSpec.field_width -= formatSpec.precision;
     formatSpec.precision -= number_len;
 
-    // No align left and zero padding
+    /* decrease field width. we need take an account special form */
+    if (formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kSpecial)) {
+        if (formatSpec.radix != 10) {
+            -- formatSpec.field_width;
+            if (formatSpec.radix == 16) {
+                -- formatSpec.field_width;
+            }
+        }
+    }
+
+    /* No align left and zero padding */
     if (!formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kMinus)) {
         if (!formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kZero)) {
-            // leading padding
+            /* leading padding */
             while (-- formatSpec.field_width >= 0 && len < max_size) {
                 *buffer++ = ' ';
                 ++ len;
             }
         }
     }
-
+    /* write sign or space depends from format flags */
     if (sign > 0 && len < max_size) {
         *buffer ++ = sign;
         ++len;
     }
 
+    /* handle alternate form prefix here */
+    if (formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kSpecial)) {
+        if (formatSpec.radix != 10) {
+            if (len < max_size) {
+                *buffer ++ = '0';
+                ++ len;
+            }
+            if (formatSpec.radix == 16) {
+                if (len < max_size) {
+                    *buffer ++ = formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kHugeNumbers) ? 'X' : 'x';
+                    ++ len;
+                }
+            }
+        }
+    }
+
+    /* prepend zeros if min precision requires it */
     while (-- formatSpec.precision >= 0 && len < max_size) {
         *buffer++ = '0';
         ++ len;
     }
 
-    // padding after sign ??? what if no zero ???
+    /* padding after sign ??? what if no zero ??? */
     if (!formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kMinus)) {
         char pad = formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kZero) ? '0' : ' ';
 
@@ -180,18 +226,16 @@ static size_t format_number(char *buffer, unsigned long long arg, FormatSpec& fo
         }
     }
 
-    // TODO: handle prefix here
-
     while (-- formatSpec.precision >= 0 && len < max_size) {
         *buffer++ = '0';
         ++ len;
     }
-
-    for (int i = number_len - 1; i >= 0 && len < max_size;  --i, -- formatSpec.precision, ++ len) {
+    /* write number itself */
+    for (int i = number_len - 1; i >= 0 && len < max_size;  --i, -- formatSpec.precision, ++len) {
         *buffer++ = num_str[i];
     }
 
-    // trailing padding
+    /* trailing padding */
     while (-- formatSpec.field_width >= 0 && len < max_size) {
         *buffer++ = ' ';
         ++ len;
@@ -328,7 +372,7 @@ static size_t format_string(char *buffer, const char* str, FormatSpec& formatSpe
             *buffer++ = ' ';
         }
     } else {
-        // just print (null)
+        /* just print (null) */
         if (len < max_size) {
             *buffer ++ = '(';
             len ++;
@@ -412,6 +456,8 @@ __BEGIN_DECLS
  * @param fmt          -
  * @param ap           -
  * @return number of written characters (len of formatted output string)
+ *
+ * Zero precision means it gonna print nothing. Omitted precision after a dot means precision is zero.
  */
 int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
     if (size > 1 && buf && fmt) {
@@ -486,7 +532,6 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
 
             if (isNegative) {
                 formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kMinus);
-                //formatSpec.printfFormatFlags.clearFlag(PrintfFormatFlag::kZero);
             }
 
             /* handle precision */
@@ -504,12 +549,13 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 } else if (*fmt == '*') {
                     ++fmt;
                     formatSpec.precision = va_arg(ap, int);
-                } else if (*fmt == '-') {
+                } else if (*fmt == '-') { /* Should I catch '+' here ??? */
                     /* Negative precision should be set as zero */
                     formatSpec.precision = 0;
                     /* just skip digits */
                     parse_number(&++fmt);
-                } else {
+                }
+                else {
                     formatSpec.flags.setFlag(PrintfFormatArg::kPrecisionOmitted);
                 }
             }

@@ -37,10 +37,6 @@ static constexpr const char *kNil = "(nil)";
 #define DO_TEST(buf, ret, fmt, ...) do { \
         char lbuf[64] = { 0 }; \
         int lret = __MACONDO_TEST_NAMESPACE::sprintf(lbuf, fmt, ## __VA_ARGS__); \
-        printf("fmt %s\n", fmt, ## __VA_ARGS__);  \
-        printf("my buffer '%s'\n", lbuf);   \
-        printf("buf '%s'\n", buf);                                   \
-        printf("my ret %d ret %d\n", lret, ret);                                   \
         ASSERT_EQ(ret, lret);                                     \
         ASSERT_STREQ(lbuf, buf);          \
     } while(0);
@@ -117,7 +113,7 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("1234ABCD",        8, "%+ X",      0x1234abcdu)
     DO_TEST("EDCB5433",        8, "%+ X",      -0x1234abcdu)
     DO_TEST("x",               1, "%+ c",      'x')
-#if 0
+
     /* Alternative Form */
     DO_TEST("0777",            4, "%#o",      0777u)
     DO_TEST("037777777001",   12, "%#o",      -0777u)
@@ -128,7 +124,7 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("0",               1, "%#o",      0u)
     DO_TEST("0",               1, "%#x",      0u)
     DO_TEST("0",               1, "%#X",      0u)
-#endif
+
     /* Feldbreite: Kleiner als Ausgabe */
     //DO_TEST("Hallo heimur",   12, "%1s",      "Hallo heimur")
     DO_TEST("1024",            4, "%1d",      1024)
@@ -186,7 +182,7 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("00000000004294966272",  20, "%020u",      -1024u)
     DO_TEST("00000000000000000777",  20, "%020o",      0777u)
     DO_TEST("00000000037777777001",  20, "%020o",      -0777u)
-#if 0
+
     DO_TEST("0000000000001234abcd",  20, "%020x",      0x1234abcdu)
     DO_TEST("000000000000edcb5433",  20, "%020x",      -0x1234abcdu)
     DO_TEST("0000000000001234ABCD",  20, "%020X",      0x1234abcdu)
@@ -206,7 +202,7 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("0x0000000000edcb5433",  20, "%#020x",     -0x1234abcdu)
     DO_TEST("0X00000000001234ABCD",  20, "%#020X",     0x1234abcdu)
     DO_TEST("0X0000000000EDCB5433",  20, "%#020X",     -0x1234abcdu)
-#endif
+
     /* Feldbreite: - hat Vorrang vor 0 */
     DO_TEST("Hallo               ",  20, "%0-20s",      "Hallo")
     DO_TEST("1024                ",  20, "%0-20d",      1024)
