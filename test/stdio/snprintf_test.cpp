@@ -59,14 +59,12 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("-1024",           5, "%i",       -1024)
     DO_TEST("1024",            4, "%u",       1024u)
     DO_TEST("4294966272",     10, "%u",       -1024u)
-#if 0
     DO_TEST("777",             3, "%o",       0777u)
     DO_TEST("37777777001",    11, "%o",       -0777u)
     DO_TEST("1234abcd",        8, "%x",       0x1234abcdu)
     DO_TEST("edcb5433",        8, "%x",       -0x1234abcdu)
     DO_TEST("1234ABCD",        8, "%X",       0x1234abcdu)
     DO_TEST("EDCB5433",        8, "%X",       -0x1234abcdu)
-#endif
     DO_TEST("x",               1, "%c",       'x')
     DO_TEST("%",               1, "%%")
     /* Mit %c kann man auch Nullbytes ausgeben */
@@ -80,7 +78,6 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("-1024",           5, "%+i",      -1024)
     DO_TEST("1024",            4, "%+u",      1024u)
     DO_TEST("4294966272",     10, "%+u",      -1024u)
-#if 0
     DO_TEST("777",             3, "%+o",      0777u)
     DO_TEST("37777777001",    11, "%+o",      -0777u)
     DO_TEST("1234abcd",        8, "%+x",      0x1234abcdu)
@@ -88,7 +85,7 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("1234ABCD",        8, "%+X",      0x1234abcdu)
     DO_TEST("EDCB5433",        8, "%+X",      -0x1234abcdu)
     DO_TEST("x",               1, "%+c",      'x')
-#endif
+
     /* Vorzeichenplatzhalter erzwingen (Flag <space>) */
     DO_TEST("Hallo heimur",   12, "% s",      "Hallo heimur")
     DO_TEST(" 1024",           5, "% d",      1024)
@@ -97,14 +94,12 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("-1024",           5, "% i",      -1024)
     DO_TEST("1024",            4, "% u",      1024u)
     DO_TEST("4294966272",     10, "% u",      -1024u)
-#if 0
     DO_TEST("777",             3, "% o",      0777u)
     DO_TEST("37777777001",    11, "% o",      -0777u)
     DO_TEST("1234abcd",        8, "% x",      0x1234abcdu)
     DO_TEST("edcb5433",        8, "% x",      -0x1234abcdu)
     DO_TEST("1234ABCD",        8, "% X",      0x1234abcdu)
     DO_TEST("EDCB5433",        8, "% X",      -0x1234abcdu)
-#endif
     DO_TEST("x",               1, "% c",      'x')
 
     /* Flag + hat Vorrang über <space> */
@@ -115,7 +110,6 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("-1024",           5, "%+ i",      -1024)
     DO_TEST("1024",            4, "%+ u",      1024u)
     DO_TEST("4294966272",     10, "%+ u",      -1024u)
-#if 0
     DO_TEST("777",             3, "%+ o",      0777u)
     DO_TEST("37777777001",    11, "%+ o",      -0777u)
     DO_TEST("1234abcd",        8, "%+ x",      0x1234abcdu)
@@ -123,7 +117,7 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("1234ABCD",        8, "%+ X",      0x1234abcdu)
     DO_TEST("EDCB5433",        8, "%+ X",      -0x1234abcdu)
     DO_TEST("x",               1, "%+ c",      'x')
-
+#if 0
     /* Alternative Form */
     DO_TEST("0777",            4, "%#o",      0777u)
     DO_TEST("037777777001",   12, "%#o",      -0777u)
@@ -143,14 +137,12 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("-1024",           5, "%1i",      -1024)
     DO_TEST("1024",            4, "%1u",      1024u)
     DO_TEST("4294966272",     10, "%1u",      -1024u)
-#if 0
     DO_TEST("777",             3, "%1o",      0777u)
     DO_TEST("37777777001",    11, "%1o",      -0777u)
     DO_TEST("1234abcd",        8, "%1x",      0x1234abcdu)
     DO_TEST("edcb5433",        8, "%1x",      -0x1234abcdu)
     DO_TEST("1234ABCD",        8, "%1X",      0x1234abcdu)
     DO_TEST("EDCB5433",        8, "%1X",      -0x1234abcdu)
-#endif
     DO_TEST("x",               1, "%1c",      'x')
 
     /* Feldbreite: Größer als Ausgabe */
@@ -161,14 +153,12 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("               -1024",  20, "%20i",      -1024)
     DO_TEST("                1024",  20, "%20u",      1024u)
     DO_TEST("          4294966272",  20, "%20u",      -1024u)
-#if 0
     DO_TEST("                 777",  20, "%20o",      0777u)
     DO_TEST("         37777777001",  20, "%20o",      -0777u)
     DO_TEST("            1234abcd",  20, "%20x",      0x1234abcdu)
     DO_TEST("            edcb5433",  20, "%20x",      -0x1234abcdu)
     DO_TEST("            1234ABCD",  20, "%20X",      0x1234abcdu)
     DO_TEST("            EDCB5433",  20, "%20X",      -0x1234abcdu)
-#endif
     DO_TEST("                   x",  20, "%20c",      'x')
 
     /* Feldbreite: Linksbündig */
@@ -179,14 +169,12 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("-1024               ",  20, "%-20i",      -1024)
     DO_TEST("1024                ",  20, "%-20u",      1024u)
     DO_TEST("4294966272          ",  20, "%-20u",      -1024u)
-#if 0
     DO_TEST("777                 ",  20, "%-20o",      0777u)
     DO_TEST("37777777001         ",  20, "%-20o",      -0777u)
     DO_TEST("1234abcd            ",  20, "%-20x",      0x1234abcdu)
     DO_TEST("edcb5433            ",  20, "%-20x",      -0x1234abcdu)
     DO_TEST("1234ABCD            ",  20, "%-20X",      0x1234abcdu)
     DO_TEST("EDCB5433            ",  20, "%-20X",      -0x1234abcdu)
-#endif
     DO_TEST("x                   ",  20, "%-20c",      'x')
 
     /* Feldbreite: Padding mit 0 */
@@ -227,14 +215,12 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("-1024               ",  20, "%0-20i",      -1024)
     DO_TEST("1024                ",  20, "%0-20u",      1024u)
     DO_TEST("4294966272          ",  20, "%0-20u",      -1024u)
-#if 0
     DO_TEST("777                 ",  20, "%-020o",      0777u)
     DO_TEST("37777777001         ",  20, "%-020o",      -0777u)
     DO_TEST("1234abcd            ",  20, "%-020x",      0x1234abcdu)
     DO_TEST("edcb5433            ",  20, "%-020x",      -0x1234abcdu)
     DO_TEST("1234ABCD            ",  20, "%-020X",      0x1234abcdu)
     DO_TEST("EDCB5433            ",  20, "%-020X",      -0x1234abcdu)
-#endif
     DO_TEST("x                   ",  20, "%-020c",      'x')
 
     /* Feldbreite: Aus Parameter */
@@ -245,14 +231,12 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("               -1024",  20, "%*i",      20, -1024)
     DO_TEST("                1024",  20, "%*u",      20, 1024u)
     DO_TEST("          4294966272",  20, "%*u",      20, -1024u)
-#if 0
     DO_TEST("                 777",  20, "%*o",      20, 0777u)
     DO_TEST("         37777777001",  20, "%*o",      20, -0777u)
     DO_TEST("            1234abcd",  20, "%*x",      20, 0x1234abcdu)
     DO_TEST("            edcb5433",  20, "%*x",      20, -0x1234abcdu)
     DO_TEST("            1234ABCD",  20, "%*X",      20, 0x1234abcdu)
     DO_TEST("            EDCB5433",  20, "%*X",      20, -0x1234abcdu)
-#endif
     DO_TEST("                   x",  20, "%*c",      20, 'x')
 
     /* Präzision / Mindestanzahl von Ziffern */
@@ -263,14 +247,13 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("-00000000000000001024",  21, "%.20i",      -1024)
     DO_TEST("00000000000000001024",   20, "%.20u",      1024u)
     DO_TEST("00000000004294966272",   20, "%.20u",      -1024u)
-#if  0
     DO_TEST("00000000000000000777",   20, "%.20o",      0777u)
     DO_TEST("00000000037777777001",   20, "%.20o",      -0777u)
     DO_TEST("0000000000001234abcd",   20, "%.20x",      0x1234abcdu)
     DO_TEST("000000000000edcb5433",   20, "%.20x",      -0x1234abcdu)
     DO_TEST("0000000000001234ABCD",   20, "%.20X",      0x1234abcdu)
     DO_TEST("000000000000EDCB5433",   20, "%.20X",      -0x1234abcdu)
-#endif
+
     /* Feldbreite und Präzision */
     //DO_TEST("               Hallo",   20, "%20.5s",     "Hallo heimur")
     DO_TEST("               01024",   20, "%20.5d",      1024)
@@ -279,14 +262,13 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("              -01024",   20, "%20.5i",      -1024)
     DO_TEST("               01024",   20, "%20.5u",      1024u)
     DO_TEST("          4294966272",   20, "%20.5u",      -1024u)
-#if 0
     DO_TEST("               00777",   20, "%20.5o",      0777u)
     DO_TEST("         37777777001",   20, "%20.5o",      -0777u)
     DO_TEST("            1234abcd",   20, "%20.5x",      0x1234abcdu)
     DO_TEST("          00edcb5433",   20, "%20.10x",     -0x1234abcdu)
     DO_TEST("            1234ABCD",   20, "%20.5X",      0x1234abcdu)
     DO_TEST("          00EDCB5433",   20, "%20.10X",     -0x1234abcdu)
-#endif
+
     /* Präzision: 0 wird ignoriert */
     DO_TEST("               Hallo",   20, "%020.5s",    "Hallo heimur")
     DO_TEST("               01024",   20, "%020.5d",     1024)
@@ -295,14 +277,13 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("              -01024",   20, "%020.5i",     -1024)
     DO_TEST("               01024",   20, "%020.5u",     1024u)
     DO_TEST("          4294966272",   20, "%020.5u",     -1024u)
-#if 0
     DO_TEST("               00777",   20, "%020.5o",     0777u)
     DO_TEST("         37777777001",   20, "%020.5o",     -0777u)
     DO_TEST("            1234abcd",   20, "%020.5x",     0x1234abcdu)
     DO_TEST("          00edcb5433",   20, "%020.10x",    -0x1234abcdu)
     DO_TEST("            1234ABCD",   20, "%020.5X",     0x1234abcdu)
     DO_TEST("          00EDCB5433",   20, "%020.10X",    -0x1234abcdu)
-#endif
+
     /* Präzision 0 */
     DO_TEST("",                        0, "%.0s",        "Hallo heimur")
     DO_TEST("                    ",   20, "%20.0s",      "Hallo heimur")
@@ -338,21 +319,19 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("-1024",           5, "%.-42i",       -1024)
     DO_TEST("1024",            4, "%.-42u",       1024u)
     DO_TEST("4294966272",     10, "%.-42u",       -1024u)
-#if 0
     DO_TEST("777",             3, "%.-42o",       0777u)
     DO_TEST("37777777001",    11, "%.-42o",       -0777u)
     DO_TEST("1234abcd",        8, "%.-42x",       0x1234abcdu)
     DO_TEST("edcb5433",        8, "%.-42x",       -0x1234abcdu)
     DO_TEST("1234ABCD",        8, "%.-42X",       0x1234abcdu)
     DO_TEST("EDCB5433",        8, "%.-42X",       -0x1234abcdu)
-#endif
 
     /*
      * Präzision und Feldbreite aus Parameter.
      * + hat Vorrang vor <space>, - hat Vorrang vor 0 (das eh ignoriert wird,
      * weil eine Präzision angegeben ist)
      */
-    //DO_TEST("Hallo               ",   20, "% -0+*.*s",    20,  5, "Hallo heimur")
+    DO_TEST("Hallo               ",   20, "% -0+*.*s",    20,  5, "Hallo heimur")
     DO_TEST("+01024              ",   20, "% -0+*.*d",    20,  5,  1024)
     DO_TEST("-01024              ",   20, "% -0+*.*d",    20,  5,  -1024)
     DO_TEST("+01024              ",   20, "% -0+*.*i",    20,  5,  1024)
@@ -361,10 +340,10 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
     DO_TEST("4294966272          ",   20, "% 0-+*.*u",    20,  5,  -1024u)
     DO_TEST("00777               ",   20, "%+ -0*.*o",    20,  5,  0777u)
     DO_TEST("37777777001         ",   20, "%+ -0*.*o",    20,  5,  -0777u)
-    //DO_TEST("1234abcd            ",   20, "%+ -0*.*x",    20,  5,  0x1234abcdu)
-    //DO_TEST("00edcb5433          ",   20, "%+ -0*.*x",    20, 10,  -0x1234abcdu)
-    //DO_TEST("1234ABCD            ",   20, "% -+0*.*X",    20,  5,  0x1234abcdu)
-    //DO_TEST("00EDCB5433          ",   20, "% -+0*.*X",    20, 10,  -0x1234abcdu)
+    DO_TEST("1234abcd            ",   20, "%+ -0*.*x",    20,  5,  0x1234abcdu)
+    DO_TEST("00edcb5433          ",   20, "%+ -0*.*x",    20, 10,  -0x1234abcdu)
+    DO_TEST("1234ABCD            ",   20, "% -+0*.*X",    20,  5,  0x1234abcdu)
+    DO_TEST("00EDCB5433          ",   20, "% -+0*.*X",    20, 10,  -0x1234abcdu)
 
 }
 
