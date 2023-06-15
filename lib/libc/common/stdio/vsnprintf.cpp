@@ -699,7 +699,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
         return 0;
     }
 
-    return -1;
+    return 0;
 }
 
 int snprintf(char *buffer, size_t size, const char *fmt, ...) {

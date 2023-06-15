@@ -343,6 +343,50 @@ TEST(MacondoGenericVsnprintfTest, GenericTest) {
 
 }
 
+//===-- Unittests for snprintf --------------------------------------------===//
+//
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+//
+//===----------------------------------------------------------------------===//
+// The sprintf test cases cover testing the shared printf functionality, so
+// these tests will focus on snprintf exclusive features.
+
+TEST(LlvmLibcSNPrintfTest, CutOff) {
+    char buff[64];
+    int written;
+
+    written =
+        __MACONDO_TEST_NAMESPACE::snprintf(buff, 16, "A simple string with no conversions.");
+    EXPECT_EQ(written, 15);
+    ASSERT_STREQ(buff, "A simple string");
+
+    written = __MACONDO_TEST_NAMESPACE::snprintf(buff, 5, "%s", "1234567890");
+    EXPECT_EQ(written, 4);
+    ASSERT_STREQ(buff, "1234");
+
+    // passing null as the output pointer is allowed as long as buffsz is 0.
+    written = __MACONDO_TEST_NAMESPACE::snprintf(nullptr, 0, "%s and more", "1234567890");
+    EXPECT_EQ(written, 0);
+}
+
+TEST(LlvmLibcSNPrintfTest, NoCutOff) {
+    char buff[64];
+    int written;
+
+    written =
+        __MACONDO_TEST_NAMESPACE::snprintf(buff, 37, "A simple string with no conversions.");
+    EXPECT_EQ(written, 36);
+    ASSERT_STREQ(buff, "A simple string with no conversions.");
+
+    written = __MACONDO_TEST_NAMESPACE::snprintf(buff, 20, "%s", "1234567890");
+    EXPECT_EQ(written, 10);
+    ASSERT_STREQ(buff, "1234567890");
+}
+
+// Here is my tests
+
 TEST(MacondoLibcSnprintfTest, StringParameters) {
     char buffer[BUFFER_SIZE];
     int res = __MACONDO_TEST_NAMESPACE::snprintf(buffer, BUFFER_SIZE, "%s", "Hallo heimur");
