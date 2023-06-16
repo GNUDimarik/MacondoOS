@@ -115,6 +115,12 @@ static int parse_number(const char **str) {
  */
 static size_t format_number(char *buffer, unsigned long long arg, FormatSpec& formatSpec, size_t max_size)
 {
+    if (formatSpec.flags.checkFlag(PrintfFormatArg::kPrecisionOmitted)) {
+        if (formatSpec.field_width <= 0) {
+            return 0;
+        }
+    }
+
     size_t len = 0;
     unsigned long long number = arg;
     int number_len = 0;
@@ -354,7 +360,7 @@ static size_t format_string(char *buffer, const char* str, FormatSpec& formatSpe
             formatSpec.precision = str_len;
         }
 
-        if (formatSpec.field_width > formatSpec.precision && formatSpec.precision > 0) {
+        if (formatSpec.field_width >= formatSpec.precision && formatSpec.precision > 0) {
             formatSpec.field_width -= formatSpec.precision;
         }
 
@@ -538,7 +544,6 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
             if (*fmt == '.') {
                 ++fmt;
                 formatSpec.printfFormatFlags.clearFlag(PrintfFormatFlag::kZero);
-                formatSpec.printfFormatFlags.clearFlag(PrintfFormatFlag::kSpace);
 
                 if (isdigit(*fmt)) {
                     formatSpec.precision = parse_number(&fmt);

@@ -385,6 +385,217 @@ TEST(LlvmLibcSNPrintfTest, NoCutOff) {
     ASSERT_STREQ(buff, "1234567890");
 }
 
+TEST(LlvmLibcSPrintfTest, SimpleNoConv) {
+    char buff[64];
+    int written;
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "A simple string with no conversions.");
+    EXPECT_EQ(written, 36);
+    ASSERT_STREQ(buff, "A simple string with no conversions.");
+}
+
+TEST(LlvmLibcSPrintfTest, PercentConv) {
+    char buff[64];
+    int written;
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%%");
+    EXPECT_EQ(written, 1);
+    ASSERT_STREQ(buff, "%");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "abc %% def");
+    EXPECT_EQ(written, 9);
+    ASSERT_STREQ(buff, "abc % def");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%%%%%%");
+    EXPECT_EQ(written, 3);
+    ASSERT_STREQ(buff, "%%%");
+}
+
+TEST(LlvmLibcSPrintfTest, CharConv) {
+    char buff[64];
+    int written;
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%c", 'a');
+    EXPECT_EQ(written, 1);
+    ASSERT_STREQ(buff, "a");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%3c %-3c", '1', '2');
+    EXPECT_EQ(written, 7);
+    ASSERT_STREQ(buff, "  1 2  ");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%*c", 2, '3');
+    EXPECT_EQ(written, 2);
+    ASSERT_STREQ(buff, " 3");
+}
+
+TEST(LlvmLibcSPrintfTest, StringConv) {
+    char buff[64];
+    int written;
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%s", "abcDEF123");
+    EXPECT_EQ(written, 9);
+    ASSERT_STREQ(buff, "abcDEF123");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%10s %-10s", "centered", "title");
+    EXPECT_EQ(written, 21);
+    ASSERT_STREQ(buff, "  centered title     ");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%-5.4s%-4.4s", "words can describe",
+                                   "soups most delicious");
+    EXPECT_EQ(written, 9);
+    ASSERT_STREQ(buff, "word soup");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%*s %.*s %*.*s", 10, "beginning", 2,
+                                   "isn't", 12, 10, "important. Ever.");
+    EXPECT_EQ(written, 26);
+    ASSERT_STREQ(buff, " beginning is   important.");
+}
+
+TEST(LlvmLibcSPrintfTest, IntConv) {
+    char buff[64];
+    int written;
+
+    // Basic Tests.
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%d", 123);
+    EXPECT_EQ(written, 3);
+    ASSERT_STREQ(buff, "123");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%i", -456);
+    EXPECT_EQ(written, 4);
+    ASSERT_STREQ(buff, "-456");
+
+    // Length Modifier Tests.
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%hhu", 257); // 0x101
+    EXPECT_EQ(written, 1);
+    ASSERT_STREQ(buff, "1");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%llu", 18446744073709551615ull);
+    EXPECT_EQ(written, 20);
+    ASSERT_STREQ(buff, "18446744073709551615"); // ull max
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%tu", ~ptrdiff_t(0));
+    if (sizeof(ptrdiff_t) == 8) {
+        EXPECT_EQ(written, 20);
+        ASSERT_STREQ(buff, "18446744073709551615");
+    } else if (sizeof(ptrdiff_t) == 4) {
+        EXPECT_EQ(written, 10);
+        ASSERT_STREQ(buff, "4294967296");
+    }
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%lld", -9223372036854775807ll - 1ll);
+    EXPECT_EQ(written, 20);
+    ASSERT_STREQ(buff, "-9223372036854775808"); // ll min
+
+    // Min Width Tests.
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%4d", 789);
+    EXPECT_EQ(written, 4);
+    ASSERT_STREQ(buff, " 789");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%2d", 987);
+    EXPECT_EQ(written, 3);
+    ASSERT_STREQ(buff, "987");
+
+    // Precision Tests.
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%d", 0);
+    EXPECT_EQ(written, 1);
+    ASSERT_STREQ(buff, "0");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%.0d", 0);
+    EXPECT_EQ(written, 0);
+    ASSERT_STREQ(buff, "");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%.5d", 654);
+    EXPECT_EQ(written, 5);
+    ASSERT_STREQ(buff, "00654");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%.5d", -321);
+    EXPECT_EQ(written, 6);
+    ASSERT_STREQ(buff, "-00321");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%.2d", 135);
+    EXPECT_EQ(written, 3);
+    ASSERT_STREQ(buff, "135");
+
+    // Flag Tests.
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%.5d", -321);
+    EXPECT_EQ(written, 6);
+    ASSERT_STREQ(buff, "-00321");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%-5d", 246);
+    EXPECT_EQ(written, 5);
+    ASSERT_STREQ(buff, "246  ");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%-5d", -147);
+    EXPECT_EQ(written, 5);
+    ASSERT_STREQ(buff, "-147 ");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%+d", 258);
+    EXPECT_EQ(written, 4);
+    ASSERT_STREQ(buff, "+258");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "% d", 369);
+    EXPECT_EQ(written, 4);
+    ASSERT_STREQ(buff, " 369");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%05d", 470);
+    EXPECT_EQ(written, 5);
+    ASSERT_STREQ(buff, "00470");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%05d", -581);
+    EXPECT_EQ(written, 5);
+    ASSERT_STREQ(buff, "-0581");
+
+    // Combined Tests.
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%+ u", 692);
+    EXPECT_EQ(written, 3);
+    ASSERT_STREQ(buff, "692");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%+ -05d", 703);
+    EXPECT_EQ(written, 5);
+    ASSERT_STREQ(buff, "+703 ");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%7.5d", 814);
+    EXPECT_EQ(written, 7);
+    ASSERT_STREQ(buff, "  00814");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%7.5d", -925);
+    EXPECT_EQ(written, 7);
+    ASSERT_STREQ(buff, " -00925");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%7.5d", 159);
+    EXPECT_EQ(written, 7);
+    ASSERT_STREQ(buff, "  00159");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "% -7.5d", 260);
+    EXPECT_EQ(written, 7);
+    ASSERT_STREQ(buff, " 00260 ");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%5.4d", 10000);
+    EXPECT_EQ(written, 5);
+    ASSERT_STREQ(buff, "10000");
+
+    // Multiple Conversion Tests.
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%10d %-10d", 456, -789);
+    EXPECT_EQ(written, 21);
+    ASSERT_STREQ(buff, "       456 -789      ");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%-5.4d%+.4u", 75, 25);
+    EXPECT_EQ(written, 9);
+    ASSERT_STREQ(buff, "0075 0025");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "% 05hhi %+-0.5llu %-+ 06.3zd",
+                                   256 + 127, 68719476736ll, size_t(2));
+    EXPECT_EQ(written, 24);
+    ASSERT_STREQ(buff, " 0127 68719476736 +002  ");
+}
+
 // Here is my tests
 
 TEST(MacondoLibcSnprintfTest, StringParameters) {
