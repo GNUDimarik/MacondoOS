@@ -22,18 +22,6 @@ struct PrintfSizeSpecifier {
     };
 };
 
-struct PrintfConversionSpecifier {
-    enum {
-        kInt = 1,
-        kUnsigned = 1 << 1,
-        kChar = 1 << 2,
-        kString = 1 << 3,
-        kPointer = 1 << 4,
-        kNLen = 1 << 5,
-        kPercent = 1 << 6
-    };
-};
-
 struct PrintfFormatFlag {
     enum {
         kMinus = 1,
@@ -76,7 +64,6 @@ struct Flags {
 
 struct FormatSpec {
     Flags printfSizeSpecifier;
-    Flags printfConversionSpecifier;
     Flags printfFormatFlags;
     Flags flags = 0;
     int precision = 0;
@@ -85,7 +72,6 @@ struct FormatSpec {
 
     void reset() {
         printfSizeSpecifier.reset();
-        printfConversionSpecifier.reset();
         printfFormatFlags.reset();
         flags.reset();
         precision = -1;
@@ -417,6 +403,7 @@ static size_t format_pointer(char *buffer, unsigned long long addr, FormatSpec& 
     size_t len = 0;
 
     formatSpec.reset();
+    formatSpec.radix = 16;
     formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kSpecial);
     formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kZero);
     formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kMinus);
@@ -629,8 +616,6 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
 
                 case 'p':
                 {
-                    formatSpec.radix = 16;
-                    formatSpec.printfSizeSpecifier.checkFlag(PrintfSizeSpecifier::kSizeT);
                     unsigned long long value = read_unsigned_number(formatSpec, ap);
                     size_t len = format_pointer(p_buf, value, formatSpec, size - sz);
                     sz += len;
