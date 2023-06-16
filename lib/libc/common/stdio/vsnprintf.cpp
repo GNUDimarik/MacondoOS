@@ -439,6 +439,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
         char *p_buf = buf;
         FormatSpec formatSpec;
         bool isNegative = false;
+        size_t len = 0;
         --size;
 
         if (size == 0) {
@@ -570,6 +571,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 default:break;
             }
 
+            len = 0;
             /* handle conversion specifier */
             switch (*fmt) {
                 case 'X' :formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kHugeNumbers);
@@ -577,17 +579,13 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 case 'x': {
                     formatSpec.radix = 16;
                     unsigned long long value = read_unsigned_number(formatSpec, ap);
-                    size_t len = format_number(p_buf, value, formatSpec, size - sz);
-                    sz += len;
-                    p_buf += len;
+                    len = format_number(p_buf, value, formatSpec, size - sz);
                 }
                     break;
 
                 case 'p': {
                     unsigned long long value = read_unsigned_number(formatSpec, ap);
-                    size_t len = format_pointer(p_buf, value, formatSpec, size - sz);
-                    sz += len;
-                    p_buf += len;
+                    len = format_pointer(p_buf, value, formatSpec, size - sz);
                 }
                     break;
 
@@ -603,9 +601,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                         value = -value;
                     }
 
-                    size_t len = format_number(p_buf, value, formatSpec, size - sz);
-                    sz += len;
-                    p_buf += len;
+                    len = format_number(p_buf, value, formatSpec, size - sz);
                 }
                     break;
 
@@ -613,26 +609,19 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                     [[fallthrough]];
                 case 'u': {
                     unsigned long long value = read_unsigned_number(formatSpec, ap);
-                    size_t len = format_number(p_buf, value, formatSpec, size - sz);
-                    sz += len;
-                    p_buf += len;
+                    len = format_number(p_buf, value, formatSpec, size - sz);
                 }
                     break;
 
                 case 's': {
                     const char *str = va_arg(ap, const char*);
-                    size_t len = format_string(p_buf, str, formatSpec, size - sz);
-                    /// TODO: think about it. len like flags resets each iteration??? and check it at end
-                    sz += len;
-                    p_buf += len;
+                    len = format_string(p_buf, str, formatSpec, size - sz);
                 }
                     break;
 
                 case 'c': {
                     int c = va_arg(ap, int);
-                    size_t len = format_char(p_buf, c, formatSpec, size - sz);
-                    sz += len;
-                    p_buf += len;
+                    len = format_char(p_buf, c, formatSpec, size - sz);
                 }
                     break;
 
@@ -654,6 +643,9 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                     }
                     break;
             }
+
+            sz += len;
+            p_buf += len;
         }
 
         *p_buf = '\0';
