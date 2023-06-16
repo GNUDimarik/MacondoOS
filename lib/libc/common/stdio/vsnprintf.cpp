@@ -32,6 +32,10 @@
 __USING_MACONDO_TEST_NAMESPACE
 
 #define MAX_NUMBER_LEN 66
+
+/**
+ * @brief size of internal buffer for formatting functions
+ */
 #define SPRINTF_MAX_BUFFER_SIZE 1024
 
 struct PrintfSizeSpecifier {
@@ -449,20 +453,41 @@ static size_t format_pointer(char *buffer, unsigned long long addr, FormatSpec &
 __BEGIN_DECLS
 
 /**
- * @defgroup strings string formatting routines
+ * @defgroup format string formatting routines
  * @ingroup  stdlib
  * @{
  */
 
 /**
- * @brief vsnprintf -
- * @param buf          -
- * @param size         -
- * @param fmt          -
- * @param ap           -
+ * @brief vsnprintf    - formatted output conversion
+ * @param buf          - buffer for formatted output
+ * @param size         - sizeof buffer
+ * @param fmt          - printf format string
+ * @param ap           - arguments
  * @return number of written characters (len of formatted output string)
  *
  * Zero precision means it gonna print nothing. Omitted precision after a dot means precision is zero.
+ *
+ * <b> Supported size specifiers: </b> \n
+ *
+ * l     - long         \n
+ * ll, L - long long    \n
+ * h     - short        \n
+ * hh    - char         \n
+ * j     - int/uint_max \n
+ * t     - ptrdiff_t    \n
+ * z     - size_t       \n
+ *
+ * <b> Supported conversion specifiers: </b> \n
+ *
+ * X, x - unsigned hex number \n
+ * o    - unsigned oct number \n
+ * u    - unsigned dec number \n
+ * d,i  - signed dec number   \n
+ * p    - pointer             \n
+ * s    - string              \n
+ * c    - char                \n
+ * n    - printed characters number at the moment \n
  */
 int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
     if (size > 1 && buf && fmt) {
@@ -688,6 +713,16 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
     return 0;
 }
 
+/**
+ * @see vsnprintf
+ * @brief snprintf - formatted output conversion
+ * @param buffer   - buffer for formatted output
+ * @param size     - sizeof buffer
+ * @param fmt      - printf format string
+ * @return         - number of written characters (len of formatted output string)
+ *
+ * Uses internally \link vsnprintf \endlink
+ */
 int snprintf(char *buffer, size_t size, const char *fmt, ...) {
     int res = -1;
     va_list ap;
@@ -697,6 +732,14 @@ int snprintf(char *buffer, size_t size, const char *fmt, ...) {
     return res;
 }
 
+/**
+ * @see snprintf
+ * @brief sprintf - formatted output conversion
+ * @param buffer  - buffer for formatted output
+ * @return        - number of written characters (len of formatted output string)
+ *
+ * Uses internally \link snprintf \endlink with \link SPRINTF_MAX_BUFFER_SIZE \endlink buffer
+ */
 int sprintf(char *buffer, const char *fmt, ...) {
     int res = -1;
     va_list ap;
