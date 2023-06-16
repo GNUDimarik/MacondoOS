@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2022 Dmitry Adzhiev aka GNUDimarik <dmitry.adjiev@gmail.com>
@@ -22,12 +22,6 @@
  * THE SOFTWARE.
  */
 
-/**
- * @defgroup strings string routines
- * @ingroup  stdlib
- * @{
- */
-
 #pragma once
 
 #include "defs.h"
@@ -35,6 +29,12 @@
 
 __BEGIN_DECLS
 __MACONDO_TEST_NAMESPACE_BEGIN
+
+/**
+ * @defgroup strings string routines
+ * @ingroup  stdlib
+ * @{
+ */
 
 /**
  * @brief memcpy - copy length bytes from the object pointed to by src into

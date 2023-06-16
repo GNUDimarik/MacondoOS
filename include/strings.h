@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2022 Dmitry Adzhiev aka GNUDimarik <dmitry.adjiev@gmail.com>
@@ -22,11 +22,6 @@
  * THE SOFTWARE.
  */
 
-/**
- * @ingroup strings
- * @{
- */
-
 #pragma once
 
 #include "defs.h"
@@ -35,6 +30,11 @@
 
 __MACONDO_TEST_NAMESPACE_BEGIN
 __BEGIN_DECLS
+
+/**
+ * @ingroup strings
+ * @{
+ */
 
 /**
  * @brief bcmp  - just macro for calling memcmp
