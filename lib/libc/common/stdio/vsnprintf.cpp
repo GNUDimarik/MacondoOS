@@ -61,7 +61,6 @@ struct Flags {
     }
 };
 
-
 struct FormatSpec {
     Flags printfSizeSpecifier;
     Flags printfFormatFlags;
@@ -99,8 +98,7 @@ static int parse_number(const char **str) {
  * @param max_size      - maximum allowed length
  * @return length of formatted number
  */
-static size_t format_number(char *buffer, unsigned long long arg, FormatSpec& formatSpec, size_t max_size)
-{
+static size_t format_number(char *buffer, unsigned long long arg, FormatSpec &formatSpec, size_t max_size) {
     if (formatSpec.flags.checkFlag(PrintfFormatArg::kPrecisionOmitted)) {
         if (formatSpec.field_width <= 0) {
             return 0;
@@ -127,7 +125,7 @@ static size_t format_number(char *buffer, unsigned long long arg, FormatSpec& fo
         }
 
         if (sign > 0) {
-            -- formatSpec.field_width;
+            --formatSpec.field_width;
         }
     }
 
@@ -144,8 +142,8 @@ static size_t format_number(char *buffer, unsigned long long arg, FormatSpec& fo
         /* do not paint 0x0 or 00 ??? */
         if (formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kSpecial)) {
             if (len < max_size) {
-                *buffer ++ = '0';
-                ++ len;
+                *buffer++ = '0';
+                ++len;
             }
 
             return len;
@@ -163,9 +161,9 @@ static size_t format_number(char *buffer, unsigned long long arg, FormatSpec& fo
     /* decrease field width. we need take an account special form */
     if (formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kSpecial)) {
         if (formatSpec.radix != 10) {
-            -- formatSpec.field_width;
+            --formatSpec.field_width;
             if (formatSpec.radix == 16) {
-                -- formatSpec.field_width;
+                --formatSpec.field_width;
             }
         }
     }
@@ -174,15 +172,15 @@ static size_t format_number(char *buffer, unsigned long long arg, FormatSpec& fo
     if (!formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kMinus)) {
         if (!formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kZero)) {
             /* leading padding */
-            while (-- formatSpec.field_width >= 0 && len < max_size) {
+            while (--formatSpec.field_width >= 0 && len < max_size) {
                 *buffer++ = ' ';
-                ++ len;
+                ++len;
             }
         }
     }
     /* write sign or space depends from format flags */
     if (sign > 0 && len < max_size) {
-        *buffer ++ = sign;
+        *buffer++ = sign;
         ++len;
     }
 
@@ -190,149 +188,133 @@ static size_t format_number(char *buffer, unsigned long long arg, FormatSpec& fo
     if (formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kSpecial)) {
         if (formatSpec.radix != 10) {
             if (len < max_size) {
-                *buffer ++ = '0';
-                ++ len;
+                *buffer++ = '0';
+                ++len;
             }
             if (formatSpec.radix == 16) {
                 if (len < max_size) {
-                    *buffer ++ = formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kHugeNumbers) ? 'X' : 'x';
-                    ++ len;
+                    *buffer++ = formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kHugeNumbers) ? 'X' : 'x';
+                    ++len;
                 }
             }
         }
     }
 
     /* prepend zeros if min precision requires it */
-    while (-- formatSpec.precision >= 0 && len < max_size) {
+    while (--formatSpec.precision >= 0 && len < max_size) {
         *buffer++ = '0';
-        ++ len;
+        ++len;
     }
 
     /* padding after sign ??? what if no zero ??? */
     if (!formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kMinus)) {
         char pad = formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kZero) ? '0' : ' ';
 
-        while (-- formatSpec.field_width >= 0 && len < max_size) {
+        while (--formatSpec.field_width >= 0 && len < max_size) {
             *buffer++ = pad;
-            ++ len;
+            ++len;
         }
     }
 
-    while (-- formatSpec.precision >= 0 && len < max_size) {
+    while (--formatSpec.precision >= 0 && len < max_size) {
         *buffer++ = '0';
-        ++ len;
+        ++len;
     }
     /* write number itself */
-    for (int i = number_len - 1; i >= 0 && len < max_size;  --i, -- formatSpec.precision, ++len) {
+    for (int i = number_len - 1; i >= 0 && len < max_size; --i, --formatSpec.precision, ++len) {
         *buffer++ = num_str[i];
     }
 
     /* trailing padding */
-    while (-- formatSpec.field_width >= 0 && len < max_size) {
+    while (--formatSpec.field_width >= 0 && len < max_size) {
         *buffer++ = ' ';
-        ++ len;
+        ++len;
     }
 
     *buffer = '\0';
     return len;
 }
 
-static size_t format_char(char *buffer, int arg, FormatSpec& formatSpec, size_t max_size) {
+static size_t format_char(char *buffer, int arg, FormatSpec &formatSpec, size_t max_size) {
     size_t len = 1;
 
     if (!formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kMinus)) {
-        for (; (formatSpec.field_width > 1) && (len < max_size); formatSpec.field_width--, len ++) {
+        for (; (formatSpec.field_width > 1) && (len < max_size); formatSpec.field_width--, len++) {
             *buffer++ = ' ';
         }
     }
 
     *buffer++ = arg;
 
-    for (; (formatSpec.field_width > 1) && (len < max_size); formatSpec.field_width--, len ++) {
+    for (; (formatSpec.field_width > 1) && (len < max_size); formatSpec.field_width--, len++) {
         *buffer++ = ' ';
     }
 
     return len;
 }
 
-static long long read_signed_number(const FormatSpec& formatSpec, va_list ap) {
+static long long read_signed_number(const FormatSpec &formatSpec, va_list ap) {
     long long value = 0;
 
     switch (formatSpec.printfSizeSpecifier.flags) {
-        case PrintfSizeSpecifier::kChar:
-            value = static_cast<signed char> (va_arg(ap, int));
+        case PrintfSizeSpecifier::kChar:value = static_cast<signed char> (va_arg(ap, int));
             break;
 
-        case PrintfSizeSpecifier::kIntUintMax:
-            value = va_arg(ap, intmax_t);
+        case PrintfSizeSpecifier::kIntUintMax:value = va_arg(ap, intmax_t);
             break;
 
-        case PrintfSizeSpecifier::kLong:
-            value = va_arg(ap, long);
+        case PrintfSizeSpecifier::kLong:value = va_arg(ap, long);
             break;
 
-        case PrintfSizeSpecifier::kLongLong:
-            value = va_arg(ap, long long);
+        case PrintfSizeSpecifier::kLongLong:value = va_arg(ap, long long);
             break;
 
-        case PrintfSizeSpecifier::kPtrDiffT:
-            value = va_arg(ap, ptrdiff_t);
+        case PrintfSizeSpecifier::kPtrDiffT:value = va_arg(ap, ptrdiff_t);
             break;
 
-        case PrintfSizeSpecifier::kShort:
-            value = static_cast<signed short> (va_arg(ap, int));
+        case PrintfSizeSpecifier::kShort:value = static_cast<signed short> (va_arg(ap, int));
             break;
 
-        case PrintfSizeSpecifier::kSizeT:
-            value = static_cast<ssize_t> (va_arg(ap, int));
+        case PrintfSizeSpecifier::kSizeT:value = static_cast<ssize_t> (va_arg(ap, int));
             break;
-        default:
-            value = va_arg(ap, int);
+        default:value = va_arg(ap, int);
     }
 
     return value;
 }
 
-static unsigned long long read_unsigned_number(const FormatSpec& formatSpec, va_list ap) {
+static unsigned long long read_unsigned_number(const FormatSpec &formatSpec, va_list ap) {
     unsigned long long value = 0;
 
     switch (formatSpec.printfSizeSpecifier.flags) {
 
-        case PrintfSizeSpecifier::kChar:
-            value = static_cast<signed char> (va_arg(ap, unsigned int));
+        case PrintfSizeSpecifier::kChar:value = static_cast<signed char> (va_arg(ap, unsigned int));
             break;
 
-        case PrintfSizeSpecifier::kIntUintMax:
-            value = va_arg(ap, uintmax_t);
+        case PrintfSizeSpecifier::kIntUintMax:value = va_arg(ap, uintmax_t);
             break;
 
-        case PrintfSizeSpecifier::kLong:
-            value = va_arg(ap, unsigned long);
+        case PrintfSizeSpecifier::kLong:value = va_arg(ap, unsigned long);
             break;
 
-        case PrintfSizeSpecifier::kLongLong:
-            value = va_arg(ap, unsigned long long);
+        case PrintfSizeSpecifier::kLongLong:value = va_arg(ap, unsigned long long);
             break;
 
-        case PrintfSizeSpecifier::kPtrDiffT:
-            value = va_arg(ap, ptrdiff_t);
+        case PrintfSizeSpecifier::kPtrDiffT:value = va_arg(ap, ptrdiff_t);
             break;
 
-        case PrintfSizeSpecifier::kShort:
-            value = static_cast<unsigned short> (va_arg(ap, unsigned int));
+        case PrintfSizeSpecifier::kShort:value = static_cast<unsigned short> (va_arg(ap, unsigned int));
             break;
 
-        case PrintfSizeSpecifier::kSizeT:
-            value = static_cast<size_t> (va_arg(ap, unsigned int));
+        case PrintfSizeSpecifier::kSizeT:value = static_cast<size_t> (va_arg(ap, unsigned int));
             break;
-        default:
-            value = va_arg(ap, unsigned int);
+        default:value = va_arg(ap, unsigned int);
     }
 
     return value;
 }
 
-static size_t format_string(char *buffer, const char* str, FormatSpec& formatSpec, size_t max_size) {
+static size_t format_string(char *buffer, const char *str, FormatSpec &formatSpec, size_t max_size) {
     size_t len = 0;
 
     if (str) {
@@ -351,47 +333,47 @@ static size_t format_string(char *buffer, const char* str, FormatSpec& formatSpe
         }
 
         if (!formatSpec.printfFormatFlags.checkFlag(PrintfFormatFlag::kMinus)) {
-            for (; formatSpec.field_width > 0 && len < max_size; formatSpec.field_width--, len ++) {
+            for (; formatSpec.field_width > 0 && len < max_size; formatSpec.field_width--, len++) {
                 *buffer++ = ' ';
             }
         }
 
-        for (; formatSpec.precision -- > 0 && len < max_size; len ++) {
+        for (; formatSpec.precision-- > 0 && len < max_size; len++) {
             *buffer++ = *str++;
         }
 
-        for (; formatSpec.field_width > 0 && len < max_size; formatSpec.field_width--, len ++) {
+        for (; formatSpec.field_width > 0 && len < max_size; formatSpec.field_width--, len++) {
             *buffer++ = ' ';
         }
     } else {
         /* just print (null) */
         if (len < max_size) {
-            *buffer ++ = '(';
-            len ++;
-        }
-
-        if (len < max_size) {
-            *buffer ++ = 'n';
+            *buffer++ = '(';
             len++;
         }
 
         if (len < max_size) {
-            *buffer ++ = 'u';
+            *buffer++ = 'n';
             len++;
         }
 
         if (len < max_size) {
-            *buffer ++ = 'l';
+            *buffer++ = 'u';
             len++;
         }
 
         if (len < max_size) {
-            *buffer ++ = 'l';
+            *buffer++ = 'l';
             len++;
         }
 
         if (len < max_size) {
-            *buffer ++ = ')';
+            *buffer++ = 'l';
+            len++;
+        }
+
+        if (len < max_size) {
+            *buffer++ = ')';
             len++;
         }
     }
@@ -399,7 +381,7 @@ static size_t format_string(char *buffer, const char* str, FormatSpec& formatSpe
     return len;
 }
 
-static size_t format_pointer(char *buffer, unsigned long long addr, FormatSpec& formatSpec, size_t max_size) {
+static size_t format_pointer(char *buffer, unsigned long long addr, FormatSpec &formatSpec, size_t max_size) {
     size_t len = 0;
 
     formatSpec.reset();
@@ -412,27 +394,27 @@ static size_t format_pointer(char *buffer, unsigned long long addr, FormatSpec& 
         len = format_number(buffer, addr, formatSpec, max_size);
     } else {
         if (len < max_size) {
-            *buffer ++ = '(';
-            len ++;
-        }
-
-        if (len < max_size) {
-            *buffer ++ = 'n';
+            *buffer++ = '(';
             len++;
         }
 
         if (len < max_size) {
-            *buffer ++ = 'i';
+            *buffer++ = 'n';
             len++;
         }
 
         if (len < max_size) {
-            *buffer ++ = 'l';
+            *buffer++ = 'i';
             len++;
         }
 
         if (len < max_size) {
-            *buffer ++ = ')';
+            *buffer++ = 'l';
+            len++;
+        }
+
+        if (len < max_size) {
+            *buffer++ = ')';
             len++;
         }
     }
@@ -474,32 +456,26 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
             /* handle format flags */
             while (*fmt++ != '\0') {
                 switch (*fmt) {
-                    case '#':
-                        formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kSpecial);
+                    case '#':formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kSpecial);
                         formatSpec.printfFormatFlags.clearFlag(PrintfFormatFlag::kPlus);
                         continue;
 
-                    case ' ':
-                        formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kSpace);
+                    case ' ':formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kSpace);
                         formatSpec.printfFormatFlags.clearFlag(PrintfFormatFlag::kZero);
                         continue;
 
-                    case '0':
-                        formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kZero);
+                    case '0':formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kZero);
                         continue;
 
-                    case '-':
-                        formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kMinus);
+                    case '-':formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kMinus);
                         formatSpec.printfFormatFlags.clearFlag(PrintfFormatFlag::kZero);
                         continue;
 
-                    case '+':
-                        formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kPlus);
+                    case '+':formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kPlus);
                         formatSpec.printfFormatFlags.clearFlag(PrintfFormatFlag::kSpace);
                         continue;
 
-                    default:
-                        break;
+                    default:break;
                 }
 
                 break;
@@ -546,8 +522,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                     formatSpec.precision = 0;
                     /* just skip digits */
                     parse_number(&++fmt);
-                }
-                else {
+                } else {
                     formatSpec.flags.setFlag(PrintfFormatArg::kPrecisionOmitted);
                 }
             }
@@ -580,30 +555,24 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                     ++fmt;
                     break;
                 }
-                case 'j':
-                    formatSpec.printfSizeSpecifier.setFlag(PrintfSizeSpecifier::kIntUintMax);
+                case 'j':formatSpec.printfSizeSpecifier.setFlag(PrintfSizeSpecifier::kIntUintMax);
                     ++fmt;
                     break;
-                case 't':
-                    formatSpec.printfSizeSpecifier.setFlag(PrintfSizeSpecifier::kPtrDiffT);
+                case 't':formatSpec.printfSizeSpecifier.setFlag(PrintfSizeSpecifier::kPtrDiffT);
                     ++fmt;
                     break;
-                case 'L':
-                    formatSpec.printfSizeSpecifier.setFlag(PrintfSizeSpecifier::kLongLong);
+                case 'L':formatSpec.printfSizeSpecifier.setFlag(PrintfSizeSpecifier::kLongLong);
                     ++fmt;
                     break;
-                case 'z':
-                    formatSpec.printfSizeSpecifier.setFlag(PrintfSizeSpecifier::kSizeT);
+                case 'z':formatSpec.printfSizeSpecifier.setFlag(PrintfSizeSpecifier::kSizeT);
                     ++fmt;
                     break;
-                default:
-                    break;
+                default:break;
             }
 
             /* handle conversion specifier */
             switch (*fmt) {
-                case 'X' :
-                    formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kHugeNumbers);
+                case 'X' :formatSpec.printfFormatFlags.setFlag(PrintfFormatFlag::kHugeNumbers);
                     [[fallthrough]];
                 case 'x': {
                     formatSpec.radix = 16;
@@ -614,8 +583,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 }
                     break;
 
-                case 'p':
-                {
+                case 'p': {
                     unsigned long long value = read_unsigned_number(formatSpec, ap);
                     size_t len = format_pointer(p_buf, value, formatSpec, size - sz);
                     sz += len;
@@ -623,8 +591,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 }
                     break;
 
-                case 'd':
-                    [[fallthrough]];
+                case 'd':[[fallthrough]];
                 case 'i': {
                     formatSpec.radix = 10;
                     long long value = read_signed_number(formatSpec, ap);
@@ -642,8 +609,7 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 }
                     break;
 
-                case 'o':
-                    formatSpec.radix = 8;
+                case 'o':formatSpec.radix = 8;
                     [[fallthrough]];
                 case 'u': {
                     unsigned long long value = read_unsigned_number(formatSpec, ap);
@@ -670,8 +636,16 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
                 }
                     break;
 
-                case '%':
-                    *p_buf ++ = '%';
+                case 'n': {
+                    size_t *ptr = va_arg(ap, size_t*);
+
+                    if (ptr) {
+                        *ptr = p_buf - buf;
+                    }
+                }
+                    break;
+
+                case '%':*p_buf++ = '%';
                     break;
 
                 default:
@@ -701,8 +675,7 @@ int snprintf(char *buffer, size_t size, const char *fmt, ...) {
     return res;
 }
 
-int sprintf(char *buffer, const char *fmt, ...)
-{
+int sprintf(char *buffer, const char *fmt, ...) {
     int res = -1;
     va_list ap;
     va_start(ap, fmt);

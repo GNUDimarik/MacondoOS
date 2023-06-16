@@ -736,6 +736,41 @@ TEST(LlvmLibcSPrintfTest, PointerConv) {
     written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%p", buff);
     EXPECT_GT(written, 0);
 }
+
+TEST(LlvmLibcSPrintfTest, WriteIntConv) {
+    char buff[64];
+    int written;
+    int test_val = -1;
+
+    test_val = -1;
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "12345%n67890", &test_val);
+    EXPECT_EQ(written, 10);
+    EXPECT_EQ(test_val, 5);
+    ASSERT_STREQ(buff, "1234567890");
+
+    test_val = -1;
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%n", &test_val);
+    EXPECT_EQ(written, 0);
+    EXPECT_EQ(test_val, 0);
+    ASSERT_STREQ(buff, "");
+
+#if 0 /* seems here expected some llvm specific behaviour */
+    test_val = 0x100;
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "ABC%hhnDEF", &test_val);
+    EXPECT_EQ(written, 6);
+    EXPECT_EQ(test_val, 0x103);
+    ASSERT_STREQ(buff, "ABCDEF");
+
+    test_val = -1;
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "%s%n", "87654321", &test_val);
+    EXPECT_EQ(written, 8);
+    EXPECT_EQ(test_val, 8);
+    ASSERT_STREQ(buff, "87654321");
+
+    written = __MACONDO_TEST_NAMESPACE::sprintf(buff, "abc123%n", nullptr);
+    EXPECT_LT(written, 0);
+#endif
+}
 #if 0
 TEST(LlvmLibcSPrintfTest, OctConv) {
     char buff[64];
