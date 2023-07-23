@@ -1,6 +1,6 @@
 set(BINARY libc_test)
 
-file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
+file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp *.cc)
 
 set(SOURCES ${TEST_SOURCES})
 

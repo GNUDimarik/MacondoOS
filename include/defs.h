@@ -31,6 +31,7 @@
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
 #endif
 
+#ifndef __linux__
 #define max(a, b)             \
 ({                           \
     __typeof__ (a) _a = (a); \
@@ -44,6 +45,7 @@
     __typeof__ (b) _b = (b); \
     _a < _b ? _a : _b;       \
 })
+#endif
 
 #if defined (__cplusplus)
     #define __EXTERN extern "C"
@@ -115,7 +117,7 @@
 #ifndef __STD_NAMESPACE
     #if defined(__cplusplus)
         #if defined(MACONDO_TEST)
-            #define __STD_NAMESPACE debug_std__
+            #define __STD_NAMESPACE __test_std__
         #else
             #define __STD_NAMESPACE std
         #endif
