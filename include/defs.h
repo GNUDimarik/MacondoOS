@@ -31,6 +31,15 @@
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
 #endif
 
+/* To make clang happy */
+#ifndef __THROW
+    #if defined(__cplusplus)
+        #define __THROW noexcept
+    #else
+        #define __THROW
+    #endif
+#endif
+
 #ifndef __linux__
 #define max(a, b)             \
 ({                           \
