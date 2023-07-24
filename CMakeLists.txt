@@ -9,4 +9,5 @@ add_subdirectory(third_party/googletest)
 
 include("cmake/common_c_cxx_flags.cmake")
 add_subdirectory(lib)
+add_subdirectory(libstdc++)
 add_subdirectory(test)
