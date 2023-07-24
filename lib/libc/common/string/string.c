@@ -122,6 +122,7 @@ char *strcat(char *__restrict__ dest, const char *__restrict__ src) {
         *d++ = *s++;
     }
 
+    *d = '\0';
     return dest;
 }
 
