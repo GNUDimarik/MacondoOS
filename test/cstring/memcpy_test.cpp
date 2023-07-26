@@ -20,7 +20,7 @@ Data memcpy_get_data(const char* filler) {
     Data out;
     out.resize(2048);
     for (size_t i = 0; i < out.size(); ++i)
-        out[i] = filler[i % ARRAY_SIZE(filler)];
+        out[i] = filler[i % strlen(filler)];
     return out;
 }
 

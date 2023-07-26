@@ -20,7 +20,7 @@ Data bzero_get_data(const char* filler) {
   out.resize(2048);
 
   for (size_t i = 0; i < out.size(); ++i)
-    out[i] = filler[i % ARRAY_SIZE(filler)];
+    out[i] = filler[i % strlen(filler)];
   return std::move(out);
 }
 

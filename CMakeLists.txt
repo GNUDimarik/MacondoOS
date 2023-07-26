@@ -3,11 +3,13 @@ project(MacondoOS)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(TARGET_PLATFORM "ia32e")
+set(ENV{EXTERNAL_INSTALL_LOCATION} ${PROJECT_SOURCE_DIR}/third_party)
+set(ENV{MACONDO_INCLUDE} ${PROJECT_SOURCE_DIR}/include)
+set(ENV{MACONDO_CMAKE_INCLUDE} ${PROJECT_SOURCE_DIR}/cmake)
 
-add_subdirectory(third_party/googletest)
-
-include("cmake/common_c_cxx_flags.cmake")
 add_subdirectory(lib)
 add_subdirectory(libstdc++)
-add_subdirectory(test)
+
+if (ENABLE_TESTS)
+    add_subdirectory(test)
+endif()
