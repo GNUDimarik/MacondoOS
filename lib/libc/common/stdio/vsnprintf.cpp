@@ -281,7 +281,7 @@ static size_t format_char(char *buffer, int arg, FormatSpec &formatSpec, size_t 
     return len;
 }
 
-static long long read_signed_number(const FormatSpec &formatSpec, va_list ap) {
+static long long read_signed_number(const FormatSpec &formatSpec, va_list& ap) {
     long long value = 0;
 
     switch (formatSpec.printfSizeSpecifier.flags) {
@@ -311,7 +311,7 @@ static long long read_signed_number(const FormatSpec &formatSpec, va_list ap) {
     return value;
 }
 
-static unsigned long long read_unsigned_number(const FormatSpec &formatSpec, va_list ap) {
+static unsigned long long read_unsigned_number(const FormatSpec &formatSpec, va_list& ap) {
     unsigned long long value = 0;
 
     switch (formatSpec.printfSizeSpecifier.flags) {
