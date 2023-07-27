@@ -40,6 +40,8 @@
     #endif
 #endif
 
+#define __NOTHROW __THROW
+
 #ifndef __linux__
 #define max(a, b)             \
 ({                           \
