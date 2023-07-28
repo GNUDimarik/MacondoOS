@@ -42,7 +42,7 @@
 
 #define __NOTHROW __THROW
 
-#ifndef __linux__
+#ifdef __MACONDO_KERNEL__
 #define max(a, b)             \
 ({                           \
     __typeof__ (a) _a = (a); \

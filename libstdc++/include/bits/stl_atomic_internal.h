@@ -44,30 +44,43 @@ namespace internal {
 template<typename _Type>
 class atomic {
  public:
-    atomic(_Type __desired) __NOTHROW: _M_value(__desired) {}
+    atomic(_Type __desired)
+    __NOTHROW: _M_value(__desired) {}
 
-    atomic(const atomic &) __NOTHROW = delete;
-    atomic(const atomic &&) __NOTHROW = delete;
+    atomic(const atomic &)
+    __NOTHROW = delete;
+    atomic(const atomic &&)
+    __NOTHROW = delete;
 
-    _Type load(memory_order __order = memory_order::memory_order_seq_cst) {
+    _Type load(memory_order __order = memory_order::memory_order_seq_cst) const
+    __NOTHROW {
         return __c11_atomic_load(addressof(_M_value), __order);
     }
 
-    _Type exchange(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst) {
+    _Type load(memory_order __order = memory_order::memory_order_seq_cst) const volatile
+    __NOTHROW {
+        return __c11_atomic_load(addressof(_M_value), __order);
+    }
+
+    _Type exchange(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst)
+    __NOTHROW {
         return __c11_atomic_exchange(adressof(_M_value), __desired, __order);
     }
-#if 0
-    _Type exchange(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst) volatile {
+
+    _Type exchange(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst) volatile
+    __NOTHROW {
         return __c11_atomic_exchange(adressof(_M_value), __desired, __order);
     }
-#endif
-    void store(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst) {
+
+    void store(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst)
+    __NOTHROW {
         __c11_atomic_store(adressof(_M_value), __desired, __order);
     }
 
-    bool compare_exchange_strong(_Type __expected, _Type __desired,
+    bool compare_exchange_strong(_Type &__expected, _Type __desired,
                                  memory_order __success = memory_order::memory_order_seq_cst,
-                                 memory_order __failure = memory_order::memory_order_seq_cst) {
+                                 memory_order __failure = memory_order::memory_order_seq_cst)
+    __NOTHROW {
         return __c11_atomic_compare_exchange_strong(adressof(_M_value), __expected, __desired, __success, __failure);
     }
  private:
