@@ -155,4 +155,11 @@
     #error "I really need Itanium compiler"
 #endif
 
+#ifndef __CXXABIV1_NAMESPACE
+    #define __CXXABIV1_NAMESPACE __cxxabiv1
+#endif
+
+#define __CXXABIV1_BEGIN_NAMESPACE namespace __CXXABIV1_NAMESPACE {
+#define __CXXABIV1_END_NAMESPACE }
+
 #endif //DEFS_H

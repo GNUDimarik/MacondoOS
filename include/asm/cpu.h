@@ -25,6 +25,10 @@
 #ifndef MACONDOOS_INCLUDE_ASM_CPU_H_
 #define MACONDOOS_INCLUDE_ASM_CPU_H_
 
-#define __cpu_relax() __asm__ __volatile__ ("yield" ::: "memory")
+#ifdef __aarch64__
+    #define __cpu_relax() __asm__ __volatile__ ("yield" ::: "memory")
+#else /* Testing only */
+    #define __cpu_relax  __builtin_ia32_pause
+#endif
 
 #endif //MACONDOOS_INCLUDE_ASM_CPU_H_

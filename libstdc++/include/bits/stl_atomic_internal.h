@@ -64,24 +64,28 @@ class atomic {
 
     _Type exchange(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst)
     __NOTHROW {
-        return __c11_atomic_exchange(adressof(_M_value), __desired, __order);
+        return __c11_atomic_exchange(addressof(_M_value), __desired, __order);
     }
 
     _Type exchange(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst) volatile
     __NOTHROW {
-        return __c11_atomic_exchange(adressof(_M_value), __desired, __order);
+        return __c11_atomic_exchange(addressof(_M_value), __desired, __order);
     }
 
     void store(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst)
     __NOTHROW {
-        __c11_atomic_store(adressof(_M_value), __desired, __order);
+        __c11_atomic_store(addressof(_M_value), __desired, __order);
     }
 
     bool compare_exchange_strong(_Type &__expected, _Type __desired,
                                  memory_order __success = memory_order::memory_order_seq_cst,
                                  memory_order __failure = memory_order::memory_order_seq_cst)
     __NOTHROW {
-        return __c11_atomic_compare_exchange_strong(adressof(_M_value), __expected, __desired, __success, __failure);
+        return __c11_atomic_compare_exchange_strong(addressof(_M_value),
+                                                    addressof(__expected),
+                                                    __desired,
+                                                    __success,
+                                                    __failure);
     }
  private:
     _Atomic (_Type) _M_value;
