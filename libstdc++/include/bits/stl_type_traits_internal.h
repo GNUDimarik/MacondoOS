@@ -29,10 +29,10 @@
 
 __STD_BEGIN_NAMESPACE
 
-template<typename _Type, _Type v>
+template<typename _Type, _Type __v>
 struct integral_constant
 {
-    static constexpr _Type value = v;
+    static constexpr _Type value = __v;
     using value_type = _Type;
     using type = integral_constant; // using injected-typename-name
     constexpr operator value_type() const noexcept
