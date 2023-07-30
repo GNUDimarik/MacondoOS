@@ -33,11 +33,11 @@
 
 /* To make clang happy */
 #ifndef __THROW
-    #if defined(__cplusplus)
-        #define __THROW noexcept
-    #else
-        #define __THROW
-    #endif
+#   if defined(__cplusplus)
+#       define __THROW noexcept
+#   else
+#       define __THROW
+#   endif
 #endif
 
 #define __NOTHROW __THROW
@@ -59,24 +59,24 @@
 #endif
 
 #if defined (__cplusplus)
-    #define __EXTERN extern "C"
+#   define __EXTERN extern "C"
 #else
-    #define __EXTERN extern
+#   define __EXTERN extern
 #endif
 
 #ifndef __BEGIN_DECLS
-    #if defined (__cplusplus)
-        #define __BEGIN_DECLS extern "C" {
-    #else
-        #define __BEGIN_DECLS
-    #endif /* __cplusplus */
+#   if defined (__cplusplus)
+#   define __BEGIN_DECLS extern "C" {
+#       else
+#   define __BEGIN_DECLS
+#       endif /* __cplusplus */
 #endif /* #ifndef __BEGIN_DECLS */
 
 #ifndef __END_DECLS
-    #if defined (__cplusplus)
-        #define __END_DECLS }
-    #else
-        #define __END_DECLS
+#   if defined (__cplusplus)
+#       define __END_DECLS }
+#   else
+#       define __END_DECLS
 #endif /* __cplusplus */
 
 #endif /* #ifndef __END_DECLS */
@@ -90,35 +90,35 @@
 #endif
 
 #ifndef __MACONDO_TEST_NAMESPACE
-    #if defined(__cplusplus)
-        #if defined(MACONDO_TEST)
-            #define __MACONDO_TEST_NAMESPACE macondo_test_ns__
-    #else
-            #define __MACONDO_TEST_NAMESPACE
-        #endif
-    #endif
+#   if defined(__cplusplus)
+#       if defined(MACONDO_TEST)
+#           define __MACONDO_TEST_NAMESPACE macondo_test_ns__
+#   else
+#           define __MACONDO_TEST_NAMESPACE
+#       endif
+#   endif
 #endif
 
 #ifndef __MACONDO_TEST_NAMESPACE_BEGIN
-    #if defined (__cplusplus)
-        #define __MACONDO_TEST_NAMESPACE_BEGIN namespace __MACONDO_TEST_NAMESPACE {
-    #else
-        #define __MACONDO_TEST_NAMESPACE_BEGIN
-    #endif
+#   if defined (__cplusplus)
+#       define __MACONDO_TEST_NAMESPACE_BEGIN namespace __MACONDO_TEST_NAMESPACE {
+#   else
+#       define __MACONDO_TEST_NAMESPACE_BEGIN
+#   endif
 #endif
 
 #ifndef __MACONDO_TEST_NAMESPACE_END
-    #if defined (__cplusplus)
-        #define __MACONDO_TEST_NAMESPACE_END }
-    #else
-        #define __MACONDO_TEST_NAMESPACE_END
-    #endif
+#   if defined (__cplusplus)
+#       define __MACONDO_TEST_NAMESPACE_END }
+#   else
+#       define __MACONDO_TEST_NAMESPACE_END
+#   endif
 #endif
 
 #if defined(MACONDO_TEST)
-#define __USING_MACONDO_TEST_NAMESPACE using namespace __MACONDO_TEST_NAMESPACE;
+#   define __USING_MACONDO_TEST_NAMESPACE using namespace __MACONDO_TEST_NAMESPACE;
 #else
-#define __USING_MACONDO_TEST_NAMESPACE
+#   define __USING_MACONDO_TEST_NAMESPACE
 #endif
 
 /**
@@ -126,37 +126,37 @@
  * defined it replaces "std" to "debug_std__" (without quotes)
  */
 #ifndef __STD_NAMESPACE
-    #if defined(__cplusplus)
-        #if defined(MACONDO_TEST)
-            #define __STD_NAMESPACE __test_std__
-        #else
-            #define __STD_NAMESPACE std
-        #endif
-    #endif
+#   if defined(__cplusplus)
+#       if defined(MACONDO_TEST)
+#           define __STD_NAMESPACE __test_std__
+#       else
+#           define __STD_NAMESPACE std
+#       endif
+#   endif
 #endif
 
 #ifndef __STD_BEGIN_NAMESPACE
-    #if defined (__cplusplus)
-        #define __STD_BEGIN_NAMESPACE namespace __STD_NAMESPACE {
-    #else
-        #define __STD_BEGIN_NAMESPACE
-    #endif
+#   if defined (__cplusplus)
+#       define __STD_BEGIN_NAMESPACE namespace __STD_NAMESPACE {
+#   else
+#       define __STD_BEGIN_NAMESPACE
+#   endif
 #endif
 
 #ifndef __STD_END_NAMESPACE
-    #if defined (__cplusplus)
-        #define __STD_END_NAMESPACE }
-    #else
-        #define __STD_END_NAMESPACE
-    #endif
+#   if defined (__cplusplus)
+#       define __STD_END_NAMESPACE }
+#else
+#       define __STD_END_NAMESPACE
+#   endif
 #endif
 
 #if !defined(__GNUC__) && !defined(__clang__)
-    #error "I really need Itanium compiler"
+#   error "I really need Itanium compiler"
 #endif
 
 #ifndef __CXXABIV1_NAMESPACE
-    #define __CXXABIV1_NAMESPACE __cxxabiv1
+#   define __CXXABIV1_NAMESPACE __cxxabiv1
 #endif
 
 #define __CXXABIV1_BEGIN_NAMESPACE namespace __CXXABIV1_NAMESPACE {
