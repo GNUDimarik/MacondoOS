@@ -1,2 +1,2 @@
-set(ENV{COMMON_CXX_FLAGS} "-IENV{MACONDO_CLANG_INCLUDE} -I$ENV{MACONDO_INCLUDE}/include -std=gnu++20 -O3 -Wall -Wextra -Wabi -Werror -nostdlib -nostdinc -ffreestanding -fno-exceptions -fno-rtti -mcpu=cortex-a72+nosimd")
-set(ENV{COMMON_C_FLAGS} "-IENV{MACONDO_CLANG_INCLUDE} -I$ENV{MACONDO_INCLUDE}/include -std=gnu18 -O3 -Wall -Wextra -Wabi -Werror -nostdlib -nostdinc -ffreestanding -mcpu=cortex-a72+nosimd")
+set(ENV{COMMON_CXX_FLAGS} "-IENV{MACONDO_COMPILER_INCLUDE} -I$ENV{MACONDO_INCLUDE}/include -std=gnu++20 -O3 -Wall -Wextra -Wabi -Werror -nostdlib -nostdinc -ffreestanding -fno-exceptions -fno-rtti -mcpu=cortex-a72+nosimd")
+set(ENV{COMMON_C_FLAGS} "-IENV{MACONDO_COMPILER_INCLUDE} -I$ENV{MACONDO_INCLUDE}/include -std=gnu18 -O3 -Wall -Wextra -Wabi -Werror -nostdlib -nostdinc -ffreestanding -mcpu=cortex-a72+nosimd")
