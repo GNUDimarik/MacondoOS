@@ -30,6 +30,12 @@
 
 __STD_BEGIN_NAMESPACE
 
+#if defined(__GNUC__)
+#   define ATOMIC_BUILTIN(name) __atomic_##name##_n
+#elif defined(__clang__)
+#   define ATOMIC_BUILTIN(name) __c11_atomic_##name
+#endif
+
 typedef enum memory_order {
     memory_order_relaxed = __ATOMIC_RELAXED,
     memory_order_consume = __ATOMIC_CONSUME,
@@ -54,41 +60,50 @@ class atomic {
 
     _Type load(memory_order __order = memory_order::memory_order_seq_cst) const
     __NOTHROW {
-        return __c11_atomic_load(addressof(_M_value), __order);
+        return ATOMIC_BUILTIN(load)(addressof(_M_value), __order);
     }
 
     _Type load(memory_order __order = memory_order::memory_order_seq_cst) const volatile
     __NOTHROW {
-        return __c11_atomic_load(addressof(_M_value), __order);
+        return ATOMIC_BUILTIN(load)(addressof(_M_value), __order);
     }
 
     _Type exchange(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst)
     __NOTHROW {
-        return __c11_atomic_exchange(addressof(_M_value), __desired, __order);
+        return ATOMIC_BUILTIN(_exchange)(addressof(_M_value), __desired, __order);
     }
 
     _Type exchange(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst) volatile
     __NOTHROW {
-        return __c11_atomic_exchange(addressof(_M_value), __desired, __order);
+        return ATOMIC_BUILTIN(_exchange)(addressof(_M_value), __desired, __order);
     }
 
     void store(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst)
     __NOTHROW {
-        __c11_atomic_store(addressof(_M_value), __desired, __order);
+        ATOMIC_BUILTIN(store)(addressof(_M_value), __desired, __order);
     }
 
     bool compare_exchange_strong(_Type &__expected, _Type __desired,
                                  memory_order __success = memory_order::memory_order_seq_cst,
                                  memory_order __failure = memory_order::memory_order_seq_cst)
     __NOTHROW {
-        return __c11_atomic_compare_exchange_strong(addressof(_M_value),
-                                                    addressof(__expected),
-                                                    __desired,
-                                                    __success,
-                                                    __failure);
+#if defined(__GNUC__)
+        return ATOMIC_BUILTIN(compare_exchange)(addressof(_M_value),
+                                                addressof(__expected),
+                                                __desired,
+                                                false,
+                                                __success,
+                                                __failure);
+#elif defined(__clang__)
+        return ATOMIC_BUILTIN(exchange)(addressof(_M_value),
+                                        addressof(__expected),
+                                        __desired,
+                                        __success,
+                                        __failure);
+#endif
     }
  private:
-    _Atomic (_Type) _M_value;
+    _Type _M_value;
 };
 } // namespace internal
 
