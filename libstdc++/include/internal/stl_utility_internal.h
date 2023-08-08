@@ -24,9 +24,9 @@
 #ifndef MACONDO_STL_UTILITY_INTERNAL_H
 #define MACONDO_STL_UTILITY_INTERNAL_H
 
-#include <bits/stl_base_internal.h>
-#include <bits/stl_type_traits_internal.h>
-#include <bits/stl_memory_internal.h>
+#include <internal/stl_base_internal.h>
+#include <internal/stl_type_traits_internal.h>
+#include <internal/stl_memory_internal.h>
 
 __STD_BEGIN_NAMESPACE
 

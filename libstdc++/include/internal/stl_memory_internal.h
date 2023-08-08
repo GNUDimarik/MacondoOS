@@ -25,7 +25,7 @@
 #ifndef MACOND_STL_MEMORY_INTERNAL_H
 #define MACOND_STL_MEMORY_INTERNAL_H
 
-#include <bits/stl_base_internal.h>
+#include <internal/stl_base_internal.h>
 
 __STD_BEGIN_NAMESPACE
 

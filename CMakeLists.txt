@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(ENV{EXTERNAL_INSTALL_LOCATION} ${PROJECT_SOURCE_DIR}/third_party)
 set(ENV{MACONDO_INCLUDE} ${PROJECT_SOURCE_DIR}/include)
+set(ENV{MACONDO_LIBCXX_INCLUDE} ${PROJECT_SOURCE_DIR}/libstdc++/include)
 set(ENV{MACONDO_CMAKE_INCLUDE} ${PROJECT_SOURCE_DIR}/cmake)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
@@ -15,6 +16,7 @@ endif()
 
 add_subdirectory(lib)
 add_subdirectory(libstdc++)
+add_subdirectory(libcxxabi)
 
 if (ENABLE_TESTS)
     add_subdirectory(test)
