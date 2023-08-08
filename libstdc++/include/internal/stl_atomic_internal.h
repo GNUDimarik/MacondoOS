@@ -49,9 +49,10 @@ namespace internal {
 
 template<typename _Type>
 class atomic {
- public:
+public:
     atomic(_Type __desired)
-    __NOTHROW: _M_value(__desired) {}
+__NOTHROW:
+    _M_value(__desired) {}
 
     atomic(const atomic &)
     __NOTHROW = delete;
@@ -91,18 +92,18 @@ class atomic {
         return ATOMIC_BUILTIN(compare_exchange)(addressof(_M_value),
                                                 addressof(__expected),
                                                 __desired,
-                                                false,
+                                                false, /* weak? no strong please */
                                                 __success,
                                                 __failure);
 #elif defined(__clang__)
-        return ATOMIC_BUILTIN(exchange)(addressof(_M_value),
-                                        addressof(__expected),
-                                        __desired,
-                                        __success,
-                                        __failure);
+        return ATOMIC_BUILTIN(exchange_strong)(addressof(_M_value),
+                                               addressof(__expected),
+                                               __desired,
+                                               __success,
+                                               __failure);
 #endif
     }
- private:
+private:
     _Type _M_value;
 };
 } // namespace internal
