@@ -33,6 +33,8 @@
  * On big-endian 64-bit platforms, the guard word is a single 64-bit atomic
  * with the lock in the low bit and the initialised bit in the highest
  * byte.
+ * Which means if bit[__XCA_AARCH64_LOCKED_BIT] is set then lock is already initialized
+ * so if we are succeeded with lock hold we should set it
  */
 
 /**
@@ -40,20 +42,37 @@
  * @{
  */
 
+/**
+ * @brief to avoid including stdint.h which may break everything even when compiler version is correct.
+ * Break for testing only when I use my headers with googletest.
+ * I think it gonna be fixed shortly. But anyway ...
+ */
 #define __XCA_UINT_64_TYPE__ __UINT64_TYPE__
 
+/**
+ * @brief defines index of bit which holds locked/unlocked state
+ * version for x86_64 defined for testing purpose only
+ */
 #ifdef __aarch64__
 #define __XCA_AARCH64_LOCKED_BIT 0UL
 #else
 #define __XCA_AARCH64_LOCKED_BIT 63UL
 #endif
 
+/**
+ * @brief defines index of bit which holds init/uninit state
+ * version for x86_64 defined for testing purpose only
+ */
 #ifdef __aarch64__
 #define __XCA_AARCH64_INIT_BIT 56UL
 #else /* Testing only */
 #define __XCA_AARCH64_INIT_BIT 0UL
 #endif
 
+/**
+ * @brief complete macroses to getting final value of locked and initialized states
+ * @macro
+ */
 #define __XCA_AARCH64_LOCK_LOCKED_STATE (1UL << __XCA_AARCH64_LOCKED_BIT)
 #define __XCA_AARCH64_LOCK_INITIALIZED_STATE (1UL << __XCA_AARCH64_INIT_BIT)
 
@@ -67,23 +86,25 @@ using __STD_NAMESPACE::memory_order;
 using __STD_NAMESPACE::internal::atomic;
 
 struct __xca_guard {
-    atomic<__XCA_UINT_64_TYPE__> __M_value;
+    atomic<__XCA_UINT_64_TYPE__> _M_value{0};
 
-    void _unlock(bool __is_initialized)
+    void _M_unlock(bool __is_initialized)
     __NOTHROW {
-        __M_value
+        _M_value
             .store(__is_initialized ? __XCA_AARCH64_LOCK_INITIALIZED_STATE : 0, memory_order::memory_order_release);
     }
 
-    bool _is_initialized() const __THROW {
-        return (__M_value.load(memory_order::memory_order_acquire) & __XCA_AARCH64_LOCK_INITIALIZED_STATE)
+    bool _M_is_initialized() const
+    __THROW {
+        return (_M_value.load(memory_order::memory_order_acquire) & __XCA_AARCH64_LOCK_INITIALIZED_STATE)
             == __XCA_AARCH64_LOCK_INITIALIZED_STATE;
     }
 
-    int _try_lock() __NOTHROW {
+    int _M_try_lock()
+    __NOTHROW {
         __XCA_UINT_64_TYPE__ __prev = 0;
 
-        if (__M_value.compare_exchange_strong(__prev, __XCA_AARCH64_LOCK_LOCKED_STATE)) {
+        if (_M_value.compare_exchange_strong(__prev, __XCA_AARCH64_LOCK_LOCKED_STATE)) {
             return __XCA_LOCK_STATE_SUCCEEDED;
         }
 
@@ -96,7 +117,14 @@ struct __xca_guard {
 };
 } // unnamed namespace
 
+/**
+ * @hide
+ */
 __CXXABIV1_BEGIN_NAMESPACE
+
+/**
+ * @hide
+ */
 __BEGIN_DECLS
 
 /**
@@ -112,22 +140,27 @@ __BEGIN_DECLS
  * we trying to hold lock and try to relax cpu till we are not done
  */
 
-int __cxa_guard_acquire(__xca_guard *__guard) __THROW {
-    if (__guard->_is_initialized()) {
-        return __XCA_LOCK_STATE_DONE;
-    }
+int __cxa_guard_acquire(__xca_guard *__guard)
+__THROW {
+if (__guard->
+_M_is_initialized()
+) {
+return __XCA_LOCK_STATE_DONE;
+}
 
-    for (;;) {
-        switch (__guard->_try_lock()) {
-            case __XCA_LOCK_STATE_SUCCEEDED:return __XCA_LOCK_STATE_SUCCEEDED;
+for (;;) {
+switch (__guard->
+_M_try_lock()
+) {
+case __XCA_LOCK_STATE_SUCCEEDED:return __XCA_LOCK_STATE_SUCCEEDED;
 
-            case __XCA_LOCK_STATE_DONE:return __XCA_LOCK_STATE_DONE;
+case __XCA_LOCK_STATE_DONE:return __XCA_LOCK_STATE_DONE;
 
-            default:break;
-        }
+default:break;
+}
 
-        __cpu_relax();
-    }
+__cpu_relax();
+}
 }
 
 /**
@@ -153,7 +186,7 @@ int __cxa_guard_acquire(__xca_guard *__guard) __THROW {
  * @endcode
  */
 void __cxa_guard_abort(__xca_guard *__guard) {
-    __guard->_unlock(false);
+    __guard->_M_unlock(false);
 }
 
 /**
@@ -161,11 +194,18 @@ void __cxa_guard_abort(__xca_guard *__guard) {
  * @param __guard compiler's lock
  */
 void __cxa_guard_release(__xca_guard *__guard) {
-    __guard->_unlock(true);
+    __guard->_M_unlock(true);
 }
 /**
  * @}
  */
-__END_DECLS
-__CXXABIV1_END_NAMESPACE
 
+/**
+ * @hide
+ */
+__END_DECLS
+
+/**
+ * @hide
+ */
+__CXXABIV1_END_NAMESPACE
