@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 Dmitry Adzhiev aka GNUDimarik <dmitry.adjiev@gmail.com>
+ * Copyright (c) 2023 Dmitry Adzhiev <dmitry.adjiev@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -178,4 +178,3 @@ inline constexpr bool is_object_v = is_object<_Type>::value;
 __STD_END_NAMESPACE
 
 #endif //MACONDO_TYPE_TRAITS_INTERNAL_H
-
