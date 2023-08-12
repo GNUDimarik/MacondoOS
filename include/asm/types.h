@@ -29,4 +29,16 @@
 
 typedef volatile int32_t __v_int32;
 
+typedef uint32_t __le32u;
+
+typedef int32_t __le32;
+
+typedef uint16_t __le16u;
+
+typedef int16_t __le16;
+
+typedef uint8_t __le8u;
+
+typedef int8_t __le8;
+
 #endif //MACONDOOS_INCLUDE_ASM_TYPES_H
