@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2022 Dmitry Adzhiev <dmitry.adjiev@gmail.com>
+ * Copyright (c) 2023 Dmitry Adzhiev <dmitry.adjiev@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@
 #define EXT2_OS_HURD    1
 #define EXT2_OS_MASIX   2
 #define EXT2_OS_FREEBSD 3
-#define EXT2_OS_LITES   4#
+#define EXT2_OS_LITES   4
 
 /* revision */
 #define EXT2_GOOD_OLD_REV 0
