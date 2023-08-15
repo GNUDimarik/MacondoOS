@@ -27,7 +27,8 @@
 
 // Based on "Correctly implementing a spinlock in C++" at https://rigtorp.se/spinlock/
 
-#include <bits/stl_atomic_internal.h>
+#include <internal/stl_atomic_internal.h>
+#include <internal/stl_utility_internal.h>
 #include <asm/cpu.h>
 
 
@@ -40,14 +41,16 @@
  * @namespace macondo
  * @brief here is declared some os specific stuff such as spin locks etc
  */
-namespace macondo {
+namespace macondo
+{
 
 /**
  * @ingroup  kernel_library
  * @namespace macondo::utils
  * @brief utils contains os specific utils such as spin lock and other routine stuff
  */
-namespace utils {
+namespace utils
+{
 
 /**
  * @ingroup  kernel_library
@@ -64,48 +67,68 @@ namespace utils {
  * where spin lock type is bool and locked state value is <b>true</b> and <b>false</b>
  */
 template<typename _Type, _Type __lockedState, _Type __unlockedState>
-class basic_spin_lock {
- public:
-    basic_spin_lock() __THROW = default;
+class basic_spin_lock
+{
+public:
+    basic_spin_lock()
+        : _M_lock(__unlockedState)
+    {}
 
     explicit basic_spin_lock(_Type __value)
-    __NOTHROW: _M_lock(__value) {}
+    noexcept
+        : _M_lock(__value)
+    {}
 
-    bool try_lock()
-    __NOTHROW {
+    basic_spin_lock(const basic_spin_lock &) = delete;
+    basic_spin_lock &operator=(const basic_spin_lock &) = delete;
+    basic_spin_lock(basic_spin_lock &&__lock) noexcept = delete;
+
+    bool try_lock() noexcept
+    {
         return _M_lock.load(__STD_NAMESPACE::memory_order_relaxed) == __unlockedState &&
             _M_lock.exchange(__lockedState, __STD_NAMESPACE::memory_order_acquire) == __unlockedState;
     }
 
-    void lock()
-    __NOTHROW {
-        for (;;) {
-            if (_M_lock.compare_exchange_strong(__lockedState, __STD_NAMESPACE::memory_order_acquire)
-                != __lockedState) {
-                return;
-            }
-
-            while (_M_lock.load(__STD_NAMESPACE::memory_order_relaxed) != __unlockedState) {
-                __cpu_relax();
-            }
+    void lock() noexcept
+    {
+        _Type __t = __lockedState;
+        while (_M_lock.load(__STD_NAMESPACE::memory_order_relaxed) != __unlockedState
+            && !_M_lock.compare_exchange_strong(__t, __STD_NAMESPACE::memory_order_acquire)) {
+            __cpu_relax();
         }
     }
 
-    bool is_locked() const
-    __THROW {
-        return _M_lock.load(__STD_NAMESPACE::memory_order_relaxed) == __lockedState;
+    void unlock() noexcept
+    {
+        _M_lock.store(__unlockedState, __STD_NAMESPACE::memory_order_release);
     }
-
-    void unlock()
-    __NOTHROW {
-        _M_lock.store(__unlockedState, std::memory_order_release);
-    }
- private:
+private:
     __STD_NAMESPACE::internal::atomic<_Type> _M_lock;
 };
-
-using spin_lock = basic_spin_lock<bool, true, false>;
 } // namespace utils
 } // namespace macondo
+
+__STD_BEGIN_NAMESPACE
+
+using spin_lock = macondo::utils::basic_spin_lock<size_t, 1, 0>;
+
+template<typename _LockType>
+class lock_guard
+{
+public:
+    explicit lock_guard(_LockType &__lock)
+        : _M_lock(__lock)
+    {
+        _M_lock.lock();
+    }
+    ~lock_guard()
+    {
+        _M_lock.unlock();
+    }
+private:
+    _LockType &_M_lock;
+};
+
+__STD_END_NAMESPACE
 
 #endif //SPIN_LOCK__SPIN_LOCK_H_

@@ -36,7 +36,8 @@ __STD_BEGIN_NAMESPACE
 #   define ATOMIC_BUILTIN(name) __c11_atomic_##name
 #endif
 
-typedef enum memory_order {
+typedef enum memory_order
+{
     memory_order_relaxed = __ATOMIC_RELAXED,
     memory_order_consume = __ATOMIC_CONSUME,
     memory_order_acquire = __ATOMIC_ACQUIRE,
@@ -45,49 +46,52 @@ typedef enum memory_order {
     memory_order_seq_cst = __ATOMIC_SEQ_CST
 } memory_order;
 
-namespace internal {
+namespace internal
+{
 
 template<typename _Type>
-class atomic {
+class atomic
+{
 public:
-    atomic(_Type __desired)
-__NOTHROW:
-    _M_value(__desired) {}
+    atomic(_Type __desired) noexcept
+        :
+        _M_value(__desired)
+    {}
 
     atomic(const atomic &)
-    __NOTHROW = delete;
+    noexcept = delete;
     atomic(const atomic &&)
-    __NOTHROW = delete;
+    noexcept = delete;
 
-    _Type load(memory_order __order = memory_order::memory_order_seq_cst) const
-    __NOTHROW {
+    _Type load(memory_order __order = memory_order::memory_order_seq_cst) const noexcept
+    {
         return ATOMIC_BUILTIN(load)(addressof(_M_value), __order);
     }
 
-    _Type load(memory_order __order = memory_order::memory_order_seq_cst) const volatile
-    __NOTHROW {
+    _Type load(memory_order __order = memory_order::memory_order_seq_cst) const volatile noexcept
+    {
         return ATOMIC_BUILTIN(load)(addressof(_M_value), __order);
     }
 
-    _Type exchange(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst)
-    __NOTHROW {
+    _Type exchange(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst) noexcept
+    {
         return ATOMIC_BUILTIN(_exchange)(addressof(_M_value), __desired, __order);
     }
 
-    _Type exchange(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst) volatile
-    __NOTHROW {
+    _Type exchange(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst) volatile noexcept
+    {
         return ATOMIC_BUILTIN(_exchange)(addressof(_M_value), __desired, __order);
     }
 
-    void store(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst)
-    __NOTHROW {
+    void store(_Type __desired, memory_order __order = memory_order::memory_order_seq_cst) noexcept
+    {
         ATOMIC_BUILTIN(store)(addressof(_M_value), __desired, __order);
     }
 
     bool compare_exchange_strong(_Type &__expected, _Type __desired,
                                  memory_order __success = memory_order::memory_order_seq_cst,
-                                 memory_order __failure = memory_order::memory_order_seq_cst)
-    __NOTHROW {
+                                 memory_order __failure = memory_order::memory_order_seq_cst) noexcept
+    {
 #if defined(__GNUC__)
         return ATOMIC_BUILTIN(compare_exchange)(addressof(_M_value),
                                                 addressof(__expected),

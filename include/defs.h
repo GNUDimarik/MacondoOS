@@ -34,7 +34,7 @@
 /* To make clang happy */
 #ifndef __THROW
 #   if defined(__cplusplus)
-#       define __THROW noexcept
+#       define __THROW noexcept (true)
 #   else
 #       define __THROW
 #   endif

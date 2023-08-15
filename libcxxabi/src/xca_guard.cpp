@@ -90,20 +90,20 @@ struct __xca_guard
 {
     atomic<__XCA_UINT_64_TYPE__> _M_value{0};
 
-    void _M_unlock(bool __is_initialized)
-    __NOTHROW {
+    void _M_unlock(bool __is_initialized) noexcept
+    {
         _M_value
-        .store(__is_initialized ? __XCA_AARCH64_LOCK_INITIALIZED_STATE : 0, memory_order::memory_order_release);
+            .store(__is_initialized ? __XCA_AARCH64_LOCK_INITIALIZED_STATE : 0, memory_order::memory_order_release);
     }
 
-    bool _M_is_initialized() const
-    __THROW {
+    bool _M_is_initialized() const noexcept
+    {
         return (_M_value.load(memory_order::memory_order_acquire) & __XCA_AARCH64_LOCK_INITIALIZED_STATE)
-               == __XCA_AARCH64_LOCK_INITIALIZED_STATE;
+            == __XCA_AARCH64_LOCK_INITIALIZED_STATE;
     }
 
-    int _M_try_lock()
-    __NOTHROW {
+    int _M_try_lock() noexcept
+    {
         __XCA_UINT_64_TYPE__ __prev = 0;
 
         if (_M_value.compare_exchange_strong(__prev, __XCA_AARCH64_LOCK_LOCKED_STATE)) {
@@ -142,24 +142,21 @@ __BEGIN_DECLS
  * we trying to hold lock and try to relax cpu till we are not done
  */
 
-int __cxa_guard_acquire(__xca_guard *__guard) __THROW {
+int __cxa_guard_acquire(__xca_guard *__guard) noexcept
+{
     if (__guard->_M_is_initialized()) {
         return __XCA_LOCK_STATE_DONE;
     }
 
     for (;;) {
         switch (__guard->
-                _M_try_lock()
-               )
-        {
-        case __XCA_LOCK_STATE_SUCCEEDED:
-            return __XCA_LOCK_STATE_SUCCEEDED;
+            _M_try_lock()
+            ) {
+        case __XCA_LOCK_STATE_SUCCEEDED:return __XCA_LOCK_STATE_SUCCEEDED;
 
-        case __XCA_LOCK_STATE_DONE:
-            return __XCA_LOCK_STATE_DONE;
+        case __XCA_LOCK_STATE_DONE:return __XCA_LOCK_STATE_DONE;
 
-        default:
-            break;
+        default:break;
         }
 
         __cpu_relax();
@@ -188,7 +185,7 @@ int __cxa_guard_acquire(__xca_guard *__guard) __THROW {
  *    }
  * @endcode
  */
-void __cxa_guard_abort(__xca_guard *__guard)
+void __cxa_guard_abort(__xca_guard *__guard) noexcept
 {
     __guard->_M_unlock(false);
 }
@@ -197,7 +194,7 @@ void __cxa_guard_abort(__xca_guard *__guard)
  * @brief __cxa_guard_abort calls by compiler when static stuff is successfully initialized
  * @param __guard compiler's lock
  */
-void __cxa_guard_release(__xca_guard *__guard)
+void __cxa_guard_release(__xca_guard *__guard) noexcept
 {
     __guard->_M_unlock(true);
 }

@@ -25,7 +25,7 @@
 #ifndef MACONDO_TYPE_TRAITS_INTERNAL_H
 #define MACONDO_TYPE_TRAITS_INTERNAL_H
 
-#include <bits/stl_base_internal.h>
+#include <internal/stl_base_internal.h>
 
 __STD_BEGIN_NAMESPACE
 

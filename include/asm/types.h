@@ -26,6 +26,7 @@
 #define MACONDOOS_INCLUDE_ASM_TYPES_H
 
 #include <stdint.h>
+#include <stddef.h>
 
 typedef volatile int32_t __v_int32;
 
@@ -40,5 +41,7 @@ typedef int16_t __le16;
 typedef uint8_t __le8u;
 
 typedef int8_t __le8;
+
+typedef __OFF64_T_TYPE off64_t;
 
 #endif //MACONDOOS_INCLUDE_ASM_TYPES_H

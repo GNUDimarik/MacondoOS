@@ -35,6 +35,10 @@ constexpr typename __STD_NAMESPACE::remove_reference<_Type>::type &&
 move(_Type &&__t) noexcept
 { return static_cast<typename __STD_NAMESPACE::remove_reference<_Type>::type &&>(__t); }
 
+template<class _Type>
+constexpr _Type &&forward(__STD_NAMESPACE::remove_reference_t<_Type> &&__t) noexcept
+{ return static_cast<_Type &&>(__t); }
+
 template<typename _Type>
 void swap(_Type &__first, _Type &__second) noexcept
 {
