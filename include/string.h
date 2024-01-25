@@ -395,12 +395,12 @@ char *stpcpy(char *dest, const char *src);
  *                   than or  equal to n, the string pointed to by dest will not be null-terminated.
  * @param dest     - destination string
  * @param src      - source string
- * @param n        - number bytes to copy
+ * @param count    - number bytes to copy
  * @return  a pointer to the terminating null byte in dest, or, if dest is not null-terminated, dest+n
  *
  * @see strncpy
  */
-char *stpncpy(char *dest, const char *src, size_t n);
+char *stpncpy(char *dest, const char *src, size_t count);
 
 __END_DECLS
 __MACONDO_TEST_NAMESPACE_END

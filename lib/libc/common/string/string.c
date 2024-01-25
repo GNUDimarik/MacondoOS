@@ -252,7 +252,7 @@ size_t strnlen(const char *str, size_t max_len)
 {
     size_t res = 0;
 
-    if (!max_len) {
+    if (max_len == 0) {
         return 0;
     }
 
@@ -405,19 +405,8 @@ char *stpcpy(char *dest, const char *src) {
     return dest + src_len;
 }
 
-char *stpncpy(char *dest, const char *src, size_t n) {
-    if (n > 0) {
-        size_t len = strlen(src);
-
-        if (len < n) {
-            memcpy(dest, src, len);
-            memset(dest + len, '\0', n - len);
-            return dest + len;
-        } else if (n < len) {
-            memcpy(dest, src, n);
-            return dest + n;
-        }
-    }
-
-    return dest;
+char *stpncpy(char *dest, const char *src, size_t count) {
+    size_t len = strnlen(src, count);
+    dest = memcpy(dest, src, len) + len;
+    return count > len ? memset(dest, '\0', count - len) : dest;
 }
