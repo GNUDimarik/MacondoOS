@@ -92,14 +92,13 @@ struct __xca_guard
 
     void _M_unlock(bool __is_initialized) noexcept
     {
-        _M_value
-            .store(__is_initialized ? __XCA_AARCH64_LOCK_INITIALIZED_STATE : 0, memory_order::memory_order_release);
+        _M_value.store(__is_initialized ? __XCA_AARCH64_LOCK_INITIALIZED_STATE : 0, memory_order::memory_order_release);
     }
 
     bool _M_is_initialized() const noexcept
     {
         return (_M_value.load(memory_order::memory_order_acquire) & __XCA_AARCH64_LOCK_INITIALIZED_STATE)
-            == __XCA_AARCH64_LOCK_INITIALIZED_STATE;
+               == __XCA_AARCH64_LOCK_INITIALIZED_STATE;
     }
 
     int _M_try_lock() noexcept
@@ -149,14 +148,16 @@ int __cxa_guard_acquire(__xca_guard *__guard) noexcept
     }
 
     for (;;) {
-        switch (__guard->
-            _M_try_lock()
-            ) {
-        case __XCA_LOCK_STATE_SUCCEEDED:return __XCA_LOCK_STATE_SUCCEEDED;
+        switch (__guard->_M_try_lock()) {
 
-        case __XCA_LOCK_STATE_DONE:return __XCA_LOCK_STATE_DONE;
+        case __XCA_LOCK_STATE_SUCCEEDED:
+            return __XCA_LOCK_STATE_SUCCEEDED;
 
-        default:break;
+        case __XCA_LOCK_STATE_DONE:
+            return __XCA_LOCK_STATE_DONE;
+
+        default:
+            break;
         }
 
         __cpu_relax();
