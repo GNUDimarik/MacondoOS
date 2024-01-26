@@ -172,13 +172,8 @@ static const char *kErrorStrings[] = {
  * @return         -
  */
 char *strerror(int errnum) {
-    if (errnum < 0) {
+    if (errnum < 0 || errnum > ENOTSUP) {
         errno = EINVAL;
-        return NULL;
-    }
-
-    if (errnum > ENOTSUP) {
-        errno = ERANGE;
         return NULL;
     }
 
