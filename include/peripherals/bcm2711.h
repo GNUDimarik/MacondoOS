@@ -1,7 +1,7 @@
-/**
+/*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 Dmitry Adzhiev <dmitry.adjiev@gmail.com>
+ * Copyright (c) 2022 Dmitry Adzhiev <dmitry.adjiev@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,13 @@
  * THE SOFTWARE.
  */
 
-#ifndef MACONDOOS_INCLUDE_ASM_TYPES_H
-#define MACONDOOS_INCLUDE_ASM_TYPES_H
+#ifndef PERIPHERALS_BCM2711_H
+#define PERIPHERALS_BCM2711_H
 
-#include <stdint.h>
-#include <stddef.h>
+// from https://github.com/raspberrypi/linux/blob/rpi-6.1.y/arch/arm/boot/dts/bcm2711.dtsi#L38
 
-typedef volatile int32_t __v_int32;
+#define BCM2711_BCM283X_PERIPHERALS_BASE  0xfe000000 /* Common BCM283x peripherals */
+#define BCM2711_SPECIFIC_PERIPHERALS_BASE 0xfc000000 /* BCM2711-specific peripherals */
+#define BCM2711_ARM_PERIPHERALS_BASE      0xff800000 /* ARM-local peripherals */
 
-typedef uint32_t __le32u;
-
-typedef int32_t __le32;
-
-typedef uint16_t __le16u;
-
-typedef int16_t __le16;
-
-typedef uint8_t __le8u;
-
-typedef int8_t __le8;
-
-typedef uint8_t __8u;
-
-typedef __OFF64_T_TYPE off64_t;
-
-#endif //MACONDOOS_INCLUDE_ASM_TYPES_H
+#endif // PERIPHERALS_BCM2711_H

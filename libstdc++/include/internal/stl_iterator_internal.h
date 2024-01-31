@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2023 Dmitry Adzhiev <dmitry.adjiev@gmail.com>
@@ -21,29 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+#ifndef STL_ITERATOR_INTERNAL_H
+#define STL_ITERATOR_INTERNAL_H
 
-#ifndef MACONDOOS_INCLUDE_ASM_TYPES_H
-#define MACONDOOS_INCLUDE_ASM_TYPES_H
+#include <internal/stl_base_internal.h>
 
-#include <stdint.h>
-#include <stddef.h>
+__STD_BEGIN_NAMESPACE
 
-typedef volatile int32_t __v_int32;
+struct input_iterator_tag {};
+struct output_iterator_tag {};
+struct forward_iterator_tag : public input_iterator_tag {};
+struct bidirectional_iterator_tag : public forward_iterator_tag {};
+struct random_access_iterator_tag : public bidirectional_iterator_tag {};
+struct contiguous_iterator_tag : public random_access_iterator_tag {};
 
-typedef uint32_t __le32u;
+template< class Iter >
+struct iterator_traits;
 
-typedef int32_t __le32;
+__STD_END_NAMESPACE
 
-typedef uint16_t __le16u;
-
-typedef int16_t __le16;
-
-typedef uint8_t __le8u;
-
-typedef int8_t __le8;
-
-typedef uint8_t __8u;
-
-typedef __OFF64_T_TYPE off64_t;
-
-#endif //MACONDOOS_INCLUDE_ASM_TYPES_H
+#endif //STL_ITERATOR_INTERNAL_H

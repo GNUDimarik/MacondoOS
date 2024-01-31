@@ -1,7 +1,7 @@
-/**
+/*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 Dmitry Adzhiev <dmitry.adjiev@gmail.com>
+ * Copyright (c) 2022 Dmitry Adzhiev <dmitry.adjiev@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,46 @@
  * THE SOFTWARE.
  */
 
-#ifndef MACONDOOS_INCLUDE_ASM_TYPES_H
-#define MACONDOOS_INCLUDE_ASM_TYPES_H
+#ifndef DEVICE_H
+#define DEVICE_H
 
-#include <stdint.h>
-#include <stddef.h>
+#include <string.h>
+#include <asm/types.h>
 
-typedef volatile int32_t __v_int32;
+namespace hal
+{
+class Device
+{
+public:
+    static constexpr const int kDeviceNameLength = 64;
 
-typedef uint32_t __le32u;
+    enum Type
+    {
+        kBlock,
+        kCharacter
+    };
 
-typedef int32_t __le32;
+    Device(const char *name, Type type)
+        : type_(type)
+    {
+        strcpy(name_, name);
+    }
 
-typedef uint16_t __le16u;
+    virtual ~Device() = default;
 
-typedef int16_t __le16;
+    virtual int write(__u8 *buffer, size_t len) = 0;
+    virtual int read(__u8 *buffer, size_t len) = 0;
 
-typedef uint8_t __le8u;
+    const char *name() const
+    { return name_; }
+    const;
+protected:
+    void setType(Type type)
+    { type_ = type; }
+private:
+    Type type_;
+    char name_[kDeviceNameLength];
+};
+}
 
-typedef int8_t __le8;
-
-typedef uint8_t __8u;
-
-typedef __OFF64_T_TYPE off64_t;
-
-#endif //MACONDOOS_INCLUDE_ASM_TYPES_H
+#endif //DEVICE_H
