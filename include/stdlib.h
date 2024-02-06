@@ -30,11 +30,11 @@
 
 __BEGIN_DECLS
 
-void* mem_malloc(size_t size);
-void mem_free(void* ptr);
-void* mem_realloc(void* ptr, size_t size);
-void* mem_calloc(size_t count, size_t size);
-int mem_init(void* start, size_t sizeInBytes);
+void *mem_malloc(size_t size);
+void mem_free(void *ptr);
+void *mem_realloc(void *ptr, size_t size);
+void *mem_calloc(size_t count, size_t size);
+int mem_init(void *start, size_t sizeInBytes);
 void mem_dump();
 
 __END_DECLS
