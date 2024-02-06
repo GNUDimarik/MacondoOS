@@ -1,7 +1,7 @@
-/**
+/*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 Dmitry Adzhiev <dmitry.adjiev@gmail.com>
+ * Copyright (c) 2024 Dmitry Adzhiev <dmitry.adjiev@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,21 @@
  * THE SOFTWARE.
  */
 
-#ifndef MACONDOOS_INCLUDE_ASM_TYPES_H
-#define MACONDOOS_INCLUDE_ASM_TYPES_H
+#ifndef STDLIB_H
+#define STDLIB_H
 
-#include <stdint.h>
+#include "defs.h"
 #include <stddef.h>
 
-typedef volatile int32_t __v_int32;
+__BEGIN_DECLS
 
-typedef uint32_t __le32u;
+void* mem_malloc(size_t size);
+void mem_free(void* ptr);
+void* mem_realloc(void* ptr, size_t size);
+void* mem_calloc(size_t count, size_t size);
+int mem_init(void* start, size_t sizeInBytes);
+void mem_dump();
 
-typedef int32_t __le32;
+__END_DECLS
 
-typedef uint16_t __le16u;
-
-typedef int16_t __le16;
-
-typedef uint8_t __le8u;
-
-typedef int8_t __le8;
-
-typedef uint8_t __u8;
-
-typedef __OFF64_T_TYPE off64_t;
-
-#endif //MACONDOOS_INCLUDE_ASM_TYPES_H
+#endif //STDLIB_H

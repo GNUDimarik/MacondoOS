@@ -1,7 +1,7 @@
-/**
+/*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 Dmitry Adzhiev <dmitry.adjiev@gmail.com>
+ * Copyright (c) 2024 Dmitry Adzhiev <dmitry.adjiev@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,22 @@
  * THE SOFTWARE.
  */
 
-#ifndef MACONDOOS_INCLUDE_ASM_TYPES_H
-#define MACONDOOS_INCLUDE_ASM_TYPES_H
+#ifndef LINUX_LOG_H
+#define LINUX_LOG_H
 
-#include <stdint.h>
-#include <stddef.h>
-
-typedef volatile int32_t __v_int32;
-
-typedef uint32_t __le32u;
-
-typedef int32_t __le32;
-
-typedef uint16_t __le16u;
-
-typedef int16_t __le16;
-
-typedef uint8_t __le8u;
-
-typedef int8_t __le8;
-
-typedef uint8_t __u8;
-
-typedef __OFF64_T_TYPE off64_t;
-
-#endif //MACONDOOS_INCLUDE_ASM_TYPES_H
+#ifdef __linux__
+#   include <stdio.h>
+#       define ALOGD(__ARGS__...)    \
+        {                           \
+            printf("%s:\t", LOG_TAG); \
+            printf(__ARGS__);         \
+            printf("\n");             \
+        }
+#   define ALOGE(__ARGS__...)             \
+        {                                    \
+            fprintf(stderr, "%s:\t", LOG_TAG); \
+            fprintf(stderr, __ARGS__);         \
+            fprintf(stderr, "\n");             \
+    }
+#   endif /* __linux__ */
+#endif // LINUX_LOG_H
