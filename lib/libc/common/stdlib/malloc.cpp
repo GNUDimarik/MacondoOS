@@ -148,7 +148,7 @@ static void *mem_place(void *block, size_t size)
               __func__, cur_size, size);
     }
 
-    return NULL;
+    return nullptr;
 }
 
 static void *mem_find_first_fit(size_t size)
@@ -159,7 +159,7 @@ static void *mem_find_first_fit(size_t size)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 static void *mem_merge(void *ptr)
@@ -213,7 +213,7 @@ static void *mem_merge(void *ptr)
 void *mem_malloc(size_t size)
 {
     size_t asize = 0;
-    void *bp = NULL;
+    void *bp = nullptr;
 
     if (size < WSIZE) {
         asize = WSIZE + OVERHEAD_SIZE;
@@ -224,7 +224,7 @@ void *mem_malloc(size_t size)
 
     bp = mem_find_first_fit(asize);
 
-    if (bp != NULL) {
+    if (bp != nullptr) {
         bp = mem_place(bp, asize);
     }
 
@@ -243,7 +243,7 @@ void *mem_malloc(size_t size)
  */
 void mem_free(void *ptr)
 {
-    if (ptr != NULL && mem_block_allocated(ptr)) {
+    if (ptr != nullptr && mem_block_allocated(ptr)) {
         size_t size = mem_block_size(ptr);
         mem_init_block(ptr, size, UNALLOCATED);
         mem_merge(ptr);
@@ -273,7 +273,7 @@ void *mem_realloc(void *ptr, size_t size)
         return ptr;
     }
 
-    if (ptr != NULL && mem_block_allocated(ptr)) {
+    if (ptr != nullptr && mem_block_allocated(ptr)) {
         size_t asize = WSIZE * ((size + OVERHEAD_SIZE + WSIZE - 1) / WSIZE);
         size_t cur_size = mem_block_size(ptr);
 
@@ -295,7 +295,7 @@ void *mem_realloc(void *ptr, size_t size)
     }
     else {
         ALOGD("%s(): Invalid pointer\n", __func__);
-        return NULL;
+        return nullptr;
     }
 
     return ptr;
@@ -382,3 +382,4 @@ void mem_dump()
 }
 
 __END_DECLS
+
