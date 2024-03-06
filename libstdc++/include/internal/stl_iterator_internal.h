@@ -25,6 +25,7 @@
 #define STL_ITERATOR_INTERNAL_H
 
 #include <internal/stl_base_internal.h>
+#include <stddef.h>
 
 __STD_BEGIN_NAMESPACE
 
@@ -34,6 +35,19 @@ struct forward_iterator_tag : public input_iterator_tag {};
 struct bidirectional_iterator_tag : public forward_iterator_tag {};
 struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 struct contiguous_iterator_tag : public random_access_iterator_tag {};
+
+template <typename _Type, typename _IteratorTag,
+          typename _SizeType = size_t, typename _DifferenceType = ptrdiff_t>
+struct _IteratorBase {
+    using value_type        = _Type;
+    using difference_type   = _DifferenceType;
+    using reference         = value_type&;
+    using const_reference   = const value_type&;
+    using pointer           = value_type*;
+    using const_pointer     = const value_type*;
+    using size_type         = _SizeType;
+    using iterator_category = _IteratorTag;
+};
 
 template< class Iter >
 struct iterator_traits;
